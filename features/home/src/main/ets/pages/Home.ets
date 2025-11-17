@@ -1,6 +1,6 @@
 import { BlockTitle, BlockItem } from '../view/Block'
 import { Settings, About } from 'settings'
-import { PageName } from 'config'
+import { PageName } from 'constants'
 
 @ComponentV2
 export struct Home {

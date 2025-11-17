@@ -1,4 +1,4 @@
-import { PageName } from 'config'
+import { PageName } from 'constants'
 
 @ComponentV2
 export struct Settings {

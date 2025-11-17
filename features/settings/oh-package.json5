@@ -6,6 +6,6 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "config": "file:../../commons/config"
+    "constants": "file:../../commons/constants"
   }
 }

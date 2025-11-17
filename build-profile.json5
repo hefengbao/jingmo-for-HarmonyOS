@@ -55,8 +55,8 @@
       "srcPath": "./features/settings"
     },
     {
-      "name": "config",
-      "srcPath": "./commons/config",
+      "name": "constants",
+      "srcPath": "./commons/constants"
     }
   ]
 }

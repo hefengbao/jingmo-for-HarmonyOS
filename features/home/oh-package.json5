@@ -7,6 +7,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "settings": "file:../settings",
-    "config": "file:../../commons/config"
+    "constants": "file:../../commons/constants"
   }
 }
