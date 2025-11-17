@@ -1,49 +1,32 @@
+import { Home } from 'home'
+
 @Entry
-@Component
+@ComponentV2
 struct Index {
-  @State message: string = 'Hello World';
+  @Local startLaunch: boolean = true;
+
+  aboutToAppear(): void {
+    setTimeout(()=>{
+      this.startLaunch = false
+    }, 2000)
+  }
 
   build() {
-    Navigation(){
-      Scroll(){
-        Grid(){
-          GridItem(){
-            Text('古诗文')
-          }
-          .columnStart(0)
-          .columnEnd(1)
-
-          GridItem(){
-            Text('经典诗文')
-          }
-
-          GridItem(){
-            Text('诗文名句')
-          }
-        }
-        .width('100%')
-        .height('100%')
-        .columnsGap(10)
-        .rowsGap(15)
-        .columnsTemplate('1fr 1fr')
-      }
+    if (this.startLaunch){
+      Start()
+    }else {
+      Home()
     }
   }
 }
 
-@Preview
-@Component
-struct Item{
-  @State title: string = '古诗文'
-
+@ComponentV2
+struct Start {
   build() {
-    Text(this.title)
+    Text('献给\n\n喜欢中华文字、文学、文化的人')
       .width('100%')
-      .fontFamily('HarmonyHeiTi')
-      .fontSize(24)
-      .fontColor(Color.White)
+      .height('100%')
+      .fontSize(20)
       .textAlign(TextAlign.Center)
-      .padding(16)
-      .backgroundColor(Color.Black)
   }
 }

@@ -45,6 +45,18 @@
     {
       "name": "uicomponents",
       "srcPath": "./commons/uicomponents",
+    },
+    {
+      "name": "home",
+      "srcPath": "./features/home",
+    },
+    {
+      "name": "settings",
+      "srcPath": "./features/settings"
+    },
+    {
+      "name": "config",
+      "srcPath": "./commons/config",
     }
   ]
 }
