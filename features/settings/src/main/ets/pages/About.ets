@@ -1,4 +1,7 @@
-import { PageName } from 'constants'
+@Builder
+export function AboutBuilder() {
+  About()
+}
 
 @ComponentV2
 export struct About {
@@ -8,14 +11,7 @@ export struct About {
     NavDestination() {
       Scroll() {
         Column() {
-          Text($r('app.string.tos'))
-            .onClick(() => {
-              this.pageStack.pushPathByName(PageName.TOS, "")
-            })
-          Text($r('app.string.privacy_policy'))
-            .onClick(() => {
-              this.pageStack.pushPathByName(PageName.Privacy, "")
-            })
+
         }
       }
     }

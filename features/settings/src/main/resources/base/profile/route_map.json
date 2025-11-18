@@ -1,0 +1,44 @@
+{
+  "routerMap": [
+    {
+      "name": "About",
+      "pageSourceFile": "src/main/ets/pages/About.ets",
+      "buildFunction": "AboutBuilder",
+      "data": {
+        "description" : "About Page"
+      }
+    },
+    {
+      "name": "Privacy",
+      "pageSourceFile": "src/main/ets/pages/Privacy.ets",
+      "buildFunction": "PrivacyBuilder",
+      "data": {
+        "description" : "Privacy Page"
+      }
+    },
+    {
+      "name": "Settings",
+      "pageSourceFile": "src/main/ets/pages/Settings.ets",
+      "buildFunction": "SettingsBuilder",
+      "data": {
+        "description" : "Settings Page"
+      }
+    },
+    {
+      "name": "SyncData",
+      "pageSourceFile": "src/main/ets/pages/SyncData.ets",
+      "buildFunction": "SyncDataBuilder",
+      "data": {
+        "description" : "SyncData Page"
+      }
+    },
+    {
+      "name": "TOS",
+      "pageSourceFile": "src/main/ets/pages/TOS.ets",
+      "buildFunction": "TOSBuilder",
+      "data": {
+        "description" : "TOS Page"
+      }
+    }
+  ]
+}

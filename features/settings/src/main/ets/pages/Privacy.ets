@@ -1,5 +1,10 @@
-import { webview } from '@kit.ArkWeb'
-import { NetworkConst } from 'constants'
+import { webview } from '@kit.ArkWeb';
+import { NetworkConst } from 'constants';
+
+@Builder
+export function PrivacyBuilder() {
+  Privacy()
+}
 
 @ComponentV2
 export struct Privacy {

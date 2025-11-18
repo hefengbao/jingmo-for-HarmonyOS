@@ -1,5 +1,5 @@
 import DatasetModel from '../model/DatasetModel'
-import { httpRequestGet, ResponseResult, Logger } from 'utils'
+import { httpRequestGet, ResponseResult } from 'utils'
 import { NetworkConst } from 'constants'
 
 class DatasetViewModel {
@@ -10,8 +10,10 @@ class DatasetViewModel {
         if (data.msg === null) {
           resolve(data.data)
         } else {
-          reject([])
+          reject(data.msg)
         }
+      }).catch((error: string) => {
+        reject(error)
       })
     })
   }

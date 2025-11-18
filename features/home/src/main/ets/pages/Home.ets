@@ -1,26 +1,8 @@
 import { BlockTitle, BlockItem } from '../view/Block'
-import { Settings, About, SyncData, Privacy,TOS  } from 'settings'
-import { PageName } from 'constants'
 
 @ComponentV2
 export struct Home {
   @Provider('NavPathStack') pageStack: NavPathStack = new NavPathStack();
-
-  @Builder
-  PagesMap(name: string) {
-    //TODO 不知道有没有更好的办法？
-    if (name == PageName.Settings) {
-       Settings();
-     }else if (name == PageName.About){
-       About()
-     }else if (name == PageName.SyncData){
-       SyncData()
-     }else if (name == PageName.TOS) {
-      TOS()
-     }else if (name == PageName.Privacy) {
-      Privacy()
-    }
-  }
 
   build() {
     Navigation(this.pageStack){
@@ -30,7 +12,7 @@ export struct Home {
         Blank()
         Text('设置')
           .onClick(() => {
-            this.pageStack.pushPathByName(PageName.Settings, "")
+            this.pageStack.pushPathByName("Settings", null)
           })
       }
       .width('100%')
@@ -159,8 +141,6 @@ export struct Home {
       }
     }
     .mode(NavigationMode.Stack)
-    .navDestination(this.PagesMap)
-    .title("京墨文库")
     .titleMode(NavigationTitleMode.Mini)
     .hideTitleBar(true)
     .hideToolBar(true)

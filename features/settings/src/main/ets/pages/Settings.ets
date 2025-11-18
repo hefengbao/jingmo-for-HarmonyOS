@@ -1,9 +1,20 @@
-import { PageName, ThemeConst } from 'constants'
+import { ThemeConst } from 'constants'
+import { Logger } from 'utils'
+
+@Builder
+export function SettingsBuilder() {
+  Settings();
+}
 
 @ComponentV2
 export struct Settings {
   @Local message: string = 'Settings';
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local logger: Logger = new Logger('Settings')
+
+  aboutToAppear(): void {
+    this.logger.info('Settings')
+  }
 
   build() {
     NavDestination() {
@@ -12,12 +23,21 @@ export struct Settings {
           Title({ title: $r('app.string.feature') })
           Item({ title: $r('app.string.sync_data') })
             .onClick(() => {
-              this.pageStack.pushPathByName(PageName.SyncData, "")
+              this.pageStack.pushPathByName('SyncData', null)
+            })
+          Title({ title: $r('app.string.privacy') })
+          Item({ title: $r('app.string.tos') })
+            .onClick(() => {
+              this.pageStack.pushPathByName("TOS", null)
+            })
+          Item({ title: $r('app.string.privacy_policy') })
+            .onClick(() => {
+              this.pageStack.pushPathByName("Privacy", null)
             })
           Title({ title: $r('app.string.other') })
           Item({ title: $r('app.string.about') })
             .onClick(() => {
-              this.pageStack.pushPathByName(PageName.About, "")
+              this.pageStack.pushPathByName('About', null)
             })
         }
         .height('100%')

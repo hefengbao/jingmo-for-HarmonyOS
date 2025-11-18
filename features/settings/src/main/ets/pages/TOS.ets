@@ -1,6 +1,11 @@
 import { webview } from '@kit.ArkWeb'
 import { NetworkConst } from 'constants'
 
+@Builder
+export function TOSBuilder() {
+  TOS()
+}
+
 @ComponentV2
 export struct TOS {
   @Local webviewController: webview.WebviewController = new webview.WebviewController
