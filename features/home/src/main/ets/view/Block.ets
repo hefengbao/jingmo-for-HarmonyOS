@@ -1,3 +1,5 @@
+import { ThemeConst } from 'constants'
+
 @ComponentV2
 export struct BlockItem {
   @Param @Require title: string
@@ -8,8 +10,15 @@ export struct BlockItem {
       .fontFamily('HarmonyHeiTi')
       .textAlign(TextAlign.Center)
       .padding(16)
-      .backgroundColor('#F1F3F5')
-      .borderRadius(16)
+      .borderRadius(12)
+      .stateStyles({
+        normal: {
+          .backgroundColor(ThemeConst.CardBackGroundColor_Normal)
+        },
+        clicked: {
+          .backgroundColor(ThemeConst.CardBackGroundColor_Clicked)
+        }
+      })
   }
 }
 
@@ -20,8 +29,8 @@ export struct BlockTitle {
   build() {
     Text(this.title)
       .textAlign(TextAlign.Start)
-      .fontColor(Color.Gray)
-      .fontSize(14)
+      .fontColor(ThemeConst.FontColor_BlockTitle)
+      .fontSize(ThemeConst.FontSize_BlockTitle)
       .width('100%')
       .padding(8)
   }

@@ -11,6 +11,10 @@
     {
       "name": "EntryAbility_label",
       "value": "京墨文库"
+    },
+    {
+      "name": "request_network_reason",
+      "value": "允许应用使用网络"
     }
   ]
 }

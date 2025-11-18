@@ -5,8 +5,32 @@
       "value": "设置"
     },
     {
+      "name": "feature",
+      "value": "功能"
+    },
+    {
+      "name": "privacy",
+      "value": "隐私"
+    },
+    {
+      "name": "tos",
+      "value": "用户服务协议"
+    },
+    {
+      "name": "privacy_policy",
+      "value": "隐私政策"
+    },
+    {
       "name": "about",
       "value": "关于"
+    },
+    {
+      "name": "sync_data",
+      "value": "同步数据"
+    },
+    {
+      "name": "other",
+      "value": "其他"
     }
   ]
 }

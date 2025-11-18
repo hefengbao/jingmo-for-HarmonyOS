@@ -1,4 +1,7 @@
-export enum PageName{
+export enum PageName {
   Settings = 'settings',
-  About = 'about'
+  About = 'about',
+  SyncData = "sync_data",
+  TOS = 'tos',
+  Privacy = 'privacy'
 }

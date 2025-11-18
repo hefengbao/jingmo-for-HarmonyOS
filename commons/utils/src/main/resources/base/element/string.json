@@ -3,6 +3,10 @@
     {
       "name": "page_show",
       "value": "page from package"
+    },
+    {
+      "name": "http_error_message",
+      "value": "网络请求失败，请稍后尝试！"
     }
   ]
 }

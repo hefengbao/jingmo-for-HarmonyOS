@@ -1,5 +1,5 @@
 import { BlockTitle, BlockItem } from '../view/Block'
-import { Settings, About } from 'settings'
+import { Settings, About, SyncData, Privacy,TOS  } from 'settings'
 import { PageName } from 'constants'
 
 @ComponentV2
@@ -8,10 +8,17 @@ export struct Home {
 
   @Builder
   PagesMap(name: string) {
+    //TODO 不知道有没有更好的办法？
     if (name == PageName.Settings) {
-      Settings();
-    }else if (name == PageName.About){
-      About()
+       Settings();
+     }else if (name == PageName.About){
+       About()
+     }else if (name == PageName.SyncData){
+       SyncData()
+     }else if (name == PageName.TOS) {
+      TOS()
+     }else if (name == PageName.Privacy) {
+      Privacy()
     }
   }
 
