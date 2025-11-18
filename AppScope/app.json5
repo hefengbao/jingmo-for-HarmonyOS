@@ -1,7 +1,7 @@
 {
   "app": {
     "bundleName": "com.hefengbao.jingmo.hw",
-    "vendor": "example",
+    "vendor": "贺丰宝",
     "versionCode": 1000000,
     "versionName": "1.0.0",
     "icon": "$media:app_icon",
