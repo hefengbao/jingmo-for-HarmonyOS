@@ -2,11 +2,11 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "module description"
+      "value": "默认入口"
     },
     {
       "name": "EntryAbility_desc",
-      "value": "description"
+      "value": "Default"
     },
     {
       "name": "EntryAbility_label",

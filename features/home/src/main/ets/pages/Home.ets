@@ -1,4 +1,5 @@
-import { BlockTitle, BlockItem } from '../view/Block'
+import { BlockTitle, BlockItem } from '../view/Block';
+import { String,Icon, ThemeConst } from 'constants';
 
 @ComponentV2
 export struct Home {
@@ -7,12 +8,24 @@ export struct Home {
   build() {
     Navigation(this.pageStack){
       Row(){
-        Text($r('app.string.app_name'))
+        Text(String.app_name)
           .fontSize(24)
         Blank()
-        Text('设置')
+        Image(Icon.ic_public_settings)
           .onClick(() => {
             this.pageStack.pushPathByName("Settings", null)
+          })
+          .width(36)
+          .height(36)
+          .padding(8)
+          .stateStyles({
+            normal: {
+              .backgroundColor(ThemeConst.BackGroundColor_Normal)
+            },
+            clicked: {
+              .backgroundColor(ThemeConst.BackGroundColor_Clicked)
+              .borderRadius(18)
+            }
           })
       }
       .width('100%')
@@ -24,7 +37,7 @@ export struct Home {
         Grid(){
           GridItem(){
             BlockTitle({
-              title: "古诗文"
+              title: String.classicalliterature
             })
           }
           .columnStart(0)
@@ -32,19 +45,21 @@ export struct Home {
 
           GridItem(){
             BlockItem({
-              title: "经典诗文"
+              title: String.classicalliterature_classicpoem
+            }).onClick(() => {
+              this.pageStack.pushPathByName('ClassicPoem', null)
             })
           }
 
           GridItem(){
             BlockItem({
-              title: "诗文名句"
+              title: String.classicalliterature_sentence
             })
           }
 
           GridItem(){
             BlockTitle({
-              title: "现代汉语"
+              title: String.chinese
             })
           }
           .columnStart(0)
@@ -52,49 +67,49 @@ export struct Home {
 
           GridItem(){
             BlockItem({
-              title: "汉字"
+              title: String.chinese_character
             })
           }
 
           GridItem(){
             BlockItem({
-              title: "词语"
+              title: String.chinese_expression
             })
           }
 
           GridItem(){
             BlockItem({
-              title: "成语"
+              title: String.chinese_idiom
             })
           }
 
           GridItem(){
             BlockItem({
-              title: "对联"
+              title: String.chinese_antitheticalcouplet
             })
           }
 
           GridItem(){
             BlockItem({
-              title: "句子"
+              title: String.chinese_quote
             })
           }
 
           GridItem(){
             BlockItem({
-              title: "诗歌"
+              title: String.chinese_modernpoetry
             })
           }
 
           GridItem(){
             BlockItem({
-              title: "知识卡片"
+              title: String.chinese_knowledge
             })
           }
 
           GridItem(){
             BlockTitle({
-              title: "传统文化"
+              title: String.traditionalculture
             })
           }
           .columnStart(0)
@@ -102,25 +117,25 @@ export struct Home {
 
           GridItem(){
             BlockItem({
-              title: "节日"
+              title: String.traditionalculture_festival
             })
           }
 
           GridItem(){
             BlockItem({
-              title: "节气"
+              title: String.traditionalculture_solarterm
             })
           }
 
           GridItem(){
             BlockItem({
-              title: "传统色"
+              title: String.traditionalculture_color
             })
           }
 
           GridItem(){
             BlockTitle({
-              title: "中国"
+              title: String.china
             })
           }
           .columnStart(0)
@@ -128,7 +143,7 @@ export struct Home {
 
           GridItem(){
             BlockItem({
-              title: "世界遗产名录"
+              title: String.china_worldcultureheritage
             })
           }
         }

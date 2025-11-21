@@ -6,7 +6,7 @@
         "name": "default",
         "signingConfig": "default",
         "targetSdkVersion": "6.0.1(21)",
-        "compatibleSdkVersion": "5.0.0(12)",
+        "compatibleSdkVersion": "5.0.5(17)",
         "runtimeOS": "HarmonyOS",
         "buildOption": {
           "strictMode": {
@@ -57,6 +57,10 @@
     {
       "name": "constants",
       "srcPath": "./commons/constants"
+    },
+    {
+      "name": "classicpoem",
+      "srcPath": "./features/classicalliterature/classicpoem",
     }
   ]
 }
