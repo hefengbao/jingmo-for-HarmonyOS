@@ -8,7 +8,6 @@ export function SettingsBuilder() {
 
 @ComponentV2
 export struct Settings {
-  @Local message: string = 'Settings';
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
   @Local logger: Logger = new Logger('Settings')
 

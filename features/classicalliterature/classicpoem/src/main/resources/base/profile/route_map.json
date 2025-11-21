@@ -1,0 +1,12 @@
+{
+  "routerMap": [
+    {
+      "name": "ClassicPoem",
+      "pageSourceFile": "src/main/ets/pages/ClassicPoem.ets",
+      "buildFunction": "ClassicPoemBuilder",
+      "data": {
+        "description" : "ClassicPoem Page"
+      }
+    }
+  ]
+}
