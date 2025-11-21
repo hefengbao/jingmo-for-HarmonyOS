@@ -1,33 +1,36 @@
 import { http } from '@kit.NetworkKit';
-import { NetworkConst } from 'constants'
+import { BusinessError } from '@kit.BasicServicesKit';
+import { NetworkConst } from 'constants';
 
-/**
- * Initiates an HTTP request to a given URL.
- *
- * @param url URL for initiating an HTTP request.
- * @param params Params for initiating an HTTP request.
- */
+
 export async function httpRequestGet(url: string): Promise<ResponseResult> {
   let httpRequest = http.createHttp();
-  let result = new ResponseResult()
-  // Processes the data and returns.
-  return httpRequest.request(url, {
+
+  //配置参考：https://developer.huawei.com/consumer/cn/doc/harmonyos-references/js-apis-http#httprequestoptions
+  const requestConfig: http.HttpRequestOptions = {
     method: http.RequestMethod.GET,
     readTimeout: NetworkConst.HTTP_READ_TIMEOUT,
+    connectTimeout: NetworkConst.HTTP_READ_TIMEOUT,
+    maxLimit: 100 * 1024 * 1024,
     header: {
       'Content-Type': 'application/json'
     },
-    connectTimeout: NetworkConst.HTTP_READ_TIMEOUT,
     extraData: {}
-  }).then((value: http.HttpResponse) => {
-    if (value.responseCode === NetworkConst.HTTP_CODE_200) {
-      result.data = `${value.result}`
+  }
+
+  let result = new ResponseResult()
+
+  return httpRequest.request(url, requestConfig).then((response: http.HttpResponse) => {
+    if (response.responseCode === NetworkConst.HTTP_CODE_200) {
+      result.data = `${response.result}`
     } else {
-      result.msg = `${$r('app.string.http_error_message')}&${value.responseCode}`;
+      result.msg = `${$r('app.string.http_error_message')}&${response.responseCode}`;
     }
+    httpRequest.destroy();
     return result;
-  }).catch(() => {
-    result.msg = `${$r('app.string.http_error_message')}}`;
+  }).catch((error: BusinessError) => {
+    result.msg = `${$r('app.string.http_error_message')}} => ${error.message}`;
+    httpRequest.destroy();
     return result;
   })
 }
@@ -45,5 +48,17 @@ export class ResponseResult {
   constructor() {
     this.msg = null;
     this.data = null;
+  }
+}
+
+export class DataWrapper<T> {
+  total: number;
+  data: T[];
+  next_page: number | null;
+
+  constructor() {
+    this.total = 0;
+    this.data = [];
+    this.next_page = null
   }
 }

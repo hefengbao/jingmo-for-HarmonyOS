@@ -1,0 +1,31 @@
+export class  String {
+  static readonly app_name: Resource = $r('app.string.app_name');
+  static readonly china: Resource = $r('app.string.china');
+  static readonly china_worldcultureheritage: Resource = $r('app.string.china_worldcultureheritage');
+  static readonly chinese: Resource = $r('app.string.chinese');
+  static readonly chinese_antitheticalcouplet: Resource = $r('app.string.chinese_antitheticalcouplet');
+  static readonly chinese_character: Resource = $r('app.string.chinese_character');
+  static readonly chinese_expression: Resource = $r('app.string.chinese_expression');
+  static readonly chinese_idiom: Resource = $r('app.string.chinese_idiom');
+  static readonly chinese_knowledge: Resource = $r('app.string.chinese_knowledge');
+  static readonly chinese_lyric: Resource = $r('app.string.chinese_lyric');
+  static readonly chinese_modernpoetry: Resource = $r('app.string.chinese_modernpoetry');
+  static readonly chinese_proverb: Resource = $r('app.string.chinese_proverb');
+  static readonly chinese_quote: Resource = $r('app.string.chinese_quote');
+  static readonly chinese_riddle: Resource = $r('app.string.chinese_riddle');
+  static readonly chinese_tonguetwister: Resource = $r('app.string.chinese_tonguetwister');
+  static readonly chinese_wisecrack: Resource = $r('app.string.chinese_wisecrack');
+  static readonly classicalliterature: Resource = $r('app.string.classicalliterature');
+  static readonly classicalliterature_classicpoem: Resource = $r('app.string.classicalliterature_classicpoem');
+  static readonly classicalliterature_people: Resource = $r('app.string.classicalliterature_people');
+  static readonly classicalliterature_sentence: Resource = $r('app.string.classicalliterature_sentence');
+  static readonly classicalliterature_writing: Resource = $r('app.string.classicalliterature_writing');
+  static readonly traditionalculture: Resource = $r('app.string.traditionalculture');
+  static readonly traditionalculture_calendar: Resource = $r('app.string.traditionalculture_calendar');
+  static readonly traditionalculture_color: Resource = $r('app.string.traditionalculture_color');
+  static readonly traditionalculture_festival: Resource = $r('app.string.traditionalculture_festival');
+  static readonly traditionalculture_solarterm: Resource = $r('app.string.traditionalculture_solarterm');
+  static readonly http_error_message: Resource = $r('app.string.http_error_message');
+  static readonly refresh: Resource = $r('app.string.refresh');
+  static readonly settings: Resource = $r('app.string.settings');
+}

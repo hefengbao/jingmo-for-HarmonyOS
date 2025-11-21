@@ -1,8 +1,13 @@
 export class ThemeConst {
-  static readonly BackGroundColor_Clicked = "#f1f3Ff"
-  static readonly BackGroundColor_Normal = '#ffffff'
-  static readonly CardBackGroundColor_Clicked = "#ffeaebec"
-  static readonly CardBackGroundColor_Normal = '#f1f3Ff'
-  static readonly FontColor_BlockTitle = '#ff7a7a7a'
-  static readonly FontSize_BlockTitle = 14
+  static readonly BackGroundColor_Clicked = "#f1f3f5";
+  static readonly BackGroundColor_Normal = '#ffffff';
+  static readonly CardBackGroundColor_Clicked = "#ffeaebec";
+  static readonly CardBackGroundColor_Normal = '#f1f3f5';
+  static readonly FontColor_BlockTitle = '#ff7a7a7a';
+  static readonly FontSize_BlockTitle = 14;
+  static readonly FontSize_14 = 14;
+  static readonly P_8: Length = 8;
+  static readonly P_16: Length = 16;
+  static readonly PY_16: Padding = { top: 16, bottom: 16};
+  static readonly P_X16_Y8: Padding = { left: 16, top: 8, right: 16, bottom: 8};
 }

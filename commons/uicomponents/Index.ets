@@ -1,1 +1,1 @@
-export { MainPage } from './src/main/ets/components/MainPage';
+export { BoldTitle, Content } from './src/main/ets/components/ContentComponent'

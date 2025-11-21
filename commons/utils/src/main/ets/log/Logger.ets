@@ -1,40 +1,27 @@
 import { hilog } from '@kit.PerformanceAnalysisKit';
 
-const LOGGER_PREFIX: string = 'JINGMO';
-
 export class Logger {
-  private domain: number;
-  private prefix: string;
-  // format Indicates the log format string.
-  private format: string = '%{public}s, %{public}s';
+  private readonly domain: number = 0xFF00;
+  private readonly format: string = '%{public}s, %{public}s';
+  private prefix: string = 'JINGMO';
 
-  /**
-   * constructor.
-   *
-   * @param prefix Identifies the log tag.
-   * @param domain Indicates the service domain, which is a hexadecimal integer ranging from 0x0 to 0xFFFFF
-   * @param args Indicates the log parameters.
-   */
-  constructor(prefix: string = LOGGER_PREFIX, domain: number = 0xFF00) {
-    this.prefix = prefix;
-    this.domain = domain;
+  constructor(tag: string) {
+    this.prefix += '@' + tag
   }
 
-  debug(...args: string[]): void {
+  public debug(...args: string[]): void {
     hilog.debug(this.domain, this.prefix, this.format, args);
   }
 
-  info(...args: string[]): void {
+  public info(...args: string[]): void {
     hilog.info(this.domain, this.prefix, this.format, args);
   }
 
-  warn(...args: string[]): void {
+  public warn(...args: string[]): void {
     hilog.warn(this.domain, this.prefix, this.format, args);
   }
 
-  error(...args: string[]): void {
+  public error(...args: string[]): void {
     hilog.error(this.domain, this.prefix, this.format, args);
   }
 }
-
-//export default new Logger(LOGGER_PREFIX);

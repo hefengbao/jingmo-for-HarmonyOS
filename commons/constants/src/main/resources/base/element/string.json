@@ -1,8 +1,120 @@
 {
   "string": [
     {
-      "name": "page_show",
-      "value": "page from package"
+      "name": "app_name",
+      "value": "京墨文库"
+    },
+    {
+      "name": "china",
+      "value": "中国"
+    },
+    {
+      "name": "china_worldcultureheritage",
+      "value": "世界遗产名录"
+    },
+    {
+      "name": "chinese",
+      "value": "现代汉语"
+    },
+    {
+      "name": "chinese_antitheticalcouplet",
+      "value": "对联"
+    },
+    {
+      "name": "chinese_character",
+      "value": "汉字"
+    },
+    {
+      "name": "chinese_expression",
+      "value": "词语"
+    },
+    {
+      "name": "chinese_idiom",
+      "value": "成语"
+    },
+    {
+      "name": "chinese_knowledge",
+      "value": "知识卡片"
+    },
+    {
+      "name": "chinese_lyric",
+      "value": "歌词"
+    },
+    {
+      "name": "chinese_modernpoetry",
+      "value": "诗歌"
+    },
+    {
+      "name": "chinese_proverb",
+      "value": "谚语"
+    },
+    {
+      "name": "chinese_quote",
+      "value": "句子"
+    },
+    {
+      "name": "chinese_riddle",
+      "value": "谜语"
+    },
+    {
+      "name": "chinese_tonguetwister",
+      "value": "绕口令"
+    },
+    {
+      "name": "chinese_wisecrack",
+      "value": "歇后语"
+    },
+    {
+      "name": "classicalliterature",
+      "value": "古诗文"
+    },
+    {
+      "name": "classicalliterature_classicpoem",
+      "value": "经典诗文"
+    },
+    {
+      "name": "classicalliterature_people",
+      "value": "人物"
+    },
+    {
+      "name": "classicalliterature_sentence",
+      "value": "诗文名句"
+    },
+    {
+      "name": "classicalliterature_writing",
+      "value": "诗文"
+    },
+    {
+      "name": "traditionalculture",
+      "value": "传统文化"
+    },
+    {
+      "name": "traditionalculture_calendar",
+      "value": "老黄历"
+    },
+    {
+      "name": "traditionalculture_color",
+      "value": "传统色"
+    },
+    {
+      "name": "traditionalculture_festival",
+      "value": "节日"
+    },
+    {
+      "name": "traditionalculture_solarterm",
+      "value": "节气"
+    },
+    {
+      "name": "http_error_message",
+      "value": "网络请求失败，请稍后尝试！"
+    },
+    {
+      "name": "refresh",
+      "value": "刷新"
+    },
+    {
+      "name": "settings",
+      "value": "设置"
     }
   ]
 }
