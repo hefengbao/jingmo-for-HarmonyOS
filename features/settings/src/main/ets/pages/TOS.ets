@@ -1,5 +1,5 @@
-import { webview } from '@kit.ArkWeb'
-import { NetworkConst } from 'constants'
+import { webview } from '@kit.ArkWeb';
+import { NetworkConst } from 'constants';
 
 @Builder
 export function TOSBuilder() {

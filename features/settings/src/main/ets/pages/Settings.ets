@@ -1,5 +1,6 @@
-import { ThemeConst } from 'constants'
-import { Logger } from 'utils'
+import { ThemeConst } from 'constants';
+import { Logger } from 'utils';
+import { BlockTitle } from 'uicomponents';
 
 @Builder
 export function SettingsBuilder() {
@@ -11,20 +12,16 @@ export struct Settings {
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
   @Local logger: Logger = new Logger('Settings')
 
-  aboutToAppear(): void {
-    this.logger.info('Settings')
-  }
-
   build() {
     NavDestination() {
       Scroll() {
         Column() {
-          Title({ title: $r('app.string.feature') })
+          BlockTitle({ title: $r('app.string.feature') })
           Item({ title: $r('app.string.sync_data') })
             .onClick(() => {
               this.pageStack.pushPathByName('SyncData', null)
             })
-          Title({ title: $r('app.string.privacy') })
+          BlockTitle({ title: $r('app.string.privacy') })
           Item({ title: $r('app.string.tos') })
             .onClick(() => {
               this.pageStack.pushPathByName("TOS", null)
@@ -33,7 +30,15 @@ export struct Settings {
             .onClick(() => {
               this.pageStack.pushPathByName("Privacy", null)
             })
-          Title({ title: $r('app.string.other') })
+          Item({ title: $r('app.string.collected_user_info') })
+            .onClick(() => {
+              this.pageStack.pushPathByName("CollectedUserInfo", null)
+            })
+          Item({ title: $r('app.string.shared_user_info') })
+            .onClick(() => {
+              this.pageStack.pushPathByName("SharedUserInfo", null)
+            })
+          BlockTitle({ title: $r('app.string.other') })
           Item({ title: $r('app.string.about') })
             .onClick(() => {
               this.pageStack.pushPathByName('About', null)
@@ -47,25 +52,6 @@ export struct Settings {
     .onReady((ctx: NavDestinationContext) => {
       this.pageStack = ctx.pathStack
     })
-  }
-}
-
-@Preview
-@ComponentV2
-struct Title {
-  @Param @Once title: string | Resource = '其他'
-
-  build() {
-    Text(this.title)
-      .width('100%')
-      .padding({
-        left: 16,
-        top: 8,
-        right: 16,
-        bottom: 8
-      })
-      .fontColor(ThemeConst.FontColor_BlockTitle)
-      .fontSize(ThemeConst.FontSize_BlockTitle)
   }
 }
 

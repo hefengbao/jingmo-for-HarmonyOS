@@ -4,9 +4,9 @@ import { ClassicPoem } from '../model/ClassicPoem';
 import { DbCRUDConst, DbTableConst } from 'constants';
 import { Logger } from 'utils';
 
-import DbUtil from 'utils/src/main/ets/database/DbUtil';
+import DbUtil from 'utils/src/main/ets/data/DbUtil';
 
-export class  ClassicPoemDao {
+export class ClassicPoemDao {
   logger: Logger = new Logger('ClassicPoemDao')
 
   async createClassicPoem(classicPoem: ClassicPoem) {
@@ -28,7 +28,7 @@ export class  ClassicPoemDao {
       'category': classicPoem.category,
     }
 
-    DbUtil.objectiveRDB?.insert(DbTableConst.ClassicPoemTable, valuesBucket)
+    DbUtil.objectiveRDB?.insert(DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE, valuesBucket)
       .then((rowId: number) => {
         this.logger.info(`Insert is successful, rowId = ${rowId}`)
       })

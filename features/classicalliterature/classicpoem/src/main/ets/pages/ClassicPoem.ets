@@ -4,7 +4,7 @@ import { Icon, String, ThemeConst } from 'constants';
 import { BoldTitle, Content } from 'uicomponents';
 
 @Builder
-export function ClassicPoemBuilder(){
+export function ClassicPoemBuilder() {
   ClassicPoem();
 }
 
@@ -26,10 +26,10 @@ export struct ClassicPoem {
   }
 
   build() {
-    NavDestination(){
-      Scroll(){
-        Column(){
-          if (this.classicPoem){
+    NavDestination() {
+      Scroll() {
+        Column() {
+          if (this.classicPoem) {
             Text(this.classicPoem.title)
               .padding(ThemeConst.P_X16_Y8)
             Text(`【${this.classicPoem.dynasty}】${this.classicPoem.writer}`)
@@ -46,23 +46,23 @@ export struct ClassicPoem {
               .lineHeight(24)
             if (this.classicPoem.annotation) {
               BoldTitle({ text: '注释' })
-              Content( { text: this.classicPoem.annotation })
+              Content({ text: this.classicPoem.annotation })
             }
             if (this.classicPoem.translation) {
               BoldTitle({ text: '译文' })
-              Content( { text: this.classicPoem.translation })
+              Content({ text: this.classicPoem.translation })
             }
             if (this.classicPoem.creative_background) {
               BoldTitle({ text: '创作背景' })
-              Content( { text: this.classicPoem.creative_background })
+              Content({ text: this.classicPoem.creative_background })
             }
             if (this.classicPoem.explain) {
               BoldTitle({ text: '赏析' })
-              Content( { text: this.classicPoem.explain })
+              Content({ text: this.classicPoem.explain })
             }
             if (this.classicPoem.comment) {
               BoldTitle({ text: '点评' })
-              Content( { text: this.classicPoem.comment })
+              Content({ text: this.classicPoem.comment })
             }
           }
         }
@@ -74,7 +74,9 @@ export struct ClassicPoem {
       {
         "value": String.refresh,
         "icon": Icon.ic_public_refresh,
-        "action": () => { this.refresh() }
+        "action": () => {
+          this.refresh()
+        }
       }
     ], {
       "hideItemValue": true

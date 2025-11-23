@@ -5,7 +5,15 @@
       "pageSourceFile": "src/main/ets/pages/About.ets",
       "buildFunction": "AboutBuilder",
       "data": {
-        "description" : "About Page"
+        "description": "About Page"
+      }
+    },
+    {
+      "name": "CollectedUserInfo",
+      "pageSourceFile": "src/main/ets/pages/CollectedUserInfo.ets",
+      "buildFunction": "CollectedUserInfoBuilder",
+      "data": {
+        "description": "CollectedUserInfo Page"
       }
     },
     {
@@ -13,7 +21,7 @@
       "pageSourceFile": "src/main/ets/pages/Privacy.ets",
       "buildFunction": "PrivacyBuilder",
       "data": {
-        "description" : "Privacy Page"
+        "description": "Privacy Page"
       }
     },
     {
@@ -21,7 +29,15 @@
       "pageSourceFile": "src/main/ets/pages/Settings.ets",
       "buildFunction": "SettingsBuilder",
       "data": {
-        "description" : "Settings Page"
+        "description": "Settings Page"
+      }
+    },
+    {
+      "name": "SharedUserInfo",
+      "pageSourceFile": "src/main/ets/pages/SharedUserInfo.ets",
+      "buildFunction": "SharedUserInfoBuilder",
+      "data": {
+        "description": "SharedUserInfo Page"
       }
     },
     {
@@ -29,7 +45,7 @@
       "pageSourceFile": "src/main/ets/pages/SyncData.ets",
       "buildFunction": "SyncDataBuilder",
       "data": {
-        "description" : "SyncData Page"
+        "description": "SyncData Page"
       }
     },
     {
@@ -37,7 +53,7 @@
       "pageSourceFile": "src/main/ets/pages/TOS.ets",
       "buildFunction": "TOSBuilder",
       "data": {
-        "description" : "TOS Page"
+        "description": "TOS Page"
       }
     }
   ]

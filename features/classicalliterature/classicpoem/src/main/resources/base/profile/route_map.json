@@ -5,7 +5,7 @@
       "pageSourceFile": "src/main/ets/pages/ClassicPoem.ets",
       "buildFunction": "ClassicPoemBuilder",
       "data": {
-        "description" : "ClassicPoem Page"
+        "description": "ClassicPoem Page"
       }
     }
   ]

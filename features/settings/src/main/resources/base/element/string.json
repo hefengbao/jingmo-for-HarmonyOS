@@ -31,6 +31,14 @@
     {
       "name": "other",
       "value": "其他"
+    },
+    {
+      "name": "collected_user_info",
+      "value": "个人信息收集清单"
+    },
+    {
+      "name": "shared_user_info",
+      "value": "第三方信息共享清单"
     }
   ]
 }
