@@ -8,6 +8,11 @@ export class ThemeConst {
   static readonly FontSize_14 = 14;
   static readonly P_8: Length = 8;
   static readonly P_16: Length = 16;
-  static readonly PY_16: Padding = { top: 16, bottom: 16};
-  static readonly P_X16_Y8: Padding = { left: 16, top: 8, right: 16, bottom: 8};
+  static readonly PY_16: Padding = { top: 16, bottom: 16 };
+  static readonly P_X16_Y8: Padding = {
+    left: 16,
+    top: 8,
+    right: 16,
+    bottom: 8
+  };
 }

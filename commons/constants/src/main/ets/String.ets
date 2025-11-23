@@ -1,4 +1,4 @@
-export class  String {
+export class String {
   static readonly app_name: Resource = $r('app.string.app_name');
   static readonly china: Resource = $r('app.string.china');
   static readonly china_worldcultureheritage: Resource = $r('app.string.china_worldcultureheritage');

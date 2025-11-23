@@ -1,7 +1,7 @@
 import { relationalStore } from '@kit.ArkData';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { Logger } from '../log/Logger';
-import { DbConfigConst, DbMigrationConst } from 'constants'
+import { DbConfigConst, DbMigrationConst } from 'constants';
 
 /**
  * 官方文档：https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/data-persistence-by-rdb-store
@@ -10,7 +10,7 @@ export class DbUtil {
   objectiveRDB?: relationalStore.RdbStore;
   logger: Logger = new Logger('RDBStoreUtil')
 
-  createObjectRDB(context: Context) {
+  init(context: Context) {
 
     relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG,
       async (error: BusinessError, rdbStore: relationalStore.RdbStore) => {
