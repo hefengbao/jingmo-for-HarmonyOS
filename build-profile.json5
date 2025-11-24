@@ -6,7 +6,7 @@
         "name": "default",
         "signingConfig": "default",
         "targetSdkVersion": "6.0.1(21)",
-        "compatibleSdkVersion": "5.0.5(17)",
+        "compatibleSdkVersion": "5.1.1(19)",
         "runtimeOS": "HarmonyOS",
         "buildOption": {
           "strictMode": {
@@ -61,6 +61,54 @@
     {
       "name": "classicpoem",
       "srcPath": "./features/classicalliterature/classicpoem",
+    },
+    {
+      "name": "character",
+      "srcPath": "./features/chinese/character",
+    },
+    {
+      "name": "sentence",
+      "srcPath": "./features/classicalliterature/sentence",
+    },
+    {
+      "name": "bookmark",
+      "srcPath": "./features/bookmark",
+    },
+    {
+      "name": "worldcultureheritage",
+      "srcPath": "./features/china/worldcultureheritage",
+    },
+    {
+      "name": "expression",
+      "srcPath": "./features/chinese/expression",
+    },
+    {
+      "name": "idiom",
+      "srcPath": "./features/chinese/idiom",
+    },
+    {
+      "name": "antitheticalcouplet",
+      "srcPath": "./features/chinese/antitheticalcouplet",
+    },
+    {
+      "name": "knowledge",
+      "srcPath": "./features/chinese/knowledge",
+    },
+    {
+      "name": "quote",
+      "srcPath": "./features/chinese/quote",
+    },
+    {
+      "name": "color",
+      "srcPath": "./features/traditionalculture/color",
+    },
+    {
+      "name": "festival",
+      "srcPath": "./features/traditionalculture/festival",
+    },
+    {
+      "name": "solarterm",
+      "srcPath": "./features/traditionalculture/solarterm",
     }
   ]
 }
