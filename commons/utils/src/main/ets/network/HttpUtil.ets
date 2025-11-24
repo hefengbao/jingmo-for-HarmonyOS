@@ -1,7 +1,9 @@
 import { http } from '@kit.NetworkKit';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { NetworkConst } from 'constants';
+import { Logger } from '../log/Logger';
 
+let logger: Logger = new Logger('HttpUtils')
 
 export async function httpRequestGet(url: string): Promise<ResponseResult> {
   let httpRequest = http.createHttp();
@@ -25,11 +27,13 @@ export async function httpRequestGet(url: string): Promise<ResponseResult> {
       result.data = `${response.result}`
     } else {
       result.msg = `${$r('app.string.http_error_message')}&${response.responseCode}`;
+      logger.info(result.msg)
     }
     httpRequest.destroy();
     return result;
   }).catch((error: BusinessError) => {
     result.msg = `${$r('app.string.http_error_message')}} => ${error.message}`;
+    logger.info(result.msg)
     httpRequest.destroy();
     return result;
   })

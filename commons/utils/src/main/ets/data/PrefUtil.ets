@@ -18,11 +18,19 @@ export class PrefUtil {
   }
 
   saveClassicalCultureClassicPoemVersion(version: number) {
-    this.setNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM_VERSION, version)
+    this.setNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM, version)
   }
 
   getClassicalCultureClassicPoemVersion(): number {
-    return this.getNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM_VERSION)
+    return this.getNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM)
+  }
+
+  saveChineseCharacterVersion(version: number) {
+    this.setNumber(PrefConst.CHINESE_CHARACTER, version)
+  }
+
+  getChineseCharacterVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_CHARACTER)
   }
 
   private setNumber(key: string, data: number) {
