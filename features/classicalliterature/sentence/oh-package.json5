@@ -1,0 +1,9 @@
+{
+  "name": "classicalliterature_sentence",
+  "version": "1.0.0",
+  "description": "古诗文-诗文名句模块",
+  "main": "Index.ets",
+  "author": "hefengbao",
+  "license": "Apache-2.0",
+  "dependencies": {}
+}

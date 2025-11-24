@@ -1,0 +1,11 @@
+{
+  "module": {
+    "name": "quote",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet",
+      "2in1"
+    ]
+  }
+}

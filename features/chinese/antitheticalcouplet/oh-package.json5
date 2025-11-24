@@ -1,0 +1,9 @@
+{
+  "name": "chinese_antitheticalcouplet",
+  "version": "1.0.0",
+  "description": "现代汉语-对联模块",
+  "main": "Index.ets",
+  "author": "hefengbao",
+  "license": "Apache-2.0",
+  "dependencies": {}
+}

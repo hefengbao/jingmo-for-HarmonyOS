@@ -1,0 +1,9 @@
+{
+  "name": "traditionalculture_festival",
+  "version": "1.0.0",
+  "description": "传统文化-节日模块",
+  "main": "Index.ets",
+  "author": "hefengbao",
+  "license": "Apache-2.0",
+  "dependencies": {}
+}

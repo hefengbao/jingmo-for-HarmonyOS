@@ -1,0 +1,11 @@
+{
+  "name": "chinese_expression",
+  "version": "1.0.0",
+  "description": "现代汉语-词语模块",
+  "main": "Index.ets",
+  "author": "hefengbao",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "chinese_idiom": "file:../idiom"
+  }
+}

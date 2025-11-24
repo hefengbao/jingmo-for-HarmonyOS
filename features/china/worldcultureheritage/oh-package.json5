@@ -1,0 +1,9 @@
+{
+  "name": "china_worldcultureheritage",
+  "version": "1.0.0",
+  "description": "中国-世界遗产名录模块",
+  "main": "Index.ets",
+  "author": "hefengbao",
+  "license": "Apache-2.0",
+  "dependencies": {}
+}

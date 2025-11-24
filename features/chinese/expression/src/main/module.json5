@@ -1,0 +1,10 @@
+{
+  "module": {
+    "name": "expression",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet"
+    ]
+  }
+}

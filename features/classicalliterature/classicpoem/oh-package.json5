@@ -1,9 +1,9 @@
 {
   "name": "classicalliterature_classicpoem",
   "version": "1.0.0",
-  "description": "Please describe the basic information.",
+  "description": "古诗文-经典诗文模块",
   "main": "Index.ets",
-  "author": "",
+  "author": "hefengbao",
   "license": "Apache-2.0",
   "dependencies": {
     "constants": "file:../../../commons/constants",

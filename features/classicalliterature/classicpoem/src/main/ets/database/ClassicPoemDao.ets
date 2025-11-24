@@ -28,19 +28,21 @@ export class ClassicPoemDao {
       'category': classicPoem.category,
     }
 
-    DbUtil.objectiveRDB?.insert(DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE, valuesBucket)
-      .then((rowId: number) => {
-        this.logger.info(`Insert is successful, rowId = ${rowId}`)
-      })
-      .catch((err: BusinessError) => {
-        this.logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
-      })
+    DbUtil.objectiveRDB?.insert(
+      DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE,
+      valuesBucket,
+      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    ).then((rowId: number) => {
+      this.logger.info(`Insert is successful, rowId = ${rowId}`)
+    }).catch((err: BusinessError) => {
+      this.logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
+    })
   }
 
   async readRandomClassicPoem(): Promise<ClassicPoem | null> {
     let classicPoem: ClassicPoem | null = null
 
-    await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CLASSICPOEM)
+    await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CLASSICALLITERATURE_CLASSICPOEM)
       .then((resultSet: relationalStore.ResultSet) => {
         try {
           while (resultSet.goToNextRow()) {
