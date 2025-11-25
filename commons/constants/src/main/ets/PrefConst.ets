@@ -33,5 +33,5 @@ export class PrefConst {
   static readonly CHINESE_KNOWLEDGE_ID: string = "chinese_knowledge_id";
   static readonly CHINESE_QUOTE_ID: string = "chinese_quote_id";
   static readonly CHINESE_MODERNPOETRY_ID: string = "chinese_modernpoetry_id";
-  static readonly CHINA_WORLDCULTUREHERITAG_IDE: string = "china_worldcultureheritage_id";
+  static readonly CHINA_WORLDCULTUREHERITAG_ID: string = "china_worldcultureheritage_id";
 }
