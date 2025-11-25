@@ -5,5 +5,7 @@
   "main": "Index.ets",
   "author": "hefengbao",
   "license": "Apache-2.0",
-  "dependencies": {}
+  "dependencies": {
+    "constants": "file:../../commons/constants"
+  }
 }
