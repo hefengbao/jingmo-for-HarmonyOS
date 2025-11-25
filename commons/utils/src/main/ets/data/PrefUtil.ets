@@ -17,12 +17,20 @@ export class PrefUtil {
     }
   }
 
-  saveClassicalCultureClassicPoemVersion(version: number) {
-    this.setNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM, version)
+  saveChinaWorldCulturalHeritageVersion(version: number) {
+    this.setNumber(PrefConst.CHINA_WORLDCULTUREHERITAGE, version)
   }
 
-  getClassicalCultureClassicPoemVersion(): number {
-    return this.getNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM)
+  getChinaWorldCulturalHeritageVersion(): number {
+    return this.getNumber(PrefConst.CHINA_WORLDCULTUREHERITAGE)
+  }
+
+  saveChineseAntitheticalCoupletVersion(version: number) {
+    this.setNumber(PrefConst.CHINESE_ANTITHETICALCOUPLET, version)
+  }
+
+  getChineseAntitheticalCoupletVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_ANTITHETICALCOUPLET)
   }
 
   saveChineseCharacterVersion(version: number) {
@@ -31,6 +39,46 @@ export class PrefUtil {
 
   getChineseCharacterVersion(): number {
     return this.getNumber(PrefConst.CHINESE_CHARACTER)
+  }
+
+  saveChineseExpressionVersion(version: number) {
+    this.setNumber(PrefConst.CHINESE_EXPRESSION, version)
+  }
+
+  getChineseExpressionVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_EXPRESSION)
+  }
+
+  saveChineseIdiomVersion(version: number) {
+    this.setNumber(PrefConst.CHINESE_IDIOM, version)
+  }
+
+  getChineseIdiomVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_IDIOM)
+  }
+
+  saveChineseKnowledgeVersion(version: number) {
+    this.setNumber(PrefConst.CHINESE_KNOWLEDGE, version)
+  }
+
+  getChineseKnowledgeVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_KNOWLEDGE)
+  }
+
+  saveChineseQuoteVersion(version: number) {
+    this.setNumber(PrefConst.CHINESE_QUOTE, version)
+  }
+
+  getChineseQuoteVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_QUOTE)
+  }
+
+  saveClassicalCultureClassicPoemVersion(version: number) {
+    this.setNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM, version)
+  }
+
+  getClassicalCultureClassicPoemVersion(): number {
+    return this.getNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM)
   }
 
   private setNumber(key: string, data: number) {
