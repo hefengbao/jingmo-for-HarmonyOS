@@ -73,19 +73,19 @@ export class PrefUtil {
     return this.getNumber(PrefConst.CHINESE_QUOTE)
   }
 
-  saveClassicalCultureClassicPoemVersion(version: number) {
+  saveClassicalLiteratureClassicPoemVersion(version: number) {
     this.setNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM, version)
   }
 
-  getClassicalCultureClassicPoemVersion(): number {
+  getClassicalLiteratureClassicPoemVersion(): number {
     return this.getNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM)
   }
 
-  saveClassicalCultureSentenceVersion(version: number) {
+  saveClassicalLiteratureSentenceVersion(version: number) {
     this.setNumber(PrefConst.CLASSICALLITERATURE_SENTENCE, version)
   }
 
-  getClassicalCultureSentenceVersion(): number {
+  getClassicalLiteratureSentenceVersion(): number {
     return this.getNumber(PrefConst.CLASSICALLITERATURE_SENTENCE)
   }
 
