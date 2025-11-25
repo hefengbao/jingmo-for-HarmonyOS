@@ -1,4 +1,4 @@
-import { Home } from 'home'
+import { HomePage } from 'home'
 
 @Entry
 @ComponentV2
@@ -15,7 +15,7 @@ struct Index {
     if (this.startLaunch){
       Start()
     }else {
-      Home()
+      HomePage()
     }
   }
 }
