@@ -1,0 +1,12 @@
+{
+  "routeMap": [
+    {
+      "name": "BookmarkIndexPage",
+      "pageSourceFile": "src/main/ets/pages/BookmarkIndexPage.ets",
+      "buildFunction": "BookmarkIndexPageBuilder",
+      "data": {
+        "description": "Bookmark Index Page"
+      }
+    }
+  ]
+}

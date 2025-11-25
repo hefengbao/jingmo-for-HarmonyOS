@@ -1,12 +1,12 @@
 import { String } from 'constants';
 
 @Builder
-export function BookmarkIndexBuilder() {
-  BookmarkIndex();
+export function BookmarkIndexPageBuilder() {
+  BookmarkIndexPage();
 }
 
 @ComponentV2
-export struct BookmarkIndex {
+export struct BookmarkIndexPage {
   @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack()
 
   build() {

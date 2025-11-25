@@ -1,1 +1,1 @@
-export { MainPage } from './src/main/ets/pages/MainPage';
+export { BookmarkIndexPage as BookmarkIndex } from './src/main/ets/pages/BookmarkIndexPage';
