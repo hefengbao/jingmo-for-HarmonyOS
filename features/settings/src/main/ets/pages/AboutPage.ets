@@ -1,10 +1,10 @@
 @Builder
-export function AboutBuilder() {
-  About()
+export function AboutPageBuilder() {
+  AboutPage()
 }
 
 @ComponentV2
-export struct About {
+export struct AboutPage {
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
 
   build() {

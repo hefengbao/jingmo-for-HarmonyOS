@@ -1,16 +1,14 @@
 import { ThemeConst } from 'constants';
-import { Logger } from 'utils';
 import { BlockTitle } from 'uicomponents';
 
 @Builder
-export function SettingsBuilder() {
-  Settings();
+export function SettingPageBuilder() {
+  SettingPage();
 }
 
 @ComponentV2
-export struct Settings {
+export struct SettingPage {
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
-  @Local logger: Logger = new Logger('Settings')
 
   build() {
     NavDestination() {
@@ -19,29 +17,29 @@ export struct Settings {
           BlockTitle({ title: $r('app.string.feature') })
           Item({ title: $r('app.string.sync_data') })
             .onClick(() => {
-              this.pageStack.pushPathByName('SyncData', null)
+              this.pageStack.pushPathByName('SyncDataPage', null)
             })
           BlockTitle({ title: $r('app.string.privacy') })
           Item({ title: $r('app.string.tos') })
             .onClick(() => {
-              this.pageStack.pushPathByName("TOS", null)
+              this.pageStack.pushPathByName("TosPage", null)
             })
           Item({ title: $r('app.string.privacy_policy') })
             .onClick(() => {
-              this.pageStack.pushPathByName("Privacy", null)
+              this.pageStack.pushPathByName("PrivacyPage", null)
             })
           Item({ title: $r('app.string.collected_user_info') })
             .onClick(() => {
-              this.pageStack.pushPathByName("CollectedUserInfo", null)
+              this.pageStack.pushPathByName("CollectedUserInfoPage", null)
             })
           Item({ title: $r('app.string.shared_user_info') })
             .onClick(() => {
-              this.pageStack.pushPathByName("SharedUserInfo", null)
+              this.pageStack.pushPathByName("SharedUserInfoPage", null)
             })
           BlockTitle({ title: $r('app.string.other') })
           Item({ title: $r('app.string.about') })
             .onClick(() => {
-              this.pageStack.pushPathByName('About', null)
+              this.pageStack.pushPathByName('AboutPage', null)
             })
         }
         .height('100%')

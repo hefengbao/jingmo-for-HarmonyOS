@@ -1,27 +1,25 @@
 import dao from '../database/ClassicPoemDao';
-import { ClassicPoem as ClassicPoemModel } from '../model/ClassicPoem';
+import { ClassicPoem } from '../model/ClassicPoem';
 import { Icon, String, ThemeConst } from 'constants';
 import { BoldTitle, Content } from 'uicomponents';
 
 @Builder
-export function ClassicPoemBuilder() {
-  ClassicPoem();
+export function ClassicPoemIndexBuilder() {
+  ClassicPoemIndex();
 }
 
 @ComponentV2
-export struct ClassicPoem {
+export struct ClassicPoemIndex {
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
-  @Local classicPoem: ClassicPoemModel | null = null;
+  @Local classicPoem: ClassicPoem | null = null;
 
   aboutToAppear(): void {
     this.refresh()
   }
 
   refresh() {
-    dao.readRandomClassicPoem().then((value: ClassicPoemModel | null) => {
-      if (value) {
-        this.classicPoem = value
-      }
+    dao.readRandomClassicPoem().then((value: ClassicPoem | null) => {
+      this.classicPoem = value
     })
   }
 

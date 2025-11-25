@@ -2,12 +2,11 @@ import { BusinessError } from '@kit.BasicServicesKit';
 import Dataset from '../model/Dataset';
 import { DataWrapper, httpRequestGet, Logger, ResponseResult } from 'utils';
 import { NetworkConst } from 'constants';
-import { ClassicPoem, ClassicPoemDao } from 'classicalliterature_classicpoem';
+import { ClassicPoem, createClassicPoem } from 'classicalliterature_classicpoem';
 import { Character } from 'chinese_character';
 
 class DatasetViewModel {
-  logger: Logger = new Logger('DatasetViewModel');
-  classicPoemDao: ClassicPoemDao = new ClassicPoemDao();
+  private logger: Logger = new Logger('DatasetViewModel');
 
   getDatasetList(): Promise<Dataset[]> {
     return new Promise((resolve: Function, reject: Function) => {
@@ -44,7 +43,7 @@ class DatasetViewModel {
   }
 
   async insertClassicPoemToDb(classicPoem: ClassicPoem) {
-    await this.classicPoemDao.createClassicPoem(classicPoem).catch((error: BusinessError) => {
+    await createClassicPoem(classicPoem).catch((error: BusinessError) => {
       this.logger.error(`insertClassicPoemToDb error, code = :${error.code}, message = ${error.message}`)
     })
   }

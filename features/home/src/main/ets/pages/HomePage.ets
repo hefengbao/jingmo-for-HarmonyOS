@@ -9,7 +9,8 @@ export struct Home {
     Navigation(this.pageStack) {
       Row() {
         Text(String.app_name)
-          .fontSize(24)
+          .fontSize(20)
+          .fontWeight(FontWeight.Bold)
         Blank()
         Image(Icon.ic_public_settings)
           .onClick(() => {

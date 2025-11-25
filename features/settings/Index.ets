@@ -1,13 +1,13 @@
-export { About } from './src/main/ets/pages/About';
+export { AboutPage } from './src/main/ets/pages/AboutPage';
 
-export { CollectedUserInfo } from './src/main/ets/pages/CollectedUserInfo';
+export { CollectedUserInfoPage } from './src/main/ets/pages/CollectedUserInfoPage';
 
-export { Privacy } from './src/main/ets/pages/Privacy';
+export { PrivacyPage } from './src/main/ets/pages/PrivacyPage';
 
-export { Settings } from './src/main/ets/pages/Settings';
+export { SettingPage } from './src/main/ets/pages/SettingPage';
 
-export { SharedUserInfo } from './src/main/ets/pages/SharedUserInfo';
+export { SharedUserInfoPage } from './src/main/ets/pages/SharedUserInfoPage';
 
-export { SyncData } from './src/main/ets/pages/SyncData'
+export { SyncDataPage } from './src/main/ets/pages/SyncDataPage'
 
-export { TOS } from './src/main/ets/pages/TOS';
+export { TosPage } from './src/main/ets/pages/TosPage';

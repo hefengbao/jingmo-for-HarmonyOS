@@ -1,25 +1,25 @@
 @Builder
-export function SharedUserInfoBuilder() {
-  SharedUserInfo()
+export function CollectedUserInfoPageBuilder() {
+  CollectedUserInfoPage()
 }
 
 @ComponentV2
-export struct SharedUserInfo {
+export struct CollectedUserInfoPage {
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
 
   build() {
     NavDestination() {
       Column() {
-        Text('不向第三方共享任何用户数据')
+        Text('不收集、保存任何用户信息。')
           .width('100%')
           .textAlign(TextAlign.Start)
       }
       .width('100%')
       .padding(16)
     }
-    .title($r('app.string.shared_user_info'))
-    .onReady((ctx: NavDestinationContext) => [
+    .title($r('app.string.collected_user_info'))
+    .onReady((ctx: NavDestinationContext) => {
       this.pageStack = ctx.pathStack
-    ])
+    })
   }
 }

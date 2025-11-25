@@ -10,34 +10,32 @@ import PrefUtil from 'utils/src/main/ets/data/PrefUtil';
 
 let logger: Logger = new Logger('SyncData');
 
-@Builder
-export function SyncDataBuilder() {
-  SyncData();
-}
-
 @ComponentV2
-export struct SyncData {
-  @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack();
-  @Local dataset: Dataset[] = [];
-  @Local datasetListLoading: boolean = false;
-  @Local datasetListLoadingError: string = '';
+export struct SyncDataList {
+  @Param @Require @Once dataset: Dataset[]
   @Local classicalliteratureClassicpoemLocalVersion: number = PrefUtil.getClassicalCultureClassicPoemVersion();
   @Local classicalliteratureClassicpoemRemoteVersion: number = 0;
   @Local classicalliteratureClassicpoemTotal: number = 0;
   @Local classicalliteratureClassicpoemCount: number = 0;
   @Local classicalliteratureClassicpoemLoading: boolean = false;
   @Local classicalliteratureClassicpoemLoadingError: string | null = null;
-  @Local classicalliteratureClassicpoemLoadingPage: number | null = 1;
   @Local chineseCharacterLocalVersion: number = PrefUtil.getChineseCharacterVersion();
   @Local chineseCharacterRemoteVersion: number = 0;
   @Local chineseCharacterTotal: number = 0;
   @Local chineseCharacterCount: number = 0;
   @Local chineseCharacterLoading: boolean = false;
   @Local chineseCharacterLoadingError: string | null = null;
-  @Local chineseCharacterLoadingPage: number | null = 1;
 
   aboutToAppear(): void {
-    this.getDatasetList()
+    this.dataset.forEach((item: Dataset) => {
+      if (item.name == PrefConst.CLASSICALLITERATURE_CLASSICPOEM) {
+        this.classicalliteratureClassicpoemRemoteVersion = item.version;
+        this.classicalliteratureClassicpoemTotal = item.count;
+      } else if (item.name == PrefConst.CHINESE_CHARACTER) {
+        this.chineseCharacterRemoteVersion = item.version;
+        this.chineseCharacterTotal = item.count;
+      }
+    })
     try {
       PrefUtil.preference?.on('change', (key: String) => {
         if (key == PrefConst.CLASSICALLITERATURE_CLASSICPOEM) {
@@ -45,93 +43,41 @@ export struct SyncData {
         }
       })
     } catch (error) {
-      logger.error(`preference change observer error = ${error}`);
+      logger.error(`preference add change observer error = ${error}`);
     }
   }
 
   build() {
-    NavDestination() {
-      Scroll() {
-        Column() {
-          if (this.dataset.length) {
-            BlockTitle({ title: String.classicalliterature })
-            Item({
-              title: String.classicalliterature_classicpoem,
-              remoteVersion: this.classicalliteratureClassicpoemRemoteVersion,
-              localVersion: this.classicalliteratureClassicpoemLocalVersion,
-              total: this.classicalliteratureClassicpoemTotal,
-              progress: this.classicalliteratureClassicpoemCount,
-              loading: this.classicalliteratureClassicpoemLoading,
-              error: this.classicalliteratureClassicpoemLoadingError,
-              clickEvent: (): void => {
-                this.syncClassicalLiteratureClassicPoem(1)
-              }
-            })
-            BlockTitle({ title: String.chinese })
-            Item({
-              title: String.chinese_character,
-              remoteVersion: this.chineseCharacterRemoteVersion,
-              localVersion: this.chineseCharacterLocalVersion,
-              total: this.chineseCharacterTotal,
-              progress: this.chineseCharacterCount,
-              loading: this.chineseCharacterLoading,
-              error: this.chineseCharacterLoadingError,
-              clickEvent: (): void => {
-                this.syncChineseCharacterPoem(1)
-              }
-            })
-          } else {
-            if (this.datasetListLoading) {
-              LoadingProgress()
-                .color(Color.Black)
-                .width(80)
-                .height(80)
-            } else {
-              Text(this.datasetListLoadingError)
-                .padding(ThemeConst.P_8)
-              Text('如果多次尝试无果后，建议更换网络环境或者从网盘下载数据后导入。')
-                .padding(ThemeConst.P_8)
-              Button("点击重试")
-                .padding(ThemeConst.P_8)
-                .backgroundColor(Color.Black)
-                .fontColor(Color.White)
-                .onClick(() => this.getDatasetList())
-            }
-          }
-        }
-        .height('100%')
-        .width('100%')
-      }
-      .height('100%')
-      .width('100%')
-      .padding(16)
-      .edgeEffect(EdgeEffect.Spring)
-    }
-    .title($r('app.string.sync_data'))
-    .onReady((ctx: NavDestinationContext) => {
-      this.pageStack = ctx.pathStack;
-    })
-  }
-
-  async getDatasetList() {
-    this.datasetListLoading = true
-    await DatasetViewModel.getDatasetList().then((list: Dataset[]) => {
-      this.dataset = list;
-      list.forEach((item: Dataset) => {
-        if (item.name == PrefConst.CLASSICALLITERATURE_CLASSICPOEM) {
-          this.classicalliteratureClassicpoemRemoteVersion = item.version;
-          this.classicalliteratureClassicpoemTotal = item.count;
-        } else if (item.name == PrefConst.CHINESE_CHARACTER) {
-          this.chineseCharacterRemoteVersion = item.version;
-          this.chineseCharacterTotal = item.count;
+    Column() {
+      BlockTitle({ title: String.classicalliterature })
+      Item({
+        title: String.classicalliterature_classicpoem,
+        remoteVersion: this.classicalliteratureClassicpoemRemoteVersion,
+        localVersion: this.classicalliteratureClassicpoemLocalVersion,
+        total: this.classicalliteratureClassicpoemTotal,
+        progress: this.classicalliteratureClassicpoemCount,
+        loading: this.classicalliteratureClassicpoemLoading,
+        error: this.classicalliteratureClassicpoemLoadingError,
+        clickEvent: (): void => {
+          this.syncClassicalLiteratureClassicPoem(1)
         }
       })
-      this.datasetListLoading = false;
-    }).catch((error: string) => {
-      this.datasetListLoading = false;
-      this.datasetListLoadingError = error;
-      logger.error(`${error}`);
-    })
+      BlockTitle({ title: String.chinese })
+      Item({
+        title: String.chinese_character,
+        remoteVersion: this.chineseCharacterRemoteVersion,
+        localVersion: this.chineseCharacterLocalVersion,
+        total: this.chineseCharacterTotal,
+        progress: this.chineseCharacterCount,
+        loading: this.chineseCharacterLoading,
+        error: this.chineseCharacterLoadingError,
+        clickEvent: (): void => {
+          this.syncChineseCharacterPoem(1)
+        }
+      })
+    }
+    .width('100%')
+    .height('100%')
   }
 
   syncClassicalLiteratureClassicPoem(page: number) {
@@ -245,8 +191,7 @@ struct Item {
                 .borderRadius(18)
               }
             })
-            .onClick((event: ClickEvent) => {
-              logger.info('click event triggered')
+            .onClick(() => {
               this.clickEvent()
             })
         }
