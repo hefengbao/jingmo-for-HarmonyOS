@@ -1,6 +1,20 @@
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "storeFile": "D:/Documents/App/jingmo/keystore/HarmonyOS/key_for_harmonyos.p12",
+          "storePassword": "000000208BAEFE6111DE6E49885283F970F08F0D3D8CD7949ACADC1FCE51E4AD3BD9F239BF3AA381742FAFA1BD28B2E5",
+          "keyAlias": "key0",
+          "keyPassword": "000000208680EC667AA029F96B09D9CB4D797068C6DBF0A765AF7F57CDF03228ED4F1AD2AAD93848E6F3EE27D2DBC8FF",
+          "signAlg": "SHA256withECDSA",
+          "profile": "D:/Documents/App/jingmo/keystore/HarmonyOS/京墨文库Release.p7b",
+          "certpath": "D:/Documents/App/jingmo/keystore/HarmonyOS/京墨文库鸿蒙版发布证书.cer"
+        }
+      }
+    ],
     "products": [
       {
         "name": "default",
