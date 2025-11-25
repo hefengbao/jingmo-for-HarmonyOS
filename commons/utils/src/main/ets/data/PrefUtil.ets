@@ -81,6 +81,14 @@ export class PrefUtil {
     return this.getNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM)
   }
 
+  saveClassicalCultureSentenceVersion(version: number) {
+    this.setNumber(PrefConst.CLASSICALLITERATURE_SENTENCE, version)
+  }
+
+  getClassicalCultureSentenceVersion(): number {
+    return this.getNumber(PrefConst.CLASSICALLITERATURE_SENTENCE)
+  }
+
   private setNumber(key: string, data: number) {
     try {
       this.preference?.putSync(key, data)
