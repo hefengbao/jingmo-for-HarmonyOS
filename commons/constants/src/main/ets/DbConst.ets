@@ -54,9 +54,9 @@ export class DbMigrationConst {
       'spelling text)';
   static readonly CREATE_CHINESE_IDIOM_TABLE: string =
     'create table if not exists ' + DbTableConst.CHINESE_IDIOM_TABLE +
-      ' (id integer not null primary key autoincrement, word text not null, pinyin text not null, explanation text, ' +
-      'example text, source text, quote text, similar text, opposite text, usage text, story text, notice text, ' +
-      'spelling text)';
+      ' (id integer not null primary key autoincrement, word text not null, pinyin text not null, abbr text not null,  ' +
+      'explanation text, example text, source text, quote text, similar text, opposite text, usage text, story text, ' +
+      'notice text, spelling text)';
   static readonly CREATE_CHINESE_KNOWLEDGE_TABLE: string =
     'create table if not exists ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
       ' (id integer primary key autoincrement not null, content text not null, label text not null, url text)';
