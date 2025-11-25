@@ -1,7 +1,7 @@
 import { ThemeConst } from 'constants'
 
 @ComponentV2
-export struct BlockItem {
+export struct Item {
   @Param @Require title: string | Resource
 
   build() {
@@ -23,7 +23,7 @@ export struct BlockItem {
 }
 
 @ComponentV2
-export struct BlockTitle {
+export struct Title {
   @Param @Require title: string | Resource
 
   build() {

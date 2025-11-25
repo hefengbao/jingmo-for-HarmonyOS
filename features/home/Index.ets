@@ -1,1 +1,1 @@
-export { Home } from './src/main/ets/pages/Home';
+export { HomePage } from './src/main/ets/pages/HomePage';
