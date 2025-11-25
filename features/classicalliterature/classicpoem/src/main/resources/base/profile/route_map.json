@@ -1,11 +1,11 @@
 {
   "routerMap": [
     {
-      "name": "ClassicPoem",
-      "pageSourceFile": "src/main/ets/pages/ClassicPoem.ets",
-      "buildFunction": "ClassicPoemBuilder",
+      "name": "ClassicPoemIndexPage",
+      "pageSourceFile": "src/main/ets/pages/ClassicPoemIndexPage.ets",
+      "buildFunction": "ClassicPoemIndexPageBuilder",
       "data": {
-        "description": "ClassicPoem Page"
+        "description": "ClassicPoem Index Page"
       }
     }
   ]
