@@ -1,13 +1,43 @@
+import { relationalStore } from '@kit.ArkData';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { DbCRUDConst, DbTableConst } from 'constants';
+import { Logger } from 'utils';
+import DbUtil from 'utils/src/main/ets/data/DbUtil';
+
+let logger: Logger = new Logger('Character')
+
 export class Character {
-  id: number = 0;
-  character: string = '';
-  character2: string | null = null;
-  pinyin: string | null = null;
-  radical: string | null = null;
-  stroke: number | null = null;
-  wubi: string | null = null;
-  explanations: string[] | null = null;
-  explanations2: ExplanationItem[] | null = null;
+  id: number;
+  character: string;
+  character2: string | null;
+  pinyin: string | null;
+  radical: string | null;
+  stroke: number | null;
+  wubi: string | null;
+  explanations: string[] | null;
+  explanations2: ExplanationItem[] | null;
+
+  constructor(
+    id: number,
+    character: string,
+    character2: string | null,
+    pinyin: string | null,
+    radical: string | null,
+    stroke: number | null,
+    wubi: string | null,
+    explanations: string[] | null,
+    explanations2: ExplanationItem[] | null,
+  ) {
+    this.id = id;
+    this.character = character;
+    this.character2 = character2;
+    this.pinyin = pinyin;
+    this.radical = radical;
+    this.stroke = stroke;
+    this.wubi = wubi;
+    this.explanations = explanations;
+    this.explanations2 = explanations2;
+  }
 }
 
 export class ExplanationItem {
@@ -33,4 +63,66 @@ export class Detail {
 export class Word {
   word: string | null = null;
   text: string | null = null;
+}
+
+export async function createCharacter(character: Character) {
+  const valuesBucket: relationalStore.ValuesBucket = {
+    'id': character.id,
+    'character': character.character,
+    'character2': character.character2,
+    'pinyin': character.pinyin,
+    'radical': character.radical,
+    'stroke': character.stroke,
+    'wubi': character.wubi,
+    'explanations': JSON.stringify(character.explanations),
+    'explanations2': JSON.stringify(character.explanations2),
+  }
+
+  DbUtil.objectiveRDB?.insert(
+    DbTableConst.CHINESE_CHARACTER_TABLE,
+    valuesBucket,
+    relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+  ).then((rowId: number) => {
+    logger.info(`Insert is successful, rowId = ${rowId}`)
+  }).catch((err: BusinessError) => {
+    logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
+  })
+}
+
+export async function readRandomCharacter(): Promise<Character | null> {
+  let obj: Character | null = null
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_CHARACTER)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          obj = parse(resultSet)
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return obj;
+}
+
+/**
+ * @throws
+ */
+function parse(resultSet: relationalStore.ResultSet): Character {
+  return new Character(
+    resultSet.getLong(resultSet.getColumnIndex('id')),
+    resultSet.getString(resultSet.getColumnIndex('character')),
+    resultSet.getString(resultSet.getColumnIndex('character2')),
+    resultSet.getString(resultSet.getColumnIndex('pinyin')),
+    resultSet.getString(resultSet.getColumnIndex('radical')),
+    resultSet.getLong(resultSet.getColumnIndex('stroke')),
+    resultSet.getString(resultSet.getColumnIndex('wubi')),
+    JSON.parse(resultSet.getString(resultSet.getColumnIndex('explanations'))),
+    JSON.parse(resultSet.getString(resultSet.getColumnIndex('explanations2')))
+  )
 }

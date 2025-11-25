@@ -1,3 +1,1 @@
-export { ClassicPoem } from './src/main/ets/model/ClassicPoem';
-
-export { ClassicPoemDao } from './src/main/ets/database/ClassicPoemDao';
+export { ClassicPoem, createClassicPoem, readRandomClassicPoem } from './src/main/ets/model/ClassicPoem';

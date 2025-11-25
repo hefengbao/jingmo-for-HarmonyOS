@@ -4,38 +4,37 @@ import { DbCRUDConst, DbTableConst } from 'constants';
 import { Logger } from 'utils';
 import DbUtil from 'utils/src/main/ets/data/DbUtil';
 
-let logger: Logger = new Logger('Quote');
+let logger: Logger = new Logger('Sentence');
 
-
-export class Quote {
+export class Sentence {
   id: number;
   content: string;
-  author: string;
   from: string;
+  poem_id: number | null;
 
   constructor(
     id: number,
     content: string,
-    author: string,
     from: string,
+    poem_id: number | null
   ) {
     this.id = id;
     this.content = content;
-    this.author = author;
     this.from = from;
+    this.poem_id = poem_id;
   }
 }
 
-export async function createClassicPoem(obj: Quote) {
+export async function createSentence(obj: Sentence) {
   const valuesBucket: relationalStore.ValuesBucket = {
     'id': obj.id,
     'content': obj.content,
-    'author': obj.author,
     'from_txt': obj.from,
+    'poem_id': obj.poem_id,
   }
 
   DbUtil.objectiveRDB?.insert(
-    DbTableConst.CHINESE_QUOTE_TABLE,
+    DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE,
     valuesBucket,
     relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
   ).then((rowId: number) => {
@@ -45,10 +44,10 @@ export async function createClassicPoem(obj: Quote) {
   })
 }
 
-export async function readRandomClassicPoem(): Promise<Quote | null> {
-  let obj: Quote | null = null
+export async function readRandomSentence(): Promise<Sentence | null> {
+  let obj: Sentence | null = null
 
-  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_QUOTE)
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CLASSICALLITERATURE_SENTENCE)
     .then((resultSet: relationalStore.ResultSet) => {
       try {
         while (resultSet.goToNextRow()) {
@@ -69,11 +68,11 @@ export async function readRandomClassicPoem(): Promise<Quote | null> {
 /**
  * @throws
  */
-function parse(resultSet: relationalStore.ResultSet): Quote {
-  return new Quote(
+function parse(resultSet: relationalStore.ResultSet): Sentence {
+  return new Sentence(
     resultSet.getLong(resultSet.getColumnIndex('id')),
     resultSet.getString(resultSet.getColumnIndex('content')),
-    resultSet.getString(resultSet.getColumnIndex('author')),
     resultSet.getString(resultSet.getColumnIndex('from_txt')),
+    resultSet.getLong(resultSet.getColumnIndex('poem_id')),
   )
 }

@@ -1,3 +1,3 @@
 export { MainPage } from './src/main/ets/pages/MainPage';
 
-export { Knowledge } from './src/main/ets/model/Knowledge';
+export { Knowledge, createKnowledge, readRandomKnowledge } from './src/main/ets/model/Knowledge';

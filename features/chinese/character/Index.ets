@@ -1,1 +1,1 @@
-export { Character } from './src/main/ets/model/Character'
+export { Character, createCharacter, readRandomCharacter } from './src/main/ets/model/Character';
