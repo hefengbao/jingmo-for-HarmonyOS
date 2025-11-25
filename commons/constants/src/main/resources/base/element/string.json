@@ -115,6 +115,10 @@
     {
       "name": "settings",
       "value": "设置"
+    },
+    {
+      "name": "bookmark",
+      "value": "收藏夹"
     }
   ]
 }

@@ -1,19 +1,10 @@
-import { relationalStore } from '@kit.ArkData';
-
-export class DbConfigConst {
-  static readonly DB_VERSION: number = 1;
-  static readonly STORE_CONFIG: relationalStore.StoreConfig = {
-    name: 'jingmo.db',
-    securityLevel: relationalStore.SecurityLevel.S1,
-    tokenizer: relationalStore.Tokenizer.ICU_TOKENIZER
-  };
-}
-
 export class DbTableConst {
   static readonly BOOKMARKS_TABLE: string = 'bookmarks';
   static readonly CLASSICALLITERATURE_CLASSICPOEM_TABLE: string = 'classicalliterature_classicpoem';
+  static readonly CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE: string = 'classicalliterature_classicpoem_fts';
   static readonly CLASSICALLITERATURE_WRITING_TABLE: string = "classicalliterature_writing";
   static readonly CLASSICALLITERATURE_SENTENCE_TABLE: string = "classicalliterature_sentence";
+  static readonly CLASSICALLITERATURE_SENTENCE_FTS_TABLE: string = "classicalliterature_sentence_fts";
   static readonly CLASSICALLITERATURE_PEOPLE_TABLE: string = "classicalliterature_people";
   static readonly CHINESE_CHARACTER_TABLE: string = "chinese_character";
   static readonly CHINESE_EXPRESSION_TABLE: string = "chinese_expression";
@@ -25,8 +16,11 @@ export class DbTableConst {
   static readonly CHINESE_ANTITHETICALCOUPLET_TABLE: string = "chinese_antitheticalcouplet";
   static readonly CHINESE_LYRIC_TABLE: string = "chinese_lyric";
   static readonly CHINESE_KNOWLEDGE_TABLE: string = "chinese_knowledge";
+  static readonly CHINESE_KNOWLEDGE_FTS_TABLE: string = "chinese_knowledge_fts";
   static readonly CHINESE_QUOTE_TABLE: string = "chinese_quote";
+  static readonly CHINESE_QUOTE_FTS_TABLE: string = "chinese_quote_fts";
   static readonly CHINESE_MODERNPOETRY_TABLE: string = "chinese_modernpoetry";
+  static readonly CHINESE_MODERNPOETRY_FTS_TABLE: string = "chinese_modernpoetry_fts";
   static readonly CHINA_WORLDCULTUREHERITAGE_TABLE: string = "china_worldcultureheritage";
 }
 
@@ -45,7 +39,7 @@ export class DbMigrationConst {
       ' category text )';
   static readonly CREATE_CLASSICALLITERATURE_SENTENCE_TABLE: string =
     'create table if not exists ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
-      ' (id integer primary key autoincrement not null, content text not null, from text not null, poem_id integer)';
+      ' (id integer primary key autoincrement not null, content text not null, from_txt text not null, poem_id integer)';
   static readonly CREATE_CHINESE_ANTITHETICALCOUPLET_TABLE: string =
     'create table if not exists ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
       ' (id integer primary key autoincrement not null, body text not null, description text, image text)';
@@ -56,12 +50,12 @@ export class DbMigrationConst {
   static readonly CREATE_CHINESE_EXPRESSION_TABLE: string =
     'create table if not exists ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
       ' (id integer not null primary key autoincrement, word text not null, pinyin text not null, explanation text, ' +
-      'example text, source text, quote text, similar text, opposite text, usage varchar, story text, notice text, ' +
+      'example text, source text, quote text, similar text, opposite text, usage text, story text, notice text, ' +
       'spelling text)';
   static readonly CREATE_CHINESE_IDIOM_TABLE: string =
     'create table if not exists ' + DbTableConst.CHINESE_IDIOM_TABLE +
       ' (id integer not null primary key autoincrement, word text not null, pinyin text not null, explanation text, ' +
-      'example text, source text, quote text, similar text, opposite text, usage varchar, story text, notice text, ' +
+      'example text, source text, quote text, similar text, opposite text, usage text, story text, notice text, ' +
       'spelling text)';
   static readonly CREATE_CHINESE_KNOWLEDGE_TABLE: string =
     'create table if not exists ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
@@ -72,7 +66,7 @@ export class DbMigrationConst {
       'content text not null, zhu text, yi text, shang text, author_info text)';
   static readonly CREATE_CHINESE_QUOTE_TABLE: string =
     'create table if not exists ' + DbTableConst.CHINESE_QUOTE_TABLE +
-      ' (id integer primary key autoincrement not null, content text not null, author varchar, from varchar not null)';
+      ' (id integer primary key autoincrement not null, content text not null, author text, from_txt text not null)';
   static readonly CREATE_BOOKMARKS_TABLE: string =
     'create table if not exists ' + DbTableConst.BOOKMARKS_TABLE +
       ' (id integer primary key autoincrement not null, bookmarkable_id integer, bookmarkable_model text)';
@@ -82,12 +76,36 @@ export class DbCRUDConst {
   static readonly READ_CHINA_WORLDCULTUREHERITAGE: string =
     'select * from ' + DbTableConst.CHINA_WORLDCULTUREHERITAGE_TABLE +
       'where id = ? limit 1';
-  static readonly READ_RANDOM_CLASSICALLITERATURE_CLASSICPOEM: string =
-    'select * from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
-      ' where id = (select p.id from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
-      ' p order by random() limit 1) limit 1';
+  static readonly READ_RANDOM_CHINESE_ANTITHETICALCOUPLET: string =
+    'select * from ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
+      ' where id = (select id from ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
+      ' order by random() limit 1) limit 1';
   static readonly READ_RANDOM_CHINESE_CHARACTER: string =
     'select * from ' + DbTableConst.CHINESE_CHARACTER_TABLE +
-      ' where id = (select p.id from ' + DbTableConst.CHINESE_CHARACTER_TABLE +
-      ' p order by random() limit 1) limit 1';
+      ' where id = (select id from ' + DbTableConst.CHINESE_CHARACTER_TABLE +
+      ' order by random() limit 1) limit 1';
+  static readonly READ_RANDOM_CHINESE_EXPRESSION: string =
+    'select * from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+      ' where id = (select id from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+      ' order by random() limit 1) limit 1';
+  static readonly READ_RANDOM_CHINESE_IDIOM: string =
+    'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+      ' where id = (select id from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+      ' order by random() limit 1) limit 1';
+  static readonly READ_RANDOM_CHINESE_KNOWLEDGE: string =
+    'select * from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+      ' where id = (select id from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+      ' order by random() limit 1) limit 1';
+  static readonly READ_RANDOM_CHINESE_QUOTE: string =
+    'select * from ' + DbTableConst.CHINESE_QUOTE_TABLE +
+      ' where id = (select id from ' + DbTableConst.CHINESE_QUOTE_TABLE +
+      ' order by random() limit 1) limit 1';
+  static readonly READ_RANDOM_CLASSICALLITERATURE_CLASSICPOEM: string =
+    'select * from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
+      ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
+      ' order by random() limit 1) limit 1';
+  static readonly READ_RANDOM_CLASSICALLITERATURE_SENTENCE: string =
+    'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+      ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+      ' order by random() limit 1) limit 1';
 }

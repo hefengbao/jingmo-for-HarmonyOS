@@ -28,4 +28,5 @@ export class String {
   static readonly http_error_message: Resource = $r('app.string.http_error_message');
   static readonly refresh: Resource = $r('app.string.refresh');
   static readonly settings: Resource = $r('app.string.settings');
+  static readonly bookmark: Resource = $r('app.string.bookmark');
 }
