@@ -12,7 +12,6 @@ export class Expression {
   id: number;
   word: string;
   pinyin: string;
-  abbr: string;
   explanation: string | null;
   source: IdiomSource | null;
   quote: IdiomQuote | null;
@@ -27,7 +26,6 @@ export class Expression {
     id: number,
     word: string,
     pinyin: string,
-    abbr: string,
     explanation: string | null,
     source: IdiomSource | null,
     quote: IdiomQuote | null,
@@ -41,7 +39,6 @@ export class Expression {
     this.id = id;
     this.word = word;
     this.pinyin = pinyin;
-    this.abbr = abbr;
     this.explanation = explanation;
     this.source = source;
     this.quote = quote;
@@ -59,7 +56,6 @@ export async function createExpression(obj: Expression) {
     'id': obj.id,
     'word': obj.word,
     'pinyin': obj.pinyin,
-    'abbr': obj.abbr,
     'explanation': obj.explanation,
     'source': JSON.stringify(obj.source),
     'quote': JSON.stringify(obj.quote),
@@ -111,7 +107,6 @@ function parse(resultSet: relationalStore.ResultSet): Expression {
     resultSet.getLong(resultSet.getColumnIndex('id')),
     resultSet.getString(resultSet.getColumnIndex('word')),
     resultSet.getString(resultSet.getColumnIndex('pinyin')),
-    resultSet.getString(resultSet.getColumnIndex('abbr')),
     resultSet.getString(resultSet.getColumnIndex('explanation')),
     JSON.parse(resultSet.getString(resultSet.getColumnIndex('source'))) as IdiomSource,
     JSON.parse(resultSet.getString(resultSet.getColumnIndex('quote'))) as IdiomQuote,

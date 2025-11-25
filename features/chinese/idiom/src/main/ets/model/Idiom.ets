@@ -68,7 +68,7 @@ export class IdiomExample {
   book: string | null = null;
 }
 
-export async function createExpression(obj: Idiom) {
+export async function createIdiom(obj: Idiom) {
   const valuesBucket: relationalStore.ValuesBucket = {
     'id': obj.id,
     'word': obj.word,
@@ -86,7 +86,7 @@ export async function createExpression(obj: Idiom) {
   }
 
   DbUtil.objectiveRDB?.insert(
-    DbTableConst.CHINESE_EXPRESSION_TABLE,
+    DbTableConst.CHINESE_IDIOM_TABLE,
     valuesBucket,
     relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
   ).then((rowId: number) => {
@@ -96,10 +96,10 @@ export async function createExpression(obj: Idiom) {
   })
 }
 
-export async function readRandomClassicPoem(): Promise<Idiom | null> {
+export async function readRandomIdiom(): Promise<Idiom | null> {
   let obj: Idiom | null = null
 
-  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_EXPRESSION)
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_IDIOM)
     .then((resultSet: relationalStore.ResultSet) => {
       try {
         while (resultSet.goToNextRow()) {

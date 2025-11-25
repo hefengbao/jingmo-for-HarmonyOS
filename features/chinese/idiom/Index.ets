@@ -4,5 +4,5 @@ export { Idiom,
   IdiomSource,
   IdiomQuote,
   IdiomExample,
-  createExpression,
-  readRandomClassicPoem } from './src/main/ets/model/Idiom';
+  createIdiom,
+  readRandomIdiom } from './src/main/ets/model/Idiom';

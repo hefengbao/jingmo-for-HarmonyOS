@@ -26,7 +26,7 @@ export class Quote {
   }
 }
 
-export async function createClassicPoem(obj: Quote) {
+export async function createQuote(obj: Quote) {
   const valuesBucket: relationalStore.ValuesBucket = {
     'id': obj.id,
     'content': obj.content,
@@ -45,7 +45,7 @@ export async function createClassicPoem(obj: Quote) {
   })
 }
 
-export async function readRandomClassicPoem(): Promise<Quote | null> {
+export async function readRandomQuote(): Promise<Quote | null> {
   let obj: Quote | null = null
 
   await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_QUOTE)
