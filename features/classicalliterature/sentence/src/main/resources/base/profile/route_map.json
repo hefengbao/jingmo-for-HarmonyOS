@@ -1,0 +1,12 @@
+{
+  "routerMap": [
+    {
+      "name": "SentenceIndexPage",
+      "pageSourceFile": "src/main/ets/pages/SentenceIndexPage.ets",
+      "buildFunction": "SentenceIndexPageBuilder",
+      "data": {
+        "description": "Sentence Index Page"
+      }
+    }
+  ]
+}

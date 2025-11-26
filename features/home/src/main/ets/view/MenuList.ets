@@ -27,6 +27,8 @@ export struct MenuList {
         GridItem() {
           Item({
             title: String.classicalliterature_sentence
+          }).onClick(() => {
+            this.pageStack.pushPathByName('SentenceIndexPage', null)
           })
         }
 

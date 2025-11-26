@@ -8,6 +8,7 @@
   "dependencies": {
     "constants": "file:../../commons/constants",
     "settings": "file:../settings",
-    "classicalliterature_classicpoem": "file:../classicalliterature/classicpoem"
+    "classicalliterature_classicpoem": "file:../classicalliterature/classicpoem",
+    "classicalliterature_sentence": "file:../classicalliterature/sentence"
   }
 }
