@@ -74,6 +74,27 @@ export struct SyncDataList {
   @Local chinaWorldCulturalHeritageCount: number = 0;
   @Local chinaWorldCulturalHeritageLoading: boolean = false;
   @Local chinaWorldCulturalHeritageLoadingError: string | null = null;
+  observer = (key: string) => {
+    if (key == PrefConst.CLASSICALLITERATURE_CLASSICPOEM) {
+      this.classicalliteratureClassicpoemLocalVersion = PrefUtil.getClassicalLiteratureClassicPoemVersion();
+    } else if (key == PrefConst.CLASSICALLITERATURE_SENTENCE) {
+      this.classicalliteratureSentenceLocalVersion = PrefUtil.getClassicalLiteratureSentenceVersion()
+    } else if (key == PrefConst.CHINESE_ANTITHETICALCOUPLET) {
+      this.chineseAntitheticalCoupletLocalVersion = PrefUtil.getChineseAntitheticalCoupletVersion()
+    } else if (key == PrefConst.CHINESE_CHARACTER) {
+      this.chineseCharacterLocalVersion = PrefUtil.getChineseCharacterVersion()
+    } else if (key == PrefConst.CHINESE_EXPRESSION) {
+      this.chineseExpressionLocalVersion = PrefUtil.getChineseExpressionVersion()
+    } else if (key == PrefConst.CHINESE_IDIOM) {
+      this.chineseIdiomLocalVersion = PrefUtil.getChineseIdiomVersion()
+    } else if (key == PrefConst.CHINESE_KNOWLEDGE) {
+      this.chineseKnowledgeLocalVersion = PrefUtil.getChineseKnowledgeVersion()
+    } else if (key == PrefConst.CHINESE_QUOTE) {
+      this.chineseQuoteLocalVersion = PrefUtil.getChineseQuoteVersion()
+    } else if (key == PrefConst.CHINA_WORLDCULTUREHERITAGE) {
+      this.chinaWorldCulturalHeritageLocalVersion = PrefUtil.getChinaWorldCulturalHeritageVersion()
+    }
+  }
 
   aboutToAppear(): void {
     this.dataset.forEach((item: Dataset) => {
@@ -107,29 +128,17 @@ export struct SyncDataList {
       }
     })
     try {
-      PrefUtil.preference?.on('change', (key: String) => {
-        if (key == PrefConst.CLASSICALLITERATURE_CLASSICPOEM) {
-          this.classicalliteratureClassicpoemLocalVersion = PrefUtil.getClassicalLiteratureClassicPoemVersion();
-        } else if (key == PrefConst.CLASSICALLITERATURE_SENTENCE) {
-          this.classicalliteratureSentenceLocalVersion = PrefUtil.getClassicalLiteratureSentenceVersion()
-        } else if (key == PrefConst.CHINESE_ANTITHETICALCOUPLET) {
-          this.chineseAntitheticalCoupletLocalVersion = PrefUtil.getChineseAntitheticalCoupletVersion()
-        } else if (key == PrefConst.CHINESE_CHARACTER) {
-          this.chineseCharacterLocalVersion = PrefUtil.getChineseCharacterVersion()
-        } else if (key == PrefConst.CHINESE_EXPRESSION) {
-          this.chineseExpressionLocalVersion = PrefUtil.getChineseExpressionVersion()
-        } else if (key == PrefConst.CHINESE_IDIOM) {
-          this.chineseIdiomLocalVersion = PrefUtil.getChineseIdiomVersion()
-        } else if (key == PrefConst.CHINESE_KNOWLEDGE) {
-          this.chineseKnowledgeLocalVersion = PrefUtil.getChineseKnowledgeVersion()
-        } else if (key == PrefConst.CHINESE_QUOTE) {
-          this.chineseQuoteLocalVersion = PrefUtil.getChineseQuoteVersion()
-        } else if (key == PrefConst.CHINA_WORLDCULTUREHERITAGE) {
-          this.chinaWorldCulturalHeritageLocalVersion = PrefUtil.getChinaWorldCulturalHeritageVersion()
-        }
-      })
+      PrefUtil.preference?.on('change', this.observer)
     } catch (error) {
       logger.error(`preference add change observer error = ${error}`);
+    }
+  }
+
+  aboutToRecycle(): void {
+    try {
+      PrefUtil.preference?.off('change', this.observer)
+    } catch (error) {
+      logger.error(`preference off change observer error = ${error}`);
     }
   }
 
