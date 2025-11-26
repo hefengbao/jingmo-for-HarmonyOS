@@ -29,6 +29,10 @@
       "value": "同步数据"
     },
     {
+      "name": "import_data",
+      "value": "导入数据"
+    },
+    {
       "name": "other",
       "value": "其他"
     },

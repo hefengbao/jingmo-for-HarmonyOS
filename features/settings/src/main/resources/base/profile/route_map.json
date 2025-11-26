@@ -17,6 +17,14 @@
       }
     },
     {
+      "name": "ImportDataPage",
+      "pageSourceFile": "src/main/ets/pages/ImportDataPage.ets",
+      "buildFunction": "ImportDataPageBuilder",
+      "data": {
+        "description": "Import Data Page"
+      }
+    },
+    {
       "name": "PrivacyPage",
       "pageSourceFile": "src/main/ets/pages/PrivacyPage.ets",
       "buildFunction": "PrivacyPageBuilder",

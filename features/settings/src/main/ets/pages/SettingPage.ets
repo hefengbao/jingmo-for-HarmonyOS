@@ -19,6 +19,10 @@ export struct SettingPage {
             .onClick(() => {
               this.pageStack.pushPathByName('SyncDataPage', null)
             })
+          Item({ title: $r('app.string.import_data') })
+            .onClick(() => {
+              this.pageStack.pushPathByName('ImportDataPage', null)
+            })
           BlockTitle({ title: $r('app.string.privacy') })
           Item({ title: $r('app.string.tos') })
             .onClick(() => {
