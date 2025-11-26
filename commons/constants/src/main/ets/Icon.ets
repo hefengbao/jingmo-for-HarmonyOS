@@ -4,6 +4,7 @@ export class Icon {
   static readonly ic_public_cloud_download: Resource = $r('app.media.ic_public_cloud_download');
   static readonly ic_public_delete: Resource = $r('app.media.ic_public_delete');
   static readonly ic_public_download: Resource = $r('app.media.ic_public_download');
+  static readonly ic_public_folder: Resource = $r('app.media.ic_public_folder');
   static readonly ic_public_refresh: Resource = $r('app.media.ic_public_refresh');
   static readonly ic_public_search: Resource = $r('app.media.ic_public_search');
   static readonly ic_public_settings: Resource = $r('app.media.ic_public_settings');
