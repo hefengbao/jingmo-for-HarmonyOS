@@ -43,6 +43,5 @@ export struct ClassicPoemView {
         Content({ text: this.classicPoem.comment })
       }
     }
-    .padding(16)
   }
 }

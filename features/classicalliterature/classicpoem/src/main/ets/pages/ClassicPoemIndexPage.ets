@@ -31,6 +31,10 @@ export struct ClassicPoemIndexPage {
           })
         }
       }
+      .width('100%')
+      .height('100%')
+      .edgeEffect(EdgeEffect.Spring)
+      .align(Alignment.TopStart)
     }
     .title(String.classicalliterature_classicpoem)
     .toolbarConfiguration([

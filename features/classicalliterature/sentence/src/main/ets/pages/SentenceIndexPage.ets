@@ -24,11 +24,17 @@ export struct SentenceIndexPage {
 
   build() {
     NavDestination() {
-      if (this.sentence) {
-        SentenceView({
-          sentence: this.sentence
-        })
+      Scroll() {
+        if (this.sentence) {
+          SentenceView({
+            sentence: this.sentence
+          })
+        }
       }
+      .width('100%')
+      .height('100%')
+      .edgeEffect(EdgeEffect.Spring)
+      .align(Alignment.TopStart)
     }
     .title(String.classicalliterature_sentence)
     .toolbarConfiguration([
