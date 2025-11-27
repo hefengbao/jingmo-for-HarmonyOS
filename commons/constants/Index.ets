@@ -1,3 +1,5 @@
+export { AppConst } from './src/main/ets/AppConst';
+
 export { DbMigrationConst, DbCRUDConst, DbTableConst } from './src/main/ets/DbConst';
 
 export { Icon } from './src/main/ets/Icon';
