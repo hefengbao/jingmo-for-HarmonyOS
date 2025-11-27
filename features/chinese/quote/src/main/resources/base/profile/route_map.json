@@ -1,0 +1,12 @@
+{
+  "routerMap": [
+    {
+      "name": "QuoteIndexPage",
+      "pageSourceFile": "src/main/ets/pages/QuoteIndexPage.ets",
+      "buildFunction": "QuoteIndexPageBuilder",
+      "data": {
+        "description": "Quote Index Page"
+      }
+    }
+  ]
+}

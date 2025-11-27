@@ -1,8 +1,10 @@
-import {String, Icon } from 'constants';
-import { Quote,readRandomQuote } from '../model/Quote';
+import { Icon, String } from 'constants';
+import { Quote, readRandomQuote } from '../model/Quote';
+import { QuoteView } from '../view/QuoteView';
+;
 
 @Builder
-export function QuoteIndexPageBuilder(){
+export function QuoteIndexPageBuilder() {
   QuoteIndexPage()
 }
 
@@ -16,10 +18,10 @@ export struct QuoteIndexPage {
   }
 
   build() {
-    NavDestination(){
-      Scroll(){
-        if (this.quote){
-
+    NavDestination() {
+      Scroll() {
+        if (this.quote) {
+          QuoteView({ quote: this.quote })
         }
       }
       .width('100%')
@@ -28,12 +30,23 @@ export struct QuoteIndexPage {
       .align(Alignment.TopStart)
     }
     .title(String.chinese_quote)
+    .toolbarConfiguration([
+      {
+        "value": String.refresh,
+        "icon": Icon.ic_public_refresh,
+        "action": () => {
+          this.refresh()
+        }
+      }
+    ], {
+      "hideItemValue": true
+    })
     .onReady((ctx: NavDestinationContext) => {
       this.pageStack = ctx.pathStack
     })
   }
 
-  refresh(){
+  refresh() {
     readRandomQuote().then((value: Quote | null) => {
       this.quote = value
     })
