@@ -1,0 +1,9 @@
+{
+  "routerMap": [
+    {
+      "name": "KnowledgeIndexPage",
+      "pageSourceFile": "src/main/ets/pages/KnowledgeIndexPage.ets",
+      "buildFunction": "KnowledgeIndexPageBuilder"
+    }
+  ]
+}
