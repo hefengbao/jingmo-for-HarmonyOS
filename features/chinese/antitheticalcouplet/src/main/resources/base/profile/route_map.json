@@ -1,0 +1,12 @@
+{
+  "routerMap": [
+    {
+      "name": "AntitheticalCoupletIndexPage",
+      "pageSourceFile": "src/main/ets/pages/AntitheticalCoupletIndexPage.ets",
+      "buildFunction": "AntitheticalCoupletIndexPageBuilder",
+      "data": {
+        "description": "AntitheticalCouplet Index Page"
+      }
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-export { MainPage } from './src/main/ets/pages/MainPage';
+export { AntitheticalCoupletIndexPage } from './src/main/ets/pages/AntitheticalCoupletIndexPage';
 
 export { AntitheticalCouplet,
   createAntitheticalCouplet,
