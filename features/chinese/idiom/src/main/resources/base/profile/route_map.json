@@ -1,0 +1,9 @@
+{
+  "routerMap": [
+    {
+      "name": "IdiomIndexPage",
+      "pageSourceFile": "src/main/ets/pages/IdiomIndexPage.ets",
+      "buildFunction": "IdiomIndexPageBuilder"
+    }
+  ]
+}
