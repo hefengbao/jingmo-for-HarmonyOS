@@ -1,0 +1,9 @@
+{
+  "routerMap": [
+    {
+      "name": "ExpressionIndexPage",
+      "pageSourceFile": "src/main/ets/pages/ExpressionIndexPage.ets",
+      "buildFunction": "ExpressionIndexPageBuilder"
+    }
+  ]
+}

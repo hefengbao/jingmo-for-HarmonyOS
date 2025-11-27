@@ -8,6 +8,7 @@
   "dependencies": {
     "chinese_idiom": "file:../idiom",
     "constants": "file:../../../commons/constants",
-    "utils": "file:../../../commons/utils"
+    "uicomponents": "file:../../../commons/uicomponents",
+    "utils": "file:../../../commons/utils",
   }
 }

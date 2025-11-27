@@ -5,6 +5,7 @@
     "deviceTypes": [
       "default",
       "tablet"
-    ]
+    ],
+    "routerMap": "$profile:route_map"
   }
 }
