@@ -1,7 +1,7 @@
 import { ImportDataList } from '../view/ImportDataList';
 
 @Builder
-export function ImportDataPageBuilder(){
+export function ImportDataPageBuilder() {
   ImportDataPage()
 }
 
@@ -10,8 +10,8 @@ export struct ImportDataPage {
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack()
 
   build() {
-    NavDestination(){
-      Scroll(){
+    NavDestination() {
+      Scroll() {
         ImportDataList()
           .padding(16)
       }

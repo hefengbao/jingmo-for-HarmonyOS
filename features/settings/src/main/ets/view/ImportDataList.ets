@@ -60,7 +60,6 @@ export struct ImportDataList {
   @Local chinaWorldcultureheritageCount: number = 0;
   @Local chinaWorldcultureheritageError: BusinessError | null = null;
   @Local chinaWorldcultureheritageLoading: boolean = false;
-
   changeInfos = (changeInfos: Array<relationalStore.ChangeInfo>) => {
     for (let i = 0; i < changeInfos.length; i++) {
       let info = changeInfos[i]

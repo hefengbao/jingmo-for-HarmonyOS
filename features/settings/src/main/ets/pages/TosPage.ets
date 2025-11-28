@@ -15,7 +15,7 @@ export struct TosPage {
   build() {
     NavDestination() {
       Column() {
-        if (this.showLoading){
+        if (this.showLoading) {
           LoadingProgress()
             .width(80)
             .height(80)

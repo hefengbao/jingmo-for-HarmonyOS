@@ -1,6 +1,5 @@
 import { webview } from '@kit.ArkWeb';
 import { NetworkConst } from 'constants';
-import { deviceInfo } from '@kit.BasicServicesKit';
 
 @Builder
 export function PrivacyPageBuilder() {
@@ -16,7 +15,7 @@ export struct PrivacyPage {
   build() {
     NavDestination() {
       Column() {
-        if (this.showLoading){
+        if (this.showLoading) {
           LoadingProgress()
             .width(80)
             .height(80)
