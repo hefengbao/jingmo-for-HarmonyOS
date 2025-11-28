@@ -1,0 +1,34 @@
+{
+  "routerMap": [
+    {
+      "name": "CharacterIndexPage",
+      "pageSourceFile": "src/main/ets/pages/CharacterIndexPage.ets",
+      "buildFunction": "CharacterIndexPageBuilder"
+    },
+    {
+      "name": "CharacterShowPage",
+      "pageSourceFile": "src/main/ets/pages/CharacterShowPage.ets",
+      "buildFunction": "CharacterShowPageBuilder"
+    },
+    {
+      "name": "RadicalPage",
+      "pageSourceFile": "src/main/ets/pages/RadicalPage.ets",
+      "buildFunction": "RadicalPageBuilder"
+    },
+    {
+      "name": "SearchListPage",
+      "pageSourceFile": "src/main/ets/pages/SearchListPage.ets",
+      "buildFunction": "SearchListPageBuilder"
+    },
+    {
+      "name": "StrokePage",
+      "pageSourceFile": "src/main/ets/pages/StrokePage.ets",
+      "buildFunction": "StrokePageBuilder"
+    },
+    {
+      "name": "SyllablePage",
+      "pageSourceFile": "src/main/ets/pages/SyllablePage.ets",
+      "buildFunction": "SyllablePageBuilder"
+    }
+  ]
+}

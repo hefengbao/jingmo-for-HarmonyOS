@@ -7,6 +7,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "utils": "file:../../../commons/utils",
+    "uicomponents": "file:../../../commons/uicomponents",
     "constants": "file:../../../commons/constants"
   }
 }

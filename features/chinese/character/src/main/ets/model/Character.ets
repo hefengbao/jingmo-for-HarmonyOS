@@ -110,6 +110,121 @@ export async function readRandomCharacter(): Promise<Character | null> {
   return obj;
 }
 
+export async function readCharacterById(id: number): Promise<Character | null> {
+  let character: Character | null = null;
+  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_CHARACTER_TABLE);
+  predicates.equalTo('id', id)
+
+  await DbUtil.objectiveRDB?.query(predicates)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          character = parse(resultSet)
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return character;
+}
+
+export async function searchCharacterByChar(char: string): Promise<Character[]> {
+  let list: Character[] = [];
+  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_CHARACTER_TABLE);
+  predicates.equalTo('character', char)
+
+  await DbUtil.objectiveRDB?.query(predicates)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          list.push(parse(resultSet))
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return list;
+}
+
+export async function searchCharacterByRadical(radical: string): Promise<Character[]> {
+  let list: Character[] = [];
+  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_CHARACTER_TABLE);
+  predicates.equalTo('radical', radical)
+
+  await DbUtil.objectiveRDB?.query(predicates)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          list.push(parse(resultSet))
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return list;
+}
+
+export async function searchCharacterByTone(tone: string): Promise<Character[]> {
+  let list: Character[] = [];
+  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_CHARACTER_TABLE);
+  predicates.equalTo('pinyin', tone)
+
+  await DbUtil.objectiveRDB?.query(predicates)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          list.push(parse(resultSet))
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return list;
+}
+
+export async function searchCharacterByStroke(stroke: number): Promise<Character[]> {
+  let list: Character[] = [];
+  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_CHARACTER_TABLE);
+  predicates.equalTo('stroke', stroke)
+
+  await DbUtil.objectiveRDB?.query(predicates)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          list.push(parse(resultSet))
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return list;
+}
+
 /**
  * @throws
  */
