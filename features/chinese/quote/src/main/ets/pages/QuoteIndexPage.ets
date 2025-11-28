@@ -1,6 +1,7 @@
 import { Icon, String } from 'constants';
 import { Quote, readRandomQuote } from '../model/Quote';
 import { QuoteView } from '../view/QuoteView';
+
 ;
 
 @Builder
