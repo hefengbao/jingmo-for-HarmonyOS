@@ -1,4 +1,6 @@
-export { MainPage } from './src/main/ets/pages/MainPage';
+export { WorldCulturalHeritageIndexPage } from './src/main/ets/pages/WorldCulturalHeritageIndexPage';
+
+export { WorldCulturalHeritageShowPage } from './src/main/ets/pages/WorldCulturalHeritageShowPage';
 
 export { WorldCulturalHeritage,
   createWorldCulturalHeritage,

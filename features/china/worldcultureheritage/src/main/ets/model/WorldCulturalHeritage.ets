@@ -87,6 +87,27 @@ export async function readWorldCulturalHeritage(id: number): Promise<WorldCultur
   return obj;
 }
 
+export async function readWorldCulturalHeritageList(): Promise<WorldCulturalHeritage[]> {
+  let list: WorldCulturalHeritage[] = []
+  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINA_WORLDCULTUREHERITAGE_TABLE);
+  await DbUtil.objectiveRDB?.query(predicates)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          list.push(parse(resultSet))
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    })
+    .catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    })
+  return list;
+}
+
 /**
  * @throws
  */
