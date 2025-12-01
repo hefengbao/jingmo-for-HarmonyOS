@@ -3,8 +3,8 @@ import hilog from '@ohos.hilog';
 import UIAbility from '@ohos.app.ability.UIAbility';
 import Want from '@ohos.app.ability.Want';
 import window from '@ohos.window';
-import DbUtil from "utils/src/main/ets/data/DbUtil";
-import PrefUtil from "utils/src/main/ets/data/PrefUtil";
+import DbUtil from 'utils/src/main/ets/data/DbUtil';
+import PrefUtil from 'utils/src/main/ets/data/PrefUtil';
 
 const DOMAIN = 0x0000;
 
