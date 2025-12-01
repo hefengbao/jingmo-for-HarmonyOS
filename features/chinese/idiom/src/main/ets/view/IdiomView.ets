@@ -20,18 +20,21 @@ export struct IdiomView {
         Text(this.idiom.explanation)
           .width('100%')
           .padding(ThemeConst.P_X16_Y8)
+          .lineHeight(24)
       }
       if (this.idiom.source) {
         BoldTitle({ text: '出处' })
         Text(this.parseSource(this.idiom.source))
           .width('100%')
           .padding(ThemeConst.P_X16_Y8)
+          .lineHeight(24)
       }
       if (this.idiom.quote) {
         BoldTitle({ text: '名著引用' })
         Text(this.parseQuote(this.idiom.quote))
           .width('100%')
           .padding(ThemeConst.P_X16_Y8)
+          .lineHeight(24)
       }
       if (this.idiom.story) {
         BoldTitle({ text: '成语故事' })
@@ -39,6 +42,7 @@ export struct IdiomView {
           Text(item)
             .width('100%')
             .padding(ThemeConst.P_X16_Y8)
+            .lineHeight(24)
         }))
       }
     }

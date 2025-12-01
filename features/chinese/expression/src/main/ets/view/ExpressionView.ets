@@ -21,18 +21,21 @@ export struct ExpressionView {
         Text(this.expression.explanation)
           .width('100%')
           .padding(ThemeConst.P_X16_Y8)
+          .lineHeight(24)
       }
       if (this.expression.source) {
         BoldTitle({ text: '出处' })
         Text(this.parseSource(this.expression.source))
           .width('100%')
           .padding(ThemeConst.P_X16_Y8)
+          .lineHeight(24)
       }
       if (this.expression.quote) {
         BoldTitle({ text: '名著引用' })
         Text(this.parseQuote(this.expression.quote))
           .width('100%')
           .padding(ThemeConst.P_X16_Y8)
+          .lineHeight(24)
       }
       if (this.expression.story) {
         BoldTitle({ text: '成语故事' })
@@ -40,6 +43,7 @@ export struct ExpressionView {
           Text(item)
             .width('100%')
             .padding(ThemeConst.P_X16_Y8)
+            .lineHeight(24)
         }))
       }
     }

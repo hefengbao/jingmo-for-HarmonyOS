@@ -11,6 +11,7 @@ export struct SentenceView {
         Text(this.sentence.content)
           .width('100%')
           .padding(ThemeConst.P_X16_Y8)
+          .lineHeight(24)
         Text(`—— ${this.sentence.from}`)
           .width('100%')
           .padding(ThemeConst.P_X16_Y8)

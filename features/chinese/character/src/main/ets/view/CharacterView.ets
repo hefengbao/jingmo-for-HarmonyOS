@@ -39,9 +39,10 @@ export struct CharacterView {
           Text(item)
             .width('100%')
             .padding(ThemeConst.P_X16_Y8)
+            .lineHeight(24)
         }))
       }
-      if (this.character.explanations2) {
+      if (this.character.explanations2 && this.character.explanations2.length) {
         BoldTitle({ text: '详细释义' })
         ForEach(this.character.explanations2, ((item: ExplanationItem, index: number) => {
           if (this.parseContent(item, index)) {
@@ -49,17 +50,20 @@ export struct CharacterView {
               Text(this.parseContent(item, index))
                 .width('100%')
                 .padding(ThemeConst.P_X16_Y8)
+                .lineHeight(24)
               Column() {
                 if (item.refer) {
                   Text(`<参考> ${item.refer}`)
                     .width('100%')
                     .padding(ThemeConst.P_X16_Y8)
+                    .lineHeight(24)
                 }
                 if (item.detail) {
                   ForEach(item.detail, (itemDetail: Detail) => {
                     Text(`<引> ${this.parseDetail(itemDetail)} `)
                       .width('100%')
                       .padding(ThemeConst.P_X16_Y8)
+                      .lineHeight(24)
                   })
                 }
                 if (item.words) {
@@ -67,12 +71,14 @@ export struct CharacterView {
                     Text(`<词> ${this.parseWord(word)} `)
                       .width('100%')
                       .padding(ThemeConst.P_X16_Y8)
+                      .lineHeight(24)
                   })
                 }
                 if (item.simplified) {
                   Text(`<简体> ${item.simplified} `)
                     .width('100%')
                     .padding(ThemeConst.P_X16_Y8)
+                    .lineHeight(24)
                 }
               }
             }

@@ -30,6 +30,7 @@ export struct UserAgreement {
           })
         Span('。')
       }
+      .lineHeight(24)
 
       Row() {
         Blank()

@@ -37,6 +37,7 @@ https://gitee.com/hefengbao/jingmo-for-HarmonyOS
             .width('100%')
             .padding(ThemeConst.PY_16)
             .copyOption(CopyOptions.InApp)
+            .lineHeight(24)
           Text('公众号：NowInLife')
             .width('100%')
             .padding(ThemeConst.PY_16)

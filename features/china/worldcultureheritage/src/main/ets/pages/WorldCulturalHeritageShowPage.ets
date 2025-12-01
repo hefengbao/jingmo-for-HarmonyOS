@@ -34,16 +34,20 @@ export struct WorldCulturalHeritageShowPage {
             BoldTitle({ text: '遗产分布' })
             Text(this.worldCulturalHeritage.address)
               .padding(ThemeConst.P_X16_Y8)
+              .lineHeight(24)
             BoldTitle({ text: '列入标准' })
             Text(this.worldCulturalHeritage.level)
               .padding(ThemeConst.P_X16_Y8)
+              .lineHeight(24)
             BoldTitle({ text: '列入时间' })
             Text(this.worldCulturalHeritage.year)
               .padding(ThemeConst.P_X16_Y8)
+              .lineHeight(24)
             if (this.worldCulturalHeritage.year2) {
               BoldTitle({ text: '扩展时间' })
               Text(this.worldCulturalHeritage.year2)
                 .padding(ThemeConst.P_X16_Y8)
+                .lineHeight(24)
             }
             BoldTitle({ text: '遗产介绍' })
             ForEach(this.parseHtmlString(this.worldCulturalHeritage.content),
@@ -51,6 +55,7 @@ export struct WorldCulturalHeritageShowPage {
                 if (item.type == 'p') {
                   Text(item.text)
                     .padding(ThemeConst.P_X16_Y8)
+                    .lineHeight(24)
                 } else if (item.type == 'em') {
                   Text(item.text)
                     .padding(ThemeConst.PX_16)

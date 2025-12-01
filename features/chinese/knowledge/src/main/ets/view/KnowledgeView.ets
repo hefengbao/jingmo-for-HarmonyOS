@@ -9,5 +9,6 @@ export struct KnowledgeView {
     Text(this.knowledge.content)
       .width('100%')
       .padding(ThemeConst.P_X16_Y8)
+      .lineHeight(24)
   }
 }

@@ -19,6 +19,7 @@ export struct AntitheticalCoupletView {
           .width('100%')
           .padding(ThemeConst.P_X16_Y8)
           .textAlign(TextAlign.Start)
+          .lineHeight(24)
       }
     }
     .width('100%')

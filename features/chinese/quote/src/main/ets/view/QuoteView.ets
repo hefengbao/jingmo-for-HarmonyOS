@@ -10,6 +10,7 @@ export struct QuoteView {
       Text(this.quote.content)
         .width('100%')
         .padding(ThemeConst.P_X16_Y8)
+        .lineHeight(24)
       Text(`—— ${this.quote.author}·${this.quote.from}`)
         .width('100%')
         .padding(ThemeConst.P_X16_Y8)
