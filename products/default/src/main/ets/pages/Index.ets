@@ -1,4 +1,4 @@
-import { HomePage } from 'home'
+import { HomePage } from 'home';
 
 @Entry
 @ComponentV2
@@ -6,15 +6,15 @@ struct Index {
   @Local startLaunch: boolean = true;
 
   aboutToAppear(): void {
-    setTimeout(()=>{
+    setTimeout(() => {
       this.startLaunch = false
     }, 2000)
   }
 
   build() {
-    if (this.startLaunch){
+    if (this.startLaunch) {
       Start()
-    }else {
+    } else {
       HomePage()
     }
   }
