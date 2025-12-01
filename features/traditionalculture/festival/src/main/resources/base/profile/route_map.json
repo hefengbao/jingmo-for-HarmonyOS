@@ -1,0 +1,14 @@
+{
+  "routerMap": [
+    {
+      "name": "FestivalIndexPage",
+      "pageSourceFile": "src/main/ets/pages/FestivalIndexPage.ets",
+      "buildFunction": "FestivalIndexPageBuilder"
+    },
+    {
+      "name": "FestivalShowPage",
+      "pageSourceFile": "src/main/ets/pages/FestivalShowPage.ets",
+      "buildFunction": "FestivalShowPageBuilder"
+    }
+  ]
+}
