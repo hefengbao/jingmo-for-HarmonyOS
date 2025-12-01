@@ -3,6 +3,9 @@ import { BusinessError } from '@kit.BasicServicesKit';
 import { Logger } from '../log/Logger';
 import { PrefConst } from 'constants';
 
+/**
+ * 在 products/default/src/main/ets/entryability/EntryAbility.ets 的 onCreate() 初始化
+ */
 export class PrefUtil {
   preference?: preferences.Preferences;
   logger: Logger = new Logger('PrefUtil');
@@ -15,6 +18,14 @@ export class PrefUtil {
       let err = error as BusinessError
       this.logger.error(`Init pref failed, code = ${err.code}, messge = ${err.message}`)
     }
+  }
+
+  saveUserAgreementVersion(version: number){
+    this.setNumber(PrefConst.USER_AGREEMENT_VERSION, version)
+  }
+
+  getUserAgreementVersion(): number{
+    return this.getNumber(PrefConst.USER_AGREEMENT_VERSION)
   }
 
   saveChinaWorldCulturalHeritageVersion(version: number) {

@@ -5,6 +5,8 @@ import { DbMigrationConst } from 'constants';
 
 /**
  * 官方文档：https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/data-persistence-by-rdb-store
+ *
+ * 在 products/default/src/main/ets/entryability/EntryAbility.ets 的 onWindowStageCreate() 初始化
  */
 export class DbUtil {
   objectiveRDB?: relationalStore.RdbStore;
@@ -27,7 +29,7 @@ export class DbUtil {
           return;
         }
         this.logger.info('Get RdbStore successfully.')
-
+        //TODO
         // 数据表迁移
         if (storeVersion == 0) {
           try {
