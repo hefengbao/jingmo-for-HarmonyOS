@@ -1,0 +1,14 @@
+{
+  "routerMap": [
+    {
+      "name": "ColorIndexPage",
+      "pageSourceFile": "src/main/ets/pages/ColorIndexPage.ets",
+      "buildFunction": "ColorIndexPageBuilder"
+    },
+    {
+      "name": "ColorShowPage",
+      "pageSourceFile": "src/main/ets/pages/ColorShowPage.ets",
+      "buildFunction": "ColorShowPageBuilder"
+    }
+  ]
+}
