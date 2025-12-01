@@ -4,6 +4,8 @@ export { DbMigrationConst, DbCRUDConst, DbTableConst } from './src/main/ets/DbCo
 
 export { Icon } from './src/main/ets/Icon';
 
+export { ParamNumberId, ParamStringId } from './src/main/ets/NavigationConst';
+
 export { NetworkConst } from './src/main/ets/NetworkConst';
 
 export { PrefConst } from './src/main/ets/PrefConst';

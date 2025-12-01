@@ -1,5 +1,6 @@
 export class PrefConst {
   static readonly PREF_NAME: string = "jingmo_pref";
+  static readonly USER_AGREEMENT_VERSION: string = 'user_agreement_version';
   static readonly CLASSICALLITERATURE_CLASSICPOEM: string = "classicalliterature_classicpoem";
   static readonly CLASSICALLITERATURE_WRITING: string = "classicalliterature_writing";
   static readonly CLASSICALLITERATURE_SENTENCE: string = "classicalliterature_sentence";
