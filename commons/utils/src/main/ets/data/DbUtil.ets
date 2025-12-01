@@ -1,7 +1,7 @@
 import { relationalStore } from '@kit.ArkData';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { Logger } from '../log/Logger';
-import { DbMigrationConst } from 'constants';
+import { AppConst, DbMigrationConst } from 'constants';
 
 /**
  * 官方文档：https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/data-persistence-by-rdb-store
@@ -29,91 +29,96 @@ export class DbUtil {
           return;
         }
         this.logger.info('Get RdbStore successfully.')
-        //TODO
-        // 数据表迁移
-        if (storeVersion == 0) {
-          try {
-            await rdbStore.execute(DbMigrationConst.CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE)
-          } catch (e) {
-            const err = e as BusinessError;
-            this.logger.error(`Failed to CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE. Code:${err.code}, message:${err.message}`);
-          }
 
-          try {
-            await rdbStore.execute(DbMigrationConst.CREATE_CLASSICALLITERATURE_CLASSICPOEM_TABLE)
-          } catch (e) {
-            const err = e as BusinessError;
-            this.logger.error(`Failed to CREATE_CLASSICALLITERATURE_CLASSICPOEM_TABLE. Code:${err.code}, message:${err.message}`);
+        // 数据表迁移(使用循环，确保可以跨版本升级)
+        while (storeVersion < AppConst.DB_VERSION){
+          if (storeVersion == 0) {
+            this.migration_0_1(rdbStore)
+            storeVersion = 1
           }
-
-          try {
-            await rdbStore.execute(DbMigrationConst.CREATE_CLASSICALLITERATURE_SENTENCE_TABLE)
-          } catch (e) {
-            const err = e as BusinessError;
-            this.logger.error(`Failed to CREATE_CLASSICALLITERATURE_SENTENCE_TABLE. Code:${err.code}, message:${err.message}`);
-          }
-
-          try {
-            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_ANTITHETICALCOUPLET_TABLE)
-          } catch (e) {
-            const err = e as BusinessError;
-            this.logger.error(`Failed to CREATE_CHINESE_ANTITHETICALCOUPLET_TABLE. Code:${err.code}, message:${err.message}`);
-          }
-
-          try {
-            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_CHARACTER_TABLE)
-          } catch (e) {
-            const err = e as BusinessError;
-            this.logger.error(`Failed to CREATE_CHINESE_CHARACTER_TABLE. Code:${err.code}, message:${err.message}`);
-          }
-
-          try {
-            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_EXPRESSION_TABLE)
-          } catch (e) {
-            const err = e as BusinessError;
-            this.logger.error(`Failed to CREATE_CHINESE_EXPRESSION_TABLE. Code:${err.code}, message:${err.message}`);
-          }
-
-          try {
-            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_IDIOM_TABLE)
-          } catch (e) {
-            const err = e as BusinessError;
-            this.logger.error(`Failed to CREATE_CHINESE_IDIOM_TABLE. Code:${err.code}, message:${err.message}`);
-          }
-
-          try {
-            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_KNOWLEDGE_TABLE)
-          } catch (e) {
-            const err = e as BusinessError;
-            this.logger.error(`Failed to CREATE_CHINESE_KNOWLEDGE_TABLE Code:${err.code}, message:${err.message}`);
-          }
-
-          try {
-            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_MODERNPOETRY_TABLE)
-          } catch (e) {
-            const err = e as BusinessError;
-            this.logger.error(`Failed to CREATE_CHINESE_MODERNPOETRY_TABLE. Code:${err.code}, message:${err.message}`);
-          }
-
-          try {
-            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_QUOTE_TABLE)
-          } catch (e) {
-            const err = e as BusinessError;
-            this.logger.error(`Failed to CREATE_CHINESE_QUOTE_TABLE. Code:${err.code}, message:${err.message}`);
-          }
-
-          try {
-            await rdbStore.execute(DbMigrationConst.CREATE_BOOKMARKS_TABLE)
-          } catch (e) {
-            const err = e as BusinessError;
-            this.logger.error(`Failed to CREATE_BOOKMARKS_TABLE. Code:${err.code}, message:${err.message}`);
-          }
-
-          storeVersion = 1
         }
 
         rdbStore.version = storeVersion
       })
+  }
+
+  private async migration_0_1 (rdbStore: relationalStore.RdbStore){
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CLASSICALLITERATURE_CLASSICPOEM_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CLASSICALLITERATURE_CLASSICPOEM_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CLASSICALLITERATURE_SENTENCE_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CLASSICALLITERATURE_SENTENCE_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_ANTITHETICALCOUPLET_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINESE_ANTITHETICALCOUPLET_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_CHARACTER_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINESE_CHARACTER_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_EXPRESSION_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINESE_EXPRESSION_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_IDIOM_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINESE_IDIOM_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_KNOWLEDGE_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINESE_KNOWLEDGE_TABLE Code:${err.code}, message:${err.message}`);
+    }
+
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_MODERNPOETRY_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINESE_MODERNPOETRY_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_QUOTE_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINESE_QUOTE_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_BOOKMARKS_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_BOOKMARKS_TABLE. Code:${err.code}, message:${err.message}`);
+    }
   }
 }
 
