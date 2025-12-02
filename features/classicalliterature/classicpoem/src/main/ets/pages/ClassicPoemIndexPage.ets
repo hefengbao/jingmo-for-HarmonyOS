@@ -1,6 +1,7 @@
 import { ClassicPoem, readRandomClassicPoem } from '../model/ClassicPoem';
-import { Icon, String } from 'constants';
+import { AvoidAreaObserver, Icon, String } from 'constants';
 import { ClassicPoemView } from '../view/ClassicPoemView';
+import { AppStorageV2 } from '@kit.ArkUI';
 
 @Builder
 export function ClassicPoemIndexPageBuilder() {
@@ -10,6 +11,8 @@ export function ClassicPoemIndexPageBuilder() {
 @ComponentV2
 export struct ClassicPoemIndexPage {
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local avoidAreaObserver: AvoidAreaObserver =
+    AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver())!;
   @Local classicPoem: ClassicPoem | null = null;
 
   aboutToAppear(): void {
@@ -35,6 +38,9 @@ export struct ClassicPoemIndexPage {
       .height('100%')
       .edgeEffect(EdgeEffect.Spring)
       .align(Alignment.TopStart)
+      .padding({
+        bottom: this.avoidAreaObserver.navigation?.bottomRect.height
+      })
     }
     .title(String.classicalliterature_classicpoem)
     .toolbarConfiguration([

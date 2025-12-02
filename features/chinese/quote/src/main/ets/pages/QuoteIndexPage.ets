@@ -1,6 +1,7 @@
-import { Icon, String } from 'constants';
+import { AvoidAreaObserver, Icon, String } from 'constants';
 import { Quote, readRandomQuote } from '../model/Quote';
 import { QuoteView } from '../view/QuoteView';
+import { AppStorageV2 } from '@kit.ArkUI';
 
 ;
 
@@ -12,6 +13,8 @@ export function QuoteIndexPageBuilder() {
 @ComponentV2
 export struct QuoteIndexPage {
   @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack();
+  @Local avoidAreaObserver: AvoidAreaObserver =
+    AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver())!;
   @Local quote: Quote | null = null;
 
   aboutToAppear(): void {
@@ -27,6 +30,9 @@ export struct QuoteIndexPage {
       }
       .width('100%')
       .height('100%')
+      .padding({
+        bottom: this.avoidAreaObserver.navigation?.bottomRect.height
+      })
       .edgeEffect(EdgeEffect.Spring)
       .align(Alignment.TopStart)
     }

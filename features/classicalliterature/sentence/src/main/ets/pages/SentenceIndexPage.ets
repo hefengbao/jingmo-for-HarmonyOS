@@ -1,6 +1,7 @@
-import { Icon, String } from 'constants';
+import { AvoidAreaObserver, Icon, String } from 'constants';
 import { readRandomSentence, Sentence } from '../model/Sentence';
 import { SentenceView } from '../view/SentenceView';
+import { AppStorageV2 } from '@kit.ArkUI';
 
 @Builder
 export function SentenceIndexPageBuilder() {
@@ -10,6 +11,8 @@ export function SentenceIndexPageBuilder() {
 @ComponentV2
 export struct SentenceIndexPage {
   @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack();
+  @Local avoidAreaObserver: AvoidAreaObserver =
+    AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver())!;
   @Local sentence: Sentence | null = null;
 
   aboutToAppear(): void {
@@ -33,6 +36,9 @@ export struct SentenceIndexPage {
       }
       .width('100%')
       .height('100%')
+      .padding({
+        bottom: this.avoidAreaObserver.navigation?.bottomRect.height
+      })
       .edgeEffect(EdgeEffect.Spring)
       .align(Alignment.TopStart)
     }

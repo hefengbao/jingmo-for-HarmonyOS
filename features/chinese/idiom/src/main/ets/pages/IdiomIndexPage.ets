@@ -1,6 +1,7 @@
-import { Icon, String } from 'constants';
+import { AvoidAreaObserver, Icon, String } from 'constants';
 import { Idiom, readRandomIdiom } from '../model/Idiom';
 import { IdiomView } from '../view/IdiomView';
+import { AppStorageV2 } from '@kit.ArkUI';
 
 @Builder
 export function IdiomIndexPageBuilder() {
@@ -10,6 +11,8 @@ export function IdiomIndexPageBuilder() {
 @ComponentV2
 export struct IdiomIndexPage {
   @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack();
+  @Local avoidAreaObserver: AvoidAreaObserver =
+    AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver())!;
   @Local idiom: Idiom | null = null;
 
   aboutToAppear(): void {
@@ -25,6 +28,9 @@ export struct IdiomIndexPage {
       }
       .width('100%')
       .height('100%')
+      .padding({
+        bottom: this.avoidAreaObserver.navigation?.bottomRect.height
+      })
       .edgeEffect(EdgeEffect.Spring)
       .align(Alignment.TopStart)
     }

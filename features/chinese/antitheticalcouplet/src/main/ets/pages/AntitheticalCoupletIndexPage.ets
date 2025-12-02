@@ -1,6 +1,7 @@
-import { Icon, String } from 'constants';
+import { AvoidAreaObserver, Icon, String } from 'constants';
 import { AntitheticalCouplet, readRandomAntitheticalCouplet } from '../model/AntitheticalCouplet';
 import { AntitheticalCoupletView } from '../view/AntitheticalCoupletView';
+import { AppStorageV2 } from '@kit.ArkUI';
 
 @Builder
 export function AntitheticalCoupletIndexPageBuilder() {
@@ -10,6 +11,8 @@ export function AntitheticalCoupletIndexPageBuilder() {
 @ComponentV2
 export struct AntitheticalCoupletIndexPage {
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local avoidAreaObserver: AvoidAreaObserver =
+    AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver())!;
   @Local antitheticalCouplet: AntitheticalCouplet | null = null;
 
   aboutToAppear(): void {
@@ -25,7 +28,9 @@ export struct AntitheticalCoupletIndexPage {
       }
       .width('100%')
       .height('100%')
-      .padding(16)
+      .padding({
+        bottom: this.avoidAreaObserver.navigation?.bottomRect.height
+      })
       .scrollable(ScrollDirection.Vertical)
       .edgeEffect(EdgeEffect.Spring)
       .align(Alignment.TopStart)

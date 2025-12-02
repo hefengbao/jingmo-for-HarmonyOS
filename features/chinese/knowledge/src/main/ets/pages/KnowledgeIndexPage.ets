@@ -1,6 +1,7 @@
-import { Icon, String } from 'constants';
+import { AvoidAreaObserver, Icon, String } from 'constants';
 import { Knowledge, readRandomKnowledge } from '../model/Knowledge';
 import { KnowledgeView } from '../view/KnowledgeView';
+import { AppStorageV2 } from '@kit.ArkUI';
 
 @Builder
 export function KnowledgeIndexPageBuilder() {
@@ -10,6 +11,8 @@ export function KnowledgeIndexPageBuilder() {
 @ComponentV2
 export struct KnowledgeIndexPage {
   @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack();
+  @Local avoidAreaObserver: AvoidAreaObserver =
+    AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver())!;
   @Local knowledge: Knowledge | null = null;
 
   aboutToAppear(): void {
@@ -25,6 +28,9 @@ export struct KnowledgeIndexPage {
       }
       .width('100%')
       .height('100%')
+      .padding({
+        bottom: this.avoidAreaObserver.navigation?.bottomRect.height
+      })
       .edgeEffect(EdgeEffect.Spring)
       .align(Alignment.TopStart)
     }

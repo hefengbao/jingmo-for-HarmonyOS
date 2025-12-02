@@ -1,7 +1,8 @@
-import { String } from 'constants';
+import { AvoidAreaObserver, String } from 'constants';
 import { Character, readCharacterById } from '../model/Character';
 import { ShowParam } from '../model/Param';
 import { CharacterView } from '../view/CharacterView';
+import { AppStorageV2 } from '@kit.ArkUI';
 
 @Builder
 export function CharacterShowPageBuilder() {
@@ -11,6 +12,8 @@ export function CharacterShowPageBuilder() {
 @ComponentV2
 export struct CharacterShowPage {
   @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack();
+  @Local avoidAreaObserver: AvoidAreaObserver =
+    AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver())!;
   @Local character: Character | null = null;
 
   build() {
@@ -22,6 +25,9 @@ export struct CharacterShowPage {
       }
       .width('100%')
       .height('100%')
+      .padding({
+        bottom: this.avoidAreaObserver.navigation?.bottomRect.height
+      })
       .edgeEffect(EdgeEffect.Spring)
       .align(Alignment.TopStart)
     }

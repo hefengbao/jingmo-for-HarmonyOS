@@ -1,7 +1,8 @@
-import { Icon, String } from 'constants';
+import { AvoidAreaObserver, Icon, String } from 'constants';
 import { Character, readRandomCharacter } from '../model/Character';
 import { SearchParam } from '../model/Param';
 import { CharacterView } from '../view/CharacterView';
+import { AppStorageV2 } from '@kit.ArkUI';
 
 @Builder
 export function CharacterIndexPageBuilder() {
@@ -11,6 +12,8 @@ export function CharacterIndexPageBuilder() {
 @ComponentV2
 export struct CharacterIndexPage {
   @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack();
+  @Local avoidAreaObserver: AvoidAreaObserver =
+    AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver())!;
   @Local character: Character | null = null;
 
   aboutToAppear(): void {
@@ -39,6 +42,9 @@ export struct CharacterIndexPage {
       }
       .width('100%')
       .height('100%')
+      .padding({
+        bottom: this.avoidAreaObserver.navigation?.bottomRect.height
+      })
       .edgeEffect(EdgeEffect.Spring)
       .align(Alignment.TopStart)
     }
