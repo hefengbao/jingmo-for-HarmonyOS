@@ -33,6 +33,10 @@
       "value": "导入数据"
     },
     {
+      "name": "import_data_help",
+      "value": "导入数据帮助"
+    },
+    {
       "name": "other",
       "value": "其他"
     },

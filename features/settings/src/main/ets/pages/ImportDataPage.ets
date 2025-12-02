@@ -21,6 +21,15 @@ export struct ImportDataPage {
       .edgeEffect(EdgeEffect.Spring)
     }
     .title($r('app.string.import_data'))
+    .menus([
+      {
+        value: "帮助",
+        icon: $r('app.media.ic_public_help'),
+        action: () => {
+          this.pageStack.pushPathByName('ImportDataHelpPage', null)
+        },
+      },
+    ])
     .onReady((ctx: NavDestinationContext) => {
       this.pageStack = ctx.pathStack
     })

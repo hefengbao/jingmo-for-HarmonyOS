@@ -17,6 +17,14 @@
       }
     },
     {
+      "name": "ImportDataHelpPage",
+      "pageSourceFile": "src/main/ets/pages/ImportDataHelpPage.ets",
+      "buildFunction": "ImportDataHelpPageBuilder",
+      "data": {
+        "description": "Import Data Help Page"
+      }
+    },
+    {
       "name": "ImportDataPage",
       "pageSourceFile": "src/main/ets/pages/ImportDataPage.ets",
       "buildFunction": "ImportDataPageBuilder",

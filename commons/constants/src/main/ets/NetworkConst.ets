@@ -7,6 +7,7 @@ export class NetworkConst {
   static readonly BASE_URL1: string = "https://p1-cdn.jingmo.ruaruan.com/api/";
   static readonly BASE_URL2: string = "https://p2-cdn.jingmo.ruaruan.com/api/";
   static readonly BASE_URL3: string = "https://p3-cdn.jingmo.ruaruan.com/api/";
+  static readonly HELP: string = "https://mp.weixin.qq.com/s/A4QxajgVkOr14uUBTGBLXA";
   static readonly DATASET: string = "dataset_v2";
   static readonly CHINA_WORLDCULTUREHERITAGE: string = "china_worldcultureheritage";
   static readonly CHINESE_ANTITHETICALCOUPLET: string = "chinese_antitheticalcouplet";
