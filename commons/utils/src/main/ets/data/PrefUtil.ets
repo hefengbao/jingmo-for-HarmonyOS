@@ -20,12 +20,20 @@ export class PrefUtil {
     }
   }
 
-  saveUserAgreementVersion(version: number){
+  saveUserAgreementVersion(version: number) {
     this.setNumber(PrefConst.USER_AGREEMENT_VERSION, version)
   }
 
-  getUserAgreementVersion(): number{
+  getUserAgreementVersion(): number {
     return this.getNumber(PrefConst.USER_AGREEMENT_VERSION)
+  }
+
+  saveIsFirstLaunch(bool: boolean) {
+    this.setBoolean(PrefConst.IS_FIRST_LAUNCH, bool)
+  }
+
+  getIsFirstLaunch(): boolean {
+    return this.getBoolean(PrefConst.IS_FIRST_LAUNCH, true)
   }
 
   saveChinaWorldCulturalHeritageVersion(version: number) {
@@ -100,6 +108,19 @@ export class PrefUtil {
     return this.getNumber(PrefConst.CLASSICALLITERATURE_SENTENCE)
   }
 
+  public getBoolean(key: string, defaultValue: boolean = false) {
+    let value = defaultValue;
+
+    try {
+      value = this.preference?.getSync(key, defaultValue) as boolean
+    } catch (error) {
+      let err = error as BusinessError
+      this.logger.error(`get data failed, key = ${key}, code = ${err.code}, messge = ${err.message}`)
+    }
+
+    return value;
+  }
+
   private setNumber(key: string, data: number) {
     try {
       this.preference?.putSync(key, data)
@@ -110,7 +131,7 @@ export class PrefUtil {
   }
 
   private getNumber(key: string, defaultValue: number = 0): number {
-    let value = 0
+    let value = defaultValue
     try {
       value = this.preference?.getSync(key, defaultValue) as number
     } catch (error) {
@@ -119,6 +140,15 @@ export class PrefUtil {
     }
 
     return value;
+  }
+
+  private setBoolean(key: string, data: boolean) {
+    try {
+      this.preference?.putSync(key, data)
+    } catch (error) {
+      let err = error as BusinessError
+      this.logger.error(`save data failed, key = ${key}, code = ${err.code}, messge = ${err.message}`)
+    }
   }
 }
 
