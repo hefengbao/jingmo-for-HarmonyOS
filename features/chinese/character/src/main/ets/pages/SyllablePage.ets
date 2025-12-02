@@ -79,6 +79,7 @@ export struct SyllablePage {
         .height('100%')
         .backgroundColor(ThemeConst.CardBackGroundColor_Normal)
         .scrollBar(BarState.Off)
+        .edgeEffect(EdgeEffect.None)
 
         List({ scroller: this.scroller }) {
           ForEach(this.syllables, (item: Syllable) => {
@@ -128,7 +129,7 @@ export struct SyllablePage {
         .width('100%')
         .height('100%')
         .layoutWeight(1)
-        .edgeEffect(EdgeEffect.None)
+        .edgeEffect(EdgeEffect.Spring)
         .onScrollIndex((start: number) => this.alphabetChangeAction(start, false))
       }
     }

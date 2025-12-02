@@ -58,6 +58,7 @@ export struct SearchListPage {
           .columnsGap(12)
           .rowsGap(12)
           .columnsTemplate('1fr 1fr 1fr')
+          .edgeEffect(EdgeEffect.None)
         }
       }
       .width('100%')

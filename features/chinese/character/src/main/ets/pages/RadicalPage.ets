@@ -50,6 +50,7 @@ export struct RadicalPage {
         .height('100%')
         .backgroundColor(ThemeConst.CardBackGroundColor_Normal)
         .scrollBar(BarState.Off)
+        .edgeEffect(EdgeEffect.None)
 
         List({ scroller: this.scroller }) {
           ForEach(this.radicalList, (item: Radical) => {
@@ -95,7 +96,7 @@ export struct RadicalPage {
         .width('100%')
         .height('100%')
         .layoutWeight(1)
-        .edgeEffect(EdgeEffect.None)
+        .edgeEffect(EdgeEffect.Spring)
         .onScrollIndex((start: number) => this.strokeChangeAction(start, false))
       }
     }

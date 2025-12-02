@@ -18,6 +18,7 @@ export struct ImportDataPage {
       .align(Alignment.TopStart)
       .width('100%')
       .height('100%')
+      .edgeEffect(EdgeEffect.Spring)
     }
     .title($r('app.string.import_data'))
     .onReady((ctx: NavDestinationContext) => {

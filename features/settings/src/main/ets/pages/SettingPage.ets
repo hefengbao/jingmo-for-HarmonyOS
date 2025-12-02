@@ -49,6 +49,8 @@ export struct SettingPage {
         .height('100%')
       }
       .height('100%')
+      .edgeEffect(EdgeEffect.Spring)
+      .align(Alignment.TopStart)
     }
     .title($r('app.string.settings'))
     .onReady((ctx: NavDestinationContext) => {
