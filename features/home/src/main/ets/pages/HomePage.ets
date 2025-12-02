@@ -1,9 +1,10 @@
 import { TopBar } from '../view/TopBar';
 import { MenuList } from '../view/MenuList';
-import { AppConst } from 'constants';
+import { AppConst, PrefConst } from 'constants';
 import PrefUtil from 'utils/src/main/ets/data/PrefUtil';
 import { UserAgreement } from '../view/UserAgreement';
 import { Logger } from 'utils';
+import { PromptAction, ShowDialogSuccessResponse } from '@kit.ArkUI';
 
 let logger: Logger = new Logger('HomePage')
 
@@ -11,8 +12,14 @@ let logger: Logger = new Logger('HomePage')
 export struct HomePage {
   @Provider('NavPathStack') pageStack: NavPathStack = new NavPathStack();
   @Local userAgreementVersionPref: number = PrefUtil.getUserAgreementVersion();
+  @Local isFirstLaunchPref: boolean = PrefUtil.getIsFirstLaunch();
+  @Local promptAction: PromptAction = this.getUIContext().getPromptAction();
   observer = (key: string) => {
-    this.userAgreementVersionPref = PrefUtil.getUserAgreementVersion()
+    if (key == PrefConst.USER_AGREEMENT_VERSION) {
+      this.userAgreementVersionPref = PrefUtil.getUserAgreementVersion();
+    } else if (key == PrefConst.IS_FIRST_LAUNCH) {
+      this.isFirstLaunchPref = PrefUtil.getIsFirstLaunch();
+    }
   }
 
   aboutToAppear(): void {
@@ -39,7 +46,24 @@ export struct HomePage {
         Column() {
           TopBar({ pageStack: this.pageStack })
           MenuList({ pageStack: this.pageStack })
-        }
+        }.onAppear(() => {
+          if (this.isFirstLaunchPref) {
+            this.promptAction.showDialog({
+              'title': '温馨提示',
+              'message': '如果是第一次使用，请点击右上角【设置】，点击【同步数据】或者【导入数据】获取数据。',
+              'buttons': [
+                {
+                  text: '知道了',
+                  color: '#000000',
+                },
+              ]
+            }, (error: BusinessError, data: ShowDialogSuccessResponse) => {
+              if (data.index == 0) {
+                PrefUtil.saveIsFirstLaunch(false)
+              }
+            })
+          }
+        })
       }
     }
     .mode(NavigationMode.Stack)
