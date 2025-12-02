@@ -1,4 +1,4 @@
-export { AppConst } from './src/main/ets/AppConst';
+export { AppConst, AvoidAreaObserver } from './src/main/ets/AppConst';
 
 export { DbMigrationConst, DbCRUDConst, DbTableConst } from './src/main/ets/DbConst';
 
