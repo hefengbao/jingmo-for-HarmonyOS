@@ -407,6 +407,7 @@ struct Item {
                 let context = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
                 let documentSelectOptions = new picker.DocumentSelectOptions();
+                documentSelectOptions.maxSelectNumber = 6;
                 let uris: string[] = [];
                 let error: BusinessError | null = null
                 documentSelectOptions.defaultFilePathUri = "file://docs/storage/Users/currentUser/Download"

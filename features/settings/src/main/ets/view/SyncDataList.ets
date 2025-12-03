@@ -127,6 +127,7 @@ export struct SyncDataList {
         this.chinaWorldCulturalHeritageTotal = item.count;
       }
     })
+
     try {
       PrefUtil.preference?.on('change', this.observer)
     } catch (error) {
@@ -351,8 +352,8 @@ export struct SyncDataList {
     this.chineseExpressionLoading = true;
     DatasetViewModel.getChineseExpressionList(this.chineseExpressionRemoteVersion, page)
       .then((wrapper: DataWrapper<Expression>) => {
-        wrapper.data.map((obj: Expression) => {
-          DatasetViewModel.insertChineseExpressionToDb(obj)
+        wrapper.data.map(async (obj: Expression) => {
+          await DatasetViewModel.insertChineseExpressionToDb(obj)
           this.chineseExpressionCount++;
         })
         if (wrapper.next_page) {
