@@ -147,6 +147,12 @@ class DatasetViewModel {
     })
   }
 
+  async batchInsertChineseExpressionToDb(objs: Expression[]) {
+    await this.batchInsertChineseExpressionToDb(objs).catch((error: BusinessError) => {
+      this.logger.error(`insertChineseExpressionToDb error, code = :${error.code}, message = ${error.message}`)
+    })
+  }
+
   getChineseIdiomList(version: number, page: number): Promise<DataWrapper<Idiom>> {
     return new Promise((resolve: Function, reject: Function) => {
       let url = `${NetworkConst.BASE_URL1}${NetworkConst.CHINESE_IDIOM}_v${version}_${page}.json`;

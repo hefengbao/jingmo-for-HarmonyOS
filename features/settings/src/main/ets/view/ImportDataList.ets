@@ -5,13 +5,13 @@ import { common } from '@kit.AbilityKit';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { BlockTitle } from 'uicomponents';
 import util from '@ohos.util';
-import { JSON } from '@kit.ArkTS';
+import { JSON, taskpool } from '@kit.ArkTS';
 import { ClassicPoem } from 'classicalliterature_classicpoem';
 import { Sentence } from 'classicalliterature_sentence';
 import { AntitheticalCouplet } from 'chinese_antitheticalcouplet';
 import { WorldCulturalHeritage } from 'china_worldcultureheritage';
 import { Character } from 'chinese_character';
-import { Expression } from 'chinese_expression';
+import { createExpression, Expression } from 'chinese_expression';
 import { Idiom } from 'chinese_idiom';
 import { Knowledge } from 'chinese_knowledge';
 import { Quote } from 'chinese_quote';
@@ -128,8 +128,8 @@ export struct ImportDataList {
             this.classicalliteratureClassicpoemLoading = false
             this.classicalliteratureClassicpoemError = error
           }
-          uris.forEach((uri: string) => {
-            let wrapper = JSON.parse(readData(uri)) as DataWrapper<ClassicPoem>
+          uris.forEach(async (uri: string) => {
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<ClassicPoem>
             if (wrapper) {
               this.classicalliteratureClassicpoemTotal = wrapper.total
               logger.info(`classicalliteratureClassicpoemTotal = ${this.classicalliteratureClassicpoemTotal}`)
@@ -155,8 +155,8 @@ export struct ImportDataList {
             this.classicalliteratureSentenceLoading = false
             this.classicalliteratureSentenceError = error
           }
-          uris.forEach((uri: string) => {
-            let wrapper = JSON.parse(readData(uri)) as DataWrapper<Sentence>
+          uris.forEach(async (uri: string) => {
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Sentence>
             if (wrapper) {
               this.classicalliteratureSentenceTotal = wrapper.total
               wrapper.data.forEach((obj: Sentence) => {
@@ -181,8 +181,8 @@ export struct ImportDataList {
           if (error) {
             this.chineseAntitheticalcoupletLoading = false
           }
-          uris.forEach((uri: string) => {
-            let wrapper = JSON.parse(readData(uri)) as DataWrapper<AntitheticalCouplet>
+          uris.forEach(async (uri: string) => {
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<AntitheticalCouplet>
             if (wrapper) {
               this.chineseAntitheticalcoupletTotal = wrapper.total
               wrapper.data.forEach((obj: AntitheticalCouplet) => {
@@ -207,8 +207,8 @@ export struct ImportDataList {
             this.chineseCharacterLoading = false
             this.chineseCharacterError = error
           }
-          uris.forEach((uri: string) => {
-            let wrapper = JSON.parse(readData(uri)) as DataWrapper<Character>
+          uris.forEach(async (uri: string) => {
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Character>
             if (wrapper) {
               this.chineseCharacterTotal = wrapper.total
               wrapper.data.forEach((obj: Character) => {
@@ -228,21 +228,33 @@ export struct ImportDataList {
         loadingStatusChange: (() => {
           this.chineseExpressionLoading = true
         }),
-        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+        clickEventCallback: (async (uris: string[], error: BusinessError | null) => {
+          let context: Context = this.getUIContext().getHostContext() as Context;
+
           if (error) {
             this.chineseExpressionLoading = false
             this.chineseExpressionError = error
+          } else {
+
+            let wrapper: DataWrapper<Expression> | null;
+
+            uris.forEach(async (uri: string) => {
+              wrapper = JSON.parse(await readData(uri)) as DataWrapper<Expression>
+              if (wrapper) {
+                this.chineseExpressionTotal = wrapper.total
+                try {
+                  taskpool.execute(insertData, context, wrapper.data).catch(() => {
+                    // TODO: Implement error handling.
+                  })
+                } catch (error) {
+                  let err = error as BusinessError
+                  logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+                }
+              }
+            })
+            wrapper = null;
+            this.chineseExpressionLoading = false;
           }
-          uris.forEach((uri: string) => {
-            let wrapper = JSON.parse(readData(uri)) as DataWrapper<Expression>
-            if (wrapper) {
-              this.chineseExpressionTotal = wrapper.total
-              wrapper.data.forEach((obj: Expression) => {
-                DatasetViewModel.insertChineseExpressionToDb(obj);
-              })
-            }
-          })
-          this.chineseExpressionLoading = false
         })
       })
       Item({
@@ -259,8 +271,9 @@ export struct ImportDataList {
             this.chineseIdiomLoading = false
             this.chineseIdiomError = error
           }
-          uris.forEach((uri: string) => {
-            let wrapper = JSON.parse(readData(uri)) as DataWrapper<Idiom>
+
+          uris.forEach(async (uri: string) => {
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Idiom>
             if (wrapper) {
               this.chineseIdiomTotal = wrapper.total
               wrapper.data.forEach((obj: Idiom) => {
@@ -285,8 +298,8 @@ export struct ImportDataList {
             this.chineseKnowledgeLoading = false
             this.chineseKnowledgeError = error
           }
-          uris.forEach((uri: string) => {
-            let wrapper = JSON.parse(readData(uri)) as DataWrapper<Knowledge>
+          uris.forEach(async (uri: string) => {
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Knowledge>
             if (wrapper) {
               this.chineseKnowledgeTotal = wrapper.total
               wrapper.data.forEach((obj: Knowledge) => {
@@ -311,8 +324,8 @@ export struct ImportDataList {
             this.chineseQuoteLoading = false
             this.chineseQuoteError = error
           }
-          uris.forEach((uri: string) => {
-            let wrapper = JSON.parse(readData(uri)) as DataWrapper<Quote>
+          uris.forEach(async (uri: string) => {
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Quote>
             if (wrapper) {
               this.chineseQuoteTotal = wrapper.total
               wrapper.data.forEach((obj: Quote) => {
@@ -337,14 +350,16 @@ export struct ImportDataList {
           if (error) {
             this.chinaWorldcultureheritageLoading = false
           }
-          uris.forEach((uri: string) => {
-            let wrapper = JSON.parse(readData(uri)) as DataWrapper<WorldCulturalHeritage>
+          uris.forEach(async (uri: string) => {
+            let wrapper: DataWrapper<WorldCulturalHeritage> | null =
+              JSON.parse(await readData(uri)) as DataWrapper<WorldCulturalHeritage>
             if (wrapper) {
               this.chinaWorldcultureheritageTotal = wrapper.total
               wrapper.data.forEach((obj: WorldCulturalHeritage) => {
                 DatasetViewModel.insertChinaWorldCulturalHeritageToDb(obj);
               })
             }
+            wrapper = null
           })
           this.chinaWorldcultureheritageLoading = false
         })
@@ -440,7 +455,32 @@ struct Item {
   }
 }
 
-function readData(uri: string): string {
+async function readData(uri: string): Promise<string> {
+  let text = '';
+  try {
+    let file = await fs.open(uri, fs.OpenMode.READ_ONLY);
+    let stat = await fs.stat(file.path)
+    let arrayBuffer = new ArrayBuffer(stat.size);
+    await fs.read(file.fd, arrayBuffer);
+    text = util.TextDecoder.create('utf-8').decodeToString(new Uint8Array(arrayBuffer))
+    logger.info(`readData = ${text}`)
+    //读取完成后关闭fd。
+    await fs.close(file);
+  } catch (error) {
+    let err = error as BusinessError
+    logger.error(`read data failed, code = ${err.code}, message = ${err.message}`)
+  }
+
+  return text
+}
+
+@Concurrent
+function writeData(args: Object[]) {
+  let logger: Logger = new Logger('ImportDataList writeData')
+  logger.info(`call writeData`)
+  let uri: string = args[0] as string;
+  logger.info(`call writeData uri = ${uri}}`)
+
   let text = '';
   try {
     let file = fs.openSync(uri, fs.OpenMode.READ_ONLY);
@@ -451,10 +491,64 @@ function readData(uri: string): string {
     logger.info(`readData = ${text}`)
     //读取完成后关闭fd。
     fs.closeSync(file);
+
+    let wrapper: DataWrapper<Expression> = JSON.parse(text) as DataWrapper<Expression>
+    if (wrapper) {
+      //this.chineseExpressionTotal = wrapper.total
+      wrapper.data.forEach((obj: Expression) => {
+        logger.info(`readData = ${text}`)
+        //DatasetViewModel.insertChineseExpressionToDb(obj);
+        createExpression(obj)
+      })
+    }
   } catch (error) {
     let err = error as BusinessError
     logger.error(`read data failed, code = ${err.code}, message = ${err.message}`)
   }
+}
 
-  return text
+@Concurrent
+async function insertData(context: Context, objs: Expression[]) {
+  let logger: Logger = new Logger('insertData')
+
+  const STORE_CONFIG: relationalStore.StoreConfig = {
+    name: 'jingmo.db',
+    securityLevel: relationalStore.SecurityLevel.S1,
+    tokenizer: relationalStore.Tokenizer.ICU_TOKENIZER
+  };
+
+  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, STORE_CONFIG);
+
+  for (let obj of objs) {
+    const valuesBucket: relationalStore.ValuesBucket = {
+      'id': obj.id,
+      'word': obj.word,
+      'pinyin': obj.pinyin,
+      'explanation': obj.explanation,
+      'source': JSON.stringify(obj.source),
+      'quote': JSON.stringify(obj.quote),
+      'example': JSON.stringify(obj.example),
+      'similar': JSON.stringify(obj.similar),
+      'opposite': JSON.stringify(obj.opposite),
+      'usage': obj.usage,
+      'story': JSON.stringify(obj.story),
+      'notice': obj.notice,
+    }
+    // 数据插入
+    try {
+      logger.info(`try insert ${obj.id}`)
+      store.insert(
+        DbTableConst.CHINESE_EXPRESSION_TABLE,
+        valuesBucket,
+        relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+      ).then((rowId: number) => {
+        logger.info(`insert id = ${rowId}`)
+      }).catch((err: BusinessError) => {
+        logger.error(`insert failed error code = ${err.code} message = ${err.message}`)
+      })
+    } catch (error) {
+      let err = error as BusinessError
+      logger.error(`insert failed error code = ${err.code} message = ${err.message}`)
+    }
+  }
 }

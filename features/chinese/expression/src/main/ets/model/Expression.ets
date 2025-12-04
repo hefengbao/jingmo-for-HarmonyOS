@@ -51,7 +51,7 @@ export class Expression {
   }
 }
 
-export async function createExpression(obj: Expression) {
+export async function createExpression(obj: Expression): Promise<number | undefined> {
   const valuesBucket: relationalStore.ValuesBucket = {
     'id': obj.id,
     'word': obj.word,
@@ -67,14 +67,16 @@ export async function createExpression(obj: Expression) {
     'notice': obj.notice,
   }
 
-  DbUtil.objectiveRDB?.insert(
+  return await DbUtil.objectiveRDB?.insert(
     DbTableConst.CHINESE_EXPRESSION_TABLE,
     valuesBucket,
     relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
   ).then((rowId: number) => {
     logger.info(`Insert is successful, rowId = ${rowId}`)
+    return rowId;
   }).catch((err: BusinessError) => {
     logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
+    return 0;
   })
 }
 
