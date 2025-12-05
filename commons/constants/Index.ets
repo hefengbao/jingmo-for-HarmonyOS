@@ -1,6 +1,6 @@
 export { AppConst, AvoidAreaObserver } from './src/main/ets/AppConst';
 
-export { DbMigrationConst, DbCRUDConst, DbTableConst } from './src/main/ets/DbConst';
+export { DbConfigConst, DbMigrationConst, DbCRUDConst, DbTableConst } from './src/main/ets/DbConst';
 
 export { Icon } from './src/main/ets/Icon';
 

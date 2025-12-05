@@ -1,7 +1,7 @@
 import { relationalStore } from '@kit.ArkData';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { Logger } from '../log/Logger';
-import { AppConst, DbMigrationConst } from 'constants';
+import { AppConst, DbConfigConst, DbMigrationConst } from 'constants';
 
 /**
  * 官方文档：https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/data-persistence-by-rdb-store
@@ -13,14 +13,7 @@ export class DbUtil {
   private logger: Logger = new Logger('RDBStoreUtil')
 
   init(context: Context) {
-
-    const STORE_CONFIG: relationalStore.StoreConfig = {
-      name: 'jingmo.db',
-      securityLevel: relationalStore.SecurityLevel.S1,
-      tokenizer: relationalStore.Tokenizer.ICU_TOKENIZER
-    };
-
-    relationalStore.getRdbStore(context, STORE_CONFIG,
+    relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG,
       async (error: BusinessError, rdbStore: relationalStore.RdbStore) => {
         this.objectiveRDB = rdbStore
         let storeVersion: number = rdbStore.version;
@@ -31,7 +24,7 @@ export class DbUtil {
         this.logger.info('Get RdbStore successfully.')
 
         // 数据表迁移(使用循环，确保可以跨版本升级)
-        while (storeVersion < AppConst.DB_VERSION){
+        while (storeVersion < AppConst.DB_VERSION) {
           if (storeVersion == 0) {
             this.migration_0_1(rdbStore)
             storeVersion = 1
@@ -42,7 +35,7 @@ export class DbUtil {
       })
   }
 
-  private async migration_0_1 (rdbStore: relationalStore.RdbStore){
+  private async migration_0_1(rdbStore: relationalStore.RdbStore) {
     try {
       await rdbStore.execute(DbMigrationConst.CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE)
     } catch (e) {

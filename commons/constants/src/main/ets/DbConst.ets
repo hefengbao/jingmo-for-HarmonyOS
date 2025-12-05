@@ -1,3 +1,13 @@
+import { relationalStore } from '@kit.ArkData';
+
+export class DbConfigConst {
+  static readonly STORE_CONFIG: relationalStore.StoreConfig = {
+    name: 'jingmo.db',
+    securityLevel: relationalStore.SecurityLevel.S1,
+    tokenizer: relationalStore.Tokenizer.ICU_TOKENIZER
+  };
+}
+
 export class DbTableConst {
   static readonly BOOKMARKS_TABLE: string = 'bookmarks';
   static readonly CLASSICALLITERATURE_CLASSICPOEM_TABLE: string = 'classicalliterature_classicpoem';
