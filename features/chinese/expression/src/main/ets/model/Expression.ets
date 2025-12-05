@@ -1,7 +1,7 @@
 import { IdiomExample, IdiomQuote, IdiomSource } from 'chinese_idiom';
 import { relationalStore } from '@kit.ArkData';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { DbCRUDConst, DbTableConst } from 'constants';
+import { DbConfigConst, DbCRUDConst, DbTableConst } from 'constants';
 import { Logger } from 'utils';
 import DbUtil from 'utils/src/main/ets/data/DbUtil';
 import { JSON } from '@kit.ArkTS';
@@ -78,6 +78,44 @@ export async function createExpression(obj: Expression): Promise<number | undefi
     logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
     return 0;
   })
+}
+
+@Concurrent
+export async function createExpressionList(context: Context, objs: Expression[]): Promise<void> {
+  let logger: Logger = new Logger('Expression createExpressionList');
+  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+
+  for (let obj of objs) {
+    const valuesBucket: relationalStore.ValuesBucket = {
+      'id': obj.id,
+      'word': obj.word,
+      'pinyin': obj.pinyin,
+      'explanation': obj.explanation,
+      'source': JSON.stringify(obj.source),
+      'quote': JSON.stringify(obj.quote),
+      'example': JSON.stringify(obj.example),
+      'similar': JSON.stringify(obj.similar),
+      'opposite': JSON.stringify(obj.opposite),
+      'usage': obj.usage,
+      'story': JSON.stringify(obj.story),
+      'notice': obj.notice,
+    }
+    // 数据插入
+    try {
+      store.insert(
+        DbTableConst.CHINESE_EXPRESSION_TABLE,
+        valuesBucket,
+        relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+      ).then((rowId: number) => {
+        logger.info(`insert id = ${rowId}`)
+      }).catch((err: BusinessError) => {
+        logger.error(`insert failed error code = ${err.code} message = ${err.message}`)
+      })
+    } catch (error) {
+      let err = error as BusinessError
+      logger.error(`insert failed error code = ${err.code} message = ${err.message}`)
+    }
+  }
 }
 
 export async function readRandomClassicPoem(): Promise<Expression | null> {
