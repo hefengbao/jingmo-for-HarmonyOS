@@ -11,19 +11,20 @@ import { Sentence } from 'classicalliterature_sentence';
 import { AntitheticalCouplet } from 'chinese_antitheticalcouplet';
 import { WorldCulturalHeritage } from 'china_worldcultureheritage';
 import { Character } from 'chinese_character';
-import { createExpression, Expression } from 'chinese_expression';
+import { createExpressionList, Expression } from 'chinese_expression';
 import { Idiom } from 'chinese_idiom';
 import { Knowledge } from 'chinese_knowledge';
 import { Quote } from 'chinese_quote';
 import { relationalStore } from '@kit.ArkData';
 import DbUtil from 'utils/src/main/ets/data/DbUtil';
-
+import { PromptAction, ShowDialogSuccessResponse } from '@kit.ArkUI';
 import DatasetViewModel from '../viewmodel//DatasetViewModel';
 
 let logger: Logger = new Logger('ImportDataList')
 
 @ComponentV2
 export struct ImportDataList {
+  @Local promptAction: PromptAction = this.getUIContext().getPromptAction();
   @Local classicalliteratureClassicpoemTotal: number = 0;
   @Local classicalliteratureClassicpoemCount: number = 0;
   @Local classicalliteratureClassicpoemError: BusinessError | null = null;
@@ -235,7 +236,6 @@ export struct ImportDataList {
             this.chineseExpressionLoading = false
             this.chineseExpressionError = error
           } else {
-
             let wrapper: DataWrapper<Expression> | null;
 
             uris.forEach(async (uri: string) => {
@@ -243,8 +243,8 @@ export struct ImportDataList {
               if (wrapper) {
                 this.chineseExpressionTotal = wrapper.total
                 try {
-                  taskpool.execute(insertData, context, wrapper.data).catch(() => {
-                    // TODO: Implement error handling.
+                  taskpool.execute(createExpressionList, context, wrapper.data).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 } catch (error) {
                   let err = error as BusinessError
@@ -366,6 +366,20 @@ export struct ImportDataList {
       })
     }
     .width('100%')
+    .onAppear(() => {
+      this.promptAction.showDialog({
+        'title': '温馨提示',
+        'message': '为了避免占用内存过多导致应用奔溃，请一项一项同步。',
+        'buttons': [
+          {
+            text: '知道了',
+            color: '#000000',
+          },
+        ]
+      }, (error: BusinessError, data: ShowDialogSuccessResponse) => {
+
+      })
+    })
   }
 }
 
@@ -422,7 +436,6 @@ struct Item {
                 let context = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
                 let documentSelectOptions = new picker.DocumentSelectOptions();
-                documentSelectOptions.maxSelectNumber = 6;
                 let uris: string[] = [];
                 let error: BusinessError | null = null
                 documentSelectOptions.defaultFilePathUri = "file://docs/storage/Users/currentUser/Download"
@@ -474,7 +487,7 @@ async function readData(uri: string): Promise<string> {
   return text
 }
 
-@Concurrent
+/*@Concurrent
 function writeData(args: Object[]) {
   let logger: Logger = new Logger('ImportDataList writeData')
   logger.info(`call writeData`)
@@ -505,9 +518,9 @@ function writeData(args: Object[]) {
     let err = error as BusinessError
     logger.error(`read data failed, code = ${err.code}, message = ${err.message}`)
   }
-}
+}*/
 
-@Concurrent
+/*@Concurrent
 async function insertData(context: Context, objs: Expression[]) {
   let logger: Logger = new Logger('insertData')
 
@@ -551,4 +564,4 @@ async function insertData(context: Context, objs: Expression[]) {
       logger.error(`insert failed error code = ${err.code} message = ${err.message}`)
     }
   }
-}
+}*/

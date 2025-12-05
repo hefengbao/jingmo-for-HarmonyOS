@@ -1,12 +1,12 @@
 import { BusinessError } from '@kit.BasicServicesKit';
 import { DataWrapper, Logger } from 'utils';
-import { Icon, PrefConst, String, ThemeConst } from 'constants';
+import { DbTableConst, Icon, PrefConst, String, ThemeConst } from 'constants';
 import DatasetViewModel from '../viewmodel/DatasetViewModel';
 import Dataset from '../model/Dataset';
 import { WorldCulturalHeritage } from 'china_worldcultureheritage';
 import { AntitheticalCouplet } from 'chinese_antitheticalcouplet';
 import { Character } from 'chinese_character';
-import { Expression } from 'chinese_expression';
+import { createExpressionList, Expression } from 'chinese_expression';
 import { Idiom } from 'chinese_idiom';
 import { Knowledge } from 'chinese_knowledge';
 import { Quote } from 'chinese_quote';
@@ -14,11 +14,16 @@ import { ClassicPoem } from 'classicalliterature_classicpoem';
 import { Sentence } from 'classicalliterature_sentence';
 import { BlockTitle } from 'uicomponents';
 import PrefUtil from 'utils/src/main/ets/data/PrefUtil';
+import { relationalStore } from '@kit.ArkData';
+import { taskpool } from '@kit.ArkTS';
+import DbUtil from 'utils/src/main/ets/data/DbUtil';
+import { PromptAction, ShowDialogSuccessResponse } from '@kit.ArkUI';
 
 let logger: Logger = new Logger('SyncData');
 
 @ComponentV2
 export struct SyncDataList {
+  @Local promptAction: PromptAction = this.getUIContext().getPromptAction();
   @Param @Require @Once dataset: Dataset[]
   @Local classicalliteratureClassicpoemLocalVersion: number = PrefUtil.getClassicalLiteratureClassicPoemVersion();
   @Local classicalliteratureClassicpoemRemoteVersion: number = 0;
@@ -74,6 +79,31 @@ export struct SyncDataList {
   @Local chinaWorldCulturalHeritageCount: number = 0;
   @Local chinaWorldCulturalHeritageLoading: boolean = false;
   @Local chinaWorldCulturalHeritageLoadingError: string | null = null;
+  changeInfos = (changeInfos: Array<relationalStore.ChangeInfo>) => {
+    for (let i = 0; i < changeInfos.length; i++) {
+      let info = changeInfos[i]
+      logger.info(`changeInfos: table = ${info.table}, type = ${info.type}, inserted = ${info.inserted}, updated = ${info.updated}`);
+      if (info.table == DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE) {
+        this.classicalliteratureClassicpoemCount++
+      } else if (info.table == DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE) {
+        this.classicalliteratureSentenceCount++
+      } else if (info.table == DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE) {
+        this.chineseAntitheticalCoupletCount++
+      } else if (info.table == DbTableConst.CHINESE_CHARACTER_TABLE) {
+        this.chineseCharacterCount++
+      } else if (info.table == DbTableConst.CHINESE_EXPRESSION_TABLE) {
+        this.chineseExpressionCount++
+      } else if (info.table == DbTableConst.CHINESE_IDIOM_TABLE) {
+        this.chineseIdiomCount++
+      } else if (info.table == DbTableConst.CHINESE_KNOWLEDGE_TABLE) {
+        this.chineseKnowledgeCount++
+      } else if (info.table == DbTableConst.CHINESE_QUOTE_TABLE) {
+        this.chineseQuoteCount++
+      } else if (info.table == DbTableConst.CHINA_WORLDCULTUREHERITAGE_TABLE) {
+        this.chinaWorldCulturalHeritageCount++
+      }
+    }
+  }
   observer = (key: string) => {
     if (key == PrefConst.CLASSICALLITERATURE_CLASSICPOEM) {
       this.classicalliteratureClassicpoemLocalVersion = PrefUtil.getClassicalLiteratureClassicPoemVersion();
@@ -133,6 +163,16 @@ export struct SyncDataList {
     } catch (error) {
       logger.error(`preference add change observer error = ${error}`);
     }
+
+    try {
+      DbUtil.objectiveRDB?.on(
+        'dataChange',
+        relationalStore.SubscribeType.SUBSCRIBE_TYPE_LOCAL_DETAILS,
+        this.changeInfos
+      )
+    } catch (error) {
+      logger.error(`add dataChange failed, error = ${error}`)
+    }
   }
 
   aboutToRecycle(): void {
@@ -140,6 +180,17 @@ export struct SyncDataList {
       PrefUtil.preference?.off('change', this.observer)
     } catch (error) {
       logger.error(`preference off change observer error = ${error}`);
+    }
+
+    try {
+      DbUtil.objectiveRDB?.off
+      (
+        'dataChange',
+        relationalStore.SubscribeType.SUBSCRIBE_TYPE_LOCAL_DETAILS,
+        this.changeInfos
+      )
+    } catch (error) {
+      logger.error(`off dataChange failed, error = ${error}`)
     }
   }
 
@@ -155,7 +206,7 @@ export struct SyncDataList {
         loading: this.classicalliteratureClassicpoemLoading,
         error: this.classicalliteratureClassicpoemLoadingError,
         clickEvent: (): void => {
-          this.syncClassicalLiteratureClassicPoem(1)
+          this.syncClassicalLiteratureClassicPoem()
         }
       })
       Item({
@@ -167,7 +218,7 @@ export struct SyncDataList {
         loading: this.classicalliteratureSentenceLoading,
         error: this.classicalliteratureSentenceLoadingError,
         clickEvent: (): void => {
-          this.syncClassicalLiteratureSentence(1)
+          this.syncClassicalLiteratureSentence()
         }
       })
       BlockTitle({ title: String.chinese })
@@ -180,7 +231,7 @@ export struct SyncDataList {
         loading: this.chineseAntitheticalCoupletLoading,
         error: this.chineseAntitheticalCoupletLoadingError,
         clickEvent: (): void => {
-          this.syncChineseAntitheticalCouplet(1)
+          this.syncChineseAntitheticalCouplet()
         }
       })
       Item({
@@ -192,7 +243,7 @@ export struct SyncDataList {
         loading: this.chineseCharacterLoading,
         error: this.chineseCharacterLoadingError,
         clickEvent: (): void => {
-          this.syncChineseCharacter(1)
+          this.syncChineseCharacter()
         }
       })
       Item({
@@ -204,7 +255,8 @@ export struct SyncDataList {
         loading: this.chineseExpressionLoading,
         error: this.chineseExpressionLoadingError,
         clickEvent: (): void => {
-          this.syncChineseExpression(1)
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncChineseExpression(context)
         }
       })
       Item({
@@ -216,7 +268,7 @@ export struct SyncDataList {
         loading: this.chineseIdiomLoading,
         error: this.chineseIdiomLoadingError,
         clickEvent: (): void => {
-          this.syncChineseIdiom(1)
+          this.syncChineseIdiom()
         }
       })
       Item({
@@ -228,7 +280,7 @@ export struct SyncDataList {
         loading: this.chineseKnowledgeLoading,
         error: this.chineseKnowledgeLoadingError,
         clickEvent: (): void => {
-          this.syncChineseKnowledge(1)
+          this.syncChineseKnowledge()
         }
       })
       Item({
@@ -240,7 +292,7 @@ export struct SyncDataList {
         loading: this.chineseQuoteLoading,
         error: this.chineseQuoteLoadingError,
         clickEvent: (): void => {
-          this.syncChineseQuote(1)
+          this.syncChineseQuote()
         }
       })
       BlockTitle({ title: String.china })
@@ -253,20 +305,33 @@ export struct SyncDataList {
         loading: this.chinaWorldCulturalHeritageLoading,
         error: this.chinaWorldCulturalHeritageLoadingError,
         clickEvent: (): void => {
-          this.syncChinaWorldCulturalHeritage(1)
+          this.syncChinaWorldCulturalHeritage()
         }
       })
     }
     .width('100%')
+    .onAppear(() => {
+      this.promptAction.showDialog({
+        'title': '温馨提示',
+        'message': '为了避免占用内存过多导致应用奔溃，请一项一项同步。',
+        'buttons': [
+          {
+            text: '知道了',
+            color: '#000000',
+          },
+        ]
+      }, (error: BusinessError, data: ShowDialogSuccessResponse) => {
+
+      })
+    })
   }
 
-  syncClassicalLiteratureClassicPoem(page: number) {
+  syncClassicalLiteratureClassicPoem(page: number = 1) {
     this.classicalliteratureClassicpoemLoading = true;
     DatasetViewModel.getClassicalLiteratureClassicPoemList(this.classicalliteratureClassicpoemRemoteVersion, page)
       .then((wrapper: DataWrapper<ClassicPoem>) => {
         wrapper.data.map((obj: ClassicPoem) => {
           DatasetViewModel.insertClassicalLiteratureClassicPoemToDb(obj);
-          this.classicalliteratureClassicpoemCount++;
         })
         if (wrapper.next_page) {
           this.syncClassicalLiteratureClassicPoem(wrapper.next_page);
@@ -282,13 +347,12 @@ export struct SyncDataList {
     })
   }
 
-  syncClassicalLiteratureSentence(page: number) {
+  syncClassicalLiteratureSentence(page: number = 1) {
     this.classicalliteratureSentenceLoading = true;
     DatasetViewModel.getClassicalLiteratureSentenceList(this.classicalliteratureSentenceRemoteVersion, page)
       .then((wrapper: DataWrapper<Sentence>) => {
         wrapper.data.map((obj: Sentence) => {
           DatasetViewModel.insertClassicalLiteratureSentenceToDb(obj);
-          this.classicalliteratureSentenceCount++;
         })
         if (wrapper.next_page) {
           this.syncClassicalLiteratureSentence(wrapper.next_page);
@@ -304,13 +368,12 @@ export struct SyncDataList {
     })
   }
 
-  syncChineseAntitheticalCouplet(page: number) {
+  syncChineseAntitheticalCouplet(page: number = 1) {
     this.chineseAntitheticalCoupletLoading = true;
     DatasetViewModel.getChineseAntitheticalCoupletList(this.chineseAntitheticalCoupletRemoteVersion, page)
       .then((wrapper: DataWrapper<AntitheticalCouplet>) => {
         wrapper.data.map((obj: AntitheticalCouplet) => {
           DatasetViewModel.insertChineseAntitheticalCoupletToDb(obj)
-          this.chineseAntitheticalCoupletCount++;
         })
         if (wrapper.next_page) {
           this.syncChineseAntitheticalCouplet(wrapper.next_page);
@@ -326,13 +389,12 @@ export struct SyncDataList {
     })
   }
 
-  syncChineseCharacter(page: number) {
+  syncChineseCharacter(page: number = 1) {
     this.chineseCharacterLoading = true;
     DatasetViewModel.getChineseCharacterList(this.chineseCharacterRemoteVersion, page)
       .then((wrapper: DataWrapper<Character>) => {
         wrapper.data.map((obj: Character) => {
           DatasetViewModel.insertChineseCharacterToDb(obj)
-          this.chineseCharacterCount++;
         })
         if (wrapper.next_page) {
           this.syncChineseCharacter(wrapper.next_page);
@@ -348,16 +410,24 @@ export struct SyncDataList {
     })
   }
 
-  syncChineseExpression(page: number) {
+  syncChineseExpression(context: Context, page: number = 1) {
     this.chineseExpressionLoading = true;
     DatasetViewModel.getChineseExpressionList(this.chineseExpressionRemoteVersion, page)
       .then((wrapper: DataWrapper<Expression>) => {
-        wrapper.data.map(async (obj: Expression) => {
+        /*wrapper.data.map(async (obj: Expression) => {
           await DatasetViewModel.insertChineseExpressionToDb(obj)
-          this.chineseExpressionCount++;
-        })
+        })*/
+        try {
+          taskpool.execute(createExpressionList, context, wrapper.data).catch((error: BusinessError) => {
+            logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+          })
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
+
         if (wrapper.next_page) {
-          this.syncChineseExpression(wrapper.next_page);
+          this.syncChineseExpression(context, wrapper.next_page);
         }
         if (!wrapper.next_page) {
           PrefUtil.saveChineseExpressionVersion(this.chineseExpressionRemoteVersion)
@@ -370,7 +440,7 @@ export struct SyncDataList {
     })
   }
 
-  syncChineseIdiom(page: number) {
+  syncChineseIdiom(page: number = 1) {
     this.chineseIdiomLoading = true;
     DatasetViewModel.getChineseIdiomList(this.chineseIdiomRemoteVersion, page)
       .then((wrapper: DataWrapper<Idiom>) => {
@@ -392,7 +462,7 @@ export struct SyncDataList {
     })
   }
 
-  syncChineseKnowledge(page: number) {
+  syncChineseKnowledge(page: number = 1) {
     this.chineseKnowledgeLoading = true;
     DatasetViewModel.getChineseKnowledgeList(this.chineseKnowledgeRemoteVersion, page)
       .then((wrapper: DataWrapper<Knowledge>) => {
@@ -414,7 +484,7 @@ export struct SyncDataList {
     })
   }
 
-  syncChineseQuote(page: number) {
+  syncChineseQuote(page: number = 1) {
     this.chineseQuoteLoading = true;
     DatasetViewModel.getChineseQuoteList(this.chineseQuoteRemoteVersion, page)
       .then((wrapper: DataWrapper<Quote>) => {
@@ -436,7 +506,7 @@ export struct SyncDataList {
     })
   }
 
-  syncChinaWorldCulturalHeritage(page: number) {
+  syncChinaWorldCulturalHeritage(page: number = 1) {
     this.chinaWorldCulturalHeritageLoading = true;
     DatasetViewModel.getChinaWorldCulturalHeritageList(this.chinaWorldCulturalHeritageRemoteVersion, page)
       .then((wrapper: DataWrapper<WorldCulturalHeritage>) => {
