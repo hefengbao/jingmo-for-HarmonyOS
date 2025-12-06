@@ -1,5 +1,5 @@
-import { webview } from '@kit.ArkWeb';
-import { NetworkConst } from 'constants';
+import { BoldTitle } from 'uicomponents';
+import { ThemeConst } from 'constants';
 
 @Builder
 export function ImportDataHelpPageBuilder() {
@@ -8,26 +8,20 @@ export function ImportDataHelpPageBuilder() {
 
 @ComponentV2
 export struct ImportDataHelpPage {
-  @Local webviewController: webview.WebviewController = new webview.WebviewController
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
-  @Local showLoading: boolean = false;
 
   build() {
     NavDestination() {
       Column() {
-        if (this.showLoading) {
-          LoadingProgress()
-            .width(80)
-            .height(80)
-        }
-        Web({ src: NetworkConst.HELP, controller: this.webviewController })
-          .domStorageAccess(true)
-          .onPageBegin(() => {
-            this.showLoading = true
-          })
-          .onPageEnd(() => {
-            this.showLoading = false
-          })
+        BoldTitle({ text: '下载数据' })
+        Text("关注公众号『NowInLife』,回复“京墨”获取最新网盘下载地址。")
+          .width('100%')
+          .padding(ThemeConst.P_X16_Y8)
+          .copyOption(CopyOptions.InApp)
+        BoldTitle({ text: '导入数据' })
+        Text("每个模块请选择【同名目录】里的数据，进入目录后，可以一次性选择所有文件导入。")
+          .width('100%')
+          .padding(ThemeConst.P_X16_Y8)
       }
       .height('100%')
       .width('100%')

@@ -50,7 +50,7 @@ export struct HomePage {
           if (this.isFirstLaunchPref) {
             this.promptAction.showDialog({
               'title': '温馨提示',
-              'message': '如果是第一次使用，请点击右上角【设置】，点击【同步数据】或者【导入数据】获取数据。',
+              'message': 'APP 以【离线数据】的方式提供服务，所以首次使用时请点击右上角【设置】，点击【同步数据】或者【导入数据】获取数据。\n成功获取数据后如果出现点击进入功能模块仍然显示空白的情况，请完全退出 APP 后重新打开。',
               'buttons': [
                 {
                   text: '知道了',

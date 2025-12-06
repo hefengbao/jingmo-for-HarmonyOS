@@ -9,7 +9,7 @@ export function AboutPageBuilder() {
 export struct AboutPage {
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
   @Local desc: string = `
-『京墨』开源的中华文化阅读 APP。献给喜欢中华文字、文学、文化的人。
+『京墨文库』开源的中华文化阅读 APP。献给喜欢中华文字、文学、文化的人。
 
 本应用使用的数据来自网络（主要是 Github 开源的仓库），可在项目仓库查看 README.md 中的说明。
 
