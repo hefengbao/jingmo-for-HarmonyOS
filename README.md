@@ -1,5 +1,3 @@
-![](./screenshot/0.png)
-
 <div align="center">
 <div align="center">
 <img src="./screenshot/logo.png" alt="Logo" height="200">
@@ -16,6 +14,8 @@
 </div>
 
 [京墨文库](https://github.com/hefengbao/jingmo) 开源的中华文化阅读 APP，诗（词）文（名句）、汉字、成语、词语、歇后语、绕口令、传统节日、传统色、节气、人物等。
+
+![](./screenshot/0.png)
 
 ## 仓库
 
