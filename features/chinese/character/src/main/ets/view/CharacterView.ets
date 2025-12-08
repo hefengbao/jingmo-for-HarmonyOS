@@ -113,7 +113,7 @@ export struct CharacterView {
       txt += detail.text;
     }
     if (detail.book) {
-      txt += `——《${detail.book}}》`
+      txt += `—— ${detail.book}`
     }
     return txt;
   }
