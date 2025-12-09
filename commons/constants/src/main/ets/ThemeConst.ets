@@ -1,8 +1,8 @@
 export class ThemeConst {
-  static readonly BackGroundColor_Clicked = "#f1f3f5";
-  static readonly BackGroundColor_Normal = '#ffffff';
-  static readonly CardBackGroundColor_Clicked = "#ffeaebec";
-  static readonly CardBackGroundColor_Normal = '#f1f3f5';
+  static readonly BackGroundColor_Pressed = $r('app.color.background_color_pressed');
+  static readonly BackGroundColor_Normal = $r('sys.color.background_primary');
+  static readonly CardBackGroundColor_Normal = $r('app.color.card_background_color_normal');
+  static readonly CardBackGroundColor_Pressed = $r('app.color.card_background_color_pressed');
   static readonly FontColor_BlockTitle = '#ff7a7a7a';
   static readonly FontSize_BlockTitle = 14;
   static readonly FontSize_14 = 14;

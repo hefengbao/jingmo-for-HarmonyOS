@@ -5,6 +5,30 @@
       "value": "设置"
     },
     {
+      "name": "ui",
+      "value": "UI"
+    },
+    {
+      "name": "theme_setting",
+      "value": "深色主题"
+    },
+    {
+      "name": "dark_mode",
+      "value": "深色模式"
+    },
+    {
+      "name": "theme_system",
+      "value": "跟随系统"
+    },
+    {
+      "name": "theme_light",
+      "value": "浅色"
+    },
+    {
+      "name": "theme_dark",
+      "value": "深色"
+    },
+    {
       "name": "feature",
       "value": "功能"
     },

@@ -1,0 +1,16 @@
+{
+  "color": [
+    {
+      "name": "background_color_pressed",
+      "value": "#FF222222"
+    },
+    {
+      "name": "card_background_color_normal",
+      "value": "#FF222222"
+    },
+    {
+      "name": "card_background_color_pressed",
+      "value": "#FF1A1A1A"
+    }
+  ]
+}

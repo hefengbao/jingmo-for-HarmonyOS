@@ -16,7 +16,7 @@ export struct Item {
           .backgroundColor(ThemeConst.CardBackGroundColor_Normal)
         },
         clicked: {
-          .backgroundColor(ThemeConst.CardBackGroundColor_Clicked)
+          .backgroundColor(ThemeConst.CardBackGroundColor_Pressed)
         }
       })
   }

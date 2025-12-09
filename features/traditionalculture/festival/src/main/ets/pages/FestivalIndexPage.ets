@@ -25,7 +25,7 @@ export struct FestivalIndexPage {
                   .backgroundColor(ThemeConst.BackGroundColor_Normal)
                 },
                 clicked: {
-                  .backgroundColor(ThemeConst.BackGroundColor_Clicked)
+                  .backgroundColor(ThemeConst.BackGroundColor_Pressed)
                 }
               })
               .onClick(() => {

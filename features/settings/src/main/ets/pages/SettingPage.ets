@@ -1,5 +1,8 @@
-import { ThemeConst } from 'constants';
 import { BlockTitle } from 'uicomponents';
+import { AdvancedDialogV2Button, SelectDialogV2 } from '@kit.ArkUI';
+import PrefUtil from 'utils/src/main/ets/data/PrefUtil';
+import { common, ConfigurationConstant } from '@kit.AbilityKit';
+import { ThemeConst } from 'constants';
 
 @Builder
 export function SettingPageBuilder() {
@@ -9,11 +12,87 @@ export function SettingPageBuilder() {
 @ComponentV2
 export struct SettingPage {
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local themeMode: number = PrefUtil.getSettingThemeMode(); // 选中项索引
+
+  @Builder
+  dialogBuilder(): void {
+    SelectDialogV2({
+      title: '请选择模式', // 必选标题
+      selectedIndex: this.themeMode, // 当前选中项
+      confirm: new AdvancedDialogV2Button({
+        content: '取消',
+        action: () => {
+        },
+      }),
+      radioContent: [
+        {
+          title: '跟随系统',
+          action: () => {
+            PrefUtil.saveSettingThemeMode(0);
+            this.themeMode = PrefUtil.getSettingThemeMode();
+            let context = this.getUIContext().getHostContext() as common.UIAbilityContext;
+            try {
+              context.setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET)
+            } catch (error) {
+              this.getUIContext().getPromptAction().showToast({
+                'message': '设置深色模式失败',
+                'duration': 1000
+              })
+            }
+          }
+        },
+        {
+          title: '深色模式',
+          action: () => {
+            PrefUtil.saveSettingThemeMode(1);
+            this.themeMode = PrefUtil.getSettingThemeMode();
+            let context = this.getUIContext().getHostContext() as common.UIAbilityContext;
+            try {
+              context.setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_DARK)
+            } catch (error) {
+              this.getUIContext().getPromptAction().showToast({
+                'message': '设置深色模式失败',
+                'duration': 1000
+              })
+            }
+          }
+        },
+        {
+          title: '浅色模式',
+          action: () => {
+            PrefUtil.saveSettingThemeMode(2);
+            this.themeMode = PrefUtil.getSettingThemeMode();
+            let context = this.getUIContext().getHostContext() as common.UIAbilityContext;
+            try {
+              context.setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_LIGHT)
+            } catch (error) {
+              this.getUIContext().getPromptAction().showToast({
+                'message': '设置深色模式失败',
+                'duration': 1000
+              })
+            }
+          }
+        },
+      ]
+    })
+  }
 
   build() {
     NavDestination() {
       Scroll() {
         Column() {
+          BlockTitle({ title: $r('app.string.ui') })
+          Item({ title: $r('app.string.theme_setting') })
+            .onClick(() => {
+              let uiContext: UIContext = this.getUIContext();
+              uiContext.getPromptAction().openCustomDialog({
+                builder: () => {
+                  this.dialogBuilder();
+                }
+              }).catch(() => {
+                // TODO: Implement error handling.
+              })
+            })
           BlockTitle({ title: $r('app.string.feature') })
           Item({ title: $r('app.string.sync_data') })
             .onClick(() => {
@@ -77,8 +156,8 @@ struct Item {
         normal: {
           .backgroundColor(ThemeConst.BackGroundColor_Normal)
         },
-        clicked: {
-          .backgroundColor(ThemeConst.BackGroundColor_Clicked)
+        pressed: {
+          .backgroundColor(ThemeConst.BackGroundColor_Pressed)
         }
       })
   }

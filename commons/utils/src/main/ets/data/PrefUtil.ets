@@ -36,6 +36,14 @@ export class PrefUtil {
     return this.getBoolean(PrefConst.IS_FIRST_LAUNCH, true)
   }
 
+  saveSettingThemeMode(mode: number) {
+    this.setNumber(PrefConst.SETTING_THEME_MODE, mode)
+  }
+
+  getSettingThemeMode(): number {
+    return this.getNumber(PrefConst.SETTING_THEME_MODE)
+  }
+
   saveChinaWorldCulturalHeritageVersion(version: number) {
     this.setNumber(PrefConst.CHINA_WORLDCULTUREHERITAGE, version)
   }

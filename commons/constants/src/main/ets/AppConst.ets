@@ -1,4 +1,5 @@
 import { window } from '@kit.ArkUI';
+import { ConfigurationConstant } from '@kit.AbilityKit';
 
 export class AppConst {
   static readonly DB_VERSION = 1; // 数据库迁移更新后，更新此值
@@ -12,5 +13,14 @@ export class AvoidAreaObserver {
 
   constructor(navigation?: window.AvoidArea) {
     this.navigation = navigation;
+  }
+}
+
+@ObservedV2
+export class ThemeColorModeObserver {
+  @Trace mode: ConfigurationConstant.ColorMode = ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET
+
+  constructor(mode: ConfigurationConstant.ColorMode = ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET) {
+    this.mode = mode;
   }
 }

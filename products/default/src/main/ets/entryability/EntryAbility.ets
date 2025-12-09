@@ -1,23 +1,40 @@
 import AbilityConstant from '@ohos.app.ability.AbilityConstant';
 import hilog from '@ohos.hilog';
-import UIAbility from '@ohos.app.ability.UIAbility';
+import { ConfigurationConstant, UIAbility } from '@kit.AbilityKit';
 import Want from '@ohos.app.ability.Want';
 import window from '@ohos.window';
 import DbUtil from 'utils/src/main/ets/data/DbUtil';
 import PrefUtil from 'utils/src/main/ets/data/PrefUtil';
 import { AppStorageV2 } from '@kit.ArkUI';
-import { AvoidAreaObserver } from 'constants';
+import { AvoidAreaObserver, ThemeColorModeObserver } from 'constants';
+import { Configuration } from '@ohos.app.ability.Configuration';
 
 const DOMAIN = 0x0000;
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     PrefUtil.init(this.context)
+    AppStorageV2.connect<ThemeColorModeObserver>(ThemeColorModeObserver,
+      () => new ThemeColorModeObserver(this.context.config.colorMode ??
+      ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET))
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
   }
 
   onDestroy(): void {
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onDestroy');
+  }
+
+  onConfigurationUpdate(newConfig: Configuration): void {
+    /**
+     * newConfig.colorMode 返回的值只有 0（COLOR_MODE_DARK） 和 1（COLOR_MODE_LIGHT）
+     */
+    let themeColorModeObserver =
+      AppStorageV2.connect<ThemeColorModeObserver>(ThemeColorModeObserver,
+        () => new ThemeColorModeObserver(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET)!);
+    if (newConfig.colorMode != undefined && newConfig.colorMode !== themeColorModeObserver?.mode) {
+      AppStorageV2.connect<ThemeColorModeObserver>(ThemeColorModeObserver,
+        () => new ThemeColorModeObserver(newConfig.colorMode!))
+    }
   }
 
   onWindowStageCreate(windowStage: window.WindowStage): void {
@@ -31,6 +48,18 @@ export default class EntryAbility extends UIAbility {
       }
       hilog.info(DOMAIN, 'testTag', 'Succeeded in loading the content.');
     });
+
+
+    let applicationContext = this.context.getApplicationContext();
+    try {
+      applicationContext.setColorMode(
+        PrefUtil.getSettingThemeMode() == 0 ? ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET :
+          (PrefUtil.getSettingThemeMode() == 1 ? ConfigurationConstant.ColorMode.COLOR_MODE_DARK :
+            ConfigurationConstant.ColorMode.COLOR_MODE_LIGHT)
+      );
+    } catch (error) {
+      // TODO: Implement error handling.
+    }
 
     /**
      * 尝试解决如下问题：

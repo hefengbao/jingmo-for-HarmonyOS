@@ -425,7 +425,7 @@ struct Item {
                 .backgroundColor(ThemeConst.BackGroundColor_Normal)
               },
               clicked: {
-                .backgroundColor(ThemeConst.BackGroundColor_Clicked)
+                .backgroundColor(ThemeConst.BackGroundColor_Pressed)
                 .borderRadius(18)
               }
             })
