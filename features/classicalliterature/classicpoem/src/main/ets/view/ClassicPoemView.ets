@@ -1,6 +1,6 @@
 import { ClassicPoem } from '../model/ClassicPoem';
 import { ThemeConst } from 'constants';
-import { BoldTitle, Content } from 'uicomponents';
+import { BoldTitle, ContentText } from 'uicomponents';
 
 @ComponentV2
 export struct ClassicPoemView {
@@ -19,28 +19,31 @@ export struct ClassicPoemView {
           .fontStyle(FontStyle.Italic)
           .padding(ThemeConst.P_X16_Y8)
       }
-      Text(this.classicPoem.content)
-        .padding(ThemeConst.P_X16_Y8)
-        .lineHeight(24)
+      ContentText({ text: this.classicPoem.content })
+
       if (this.classicPoem.annotation) {
         BoldTitle({ text: '注释' })
-        Content({ text: this.classicPoem.annotation })
+        ContentText({ text: this.classicPoem.annotation })
       }
+
       if (this.classicPoem.translation) {
         BoldTitle({ text: '译文' })
-        Content({ text: this.classicPoem.translation })
+        ContentText({ text: this.classicPoem.translation })
       }
+
       if (this.classicPoem.creative_background) {
         BoldTitle({ text: '创作背景' })
-        Content({ text: this.classicPoem.creative_background })
+        ContentText({ text: this.classicPoem.creative_background })
       }
+
       if (this.classicPoem.explain) {
         BoldTitle({ text: '赏析' })
-        Content({ text: this.classicPoem.explain })
+        ContentText({ text: this.classicPoem.explain })
       }
+
       if (this.classicPoem.comment) {
         BoldTitle({ text: '点评' })
-        Content({ text: this.classicPoem.comment })
+        ContentText({ text: this.classicPoem.comment })
       }
     }
   }

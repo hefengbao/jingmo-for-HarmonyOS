@@ -369,11 +369,11 @@ export struct ImportDataList {
     .onAppear(() => {
       this.promptAction.showDialog({
         'title': '温馨提示',
-        'message': '为了避免占用内存过多导致应用奔溃，请一项一项同步。',
+        'message': '为了避免占用内存过多导致应用奔溃，请一项一项导入。',
         'buttons': [
           {
             text: '知道了',
-            color: '#000000',
+            color: $r('sys.color.popup_text_primary_color'),
           },
         ]
       }, (error: BusinessError, data: ShowDialogSuccessResponse) => {
@@ -486,82 +486,3 @@ async function readData(uri: string): Promise<string> {
 
   return text
 }
-
-/*@Concurrent
-function writeData(args: Object[]) {
-  let logger: Logger = new Logger('ImportDataList writeData')
-  logger.info(`call writeData`)
-  let uri: string = args[0] as string;
-  logger.info(`call writeData uri = ${uri}}`)
-
-  let text = '';
-  try {
-    let file = fs.openSync(uri, fs.OpenMode.READ_ONLY);
-    let stat = fs.statSync(file.path)
-    let arrayBuffer = new ArrayBuffer(stat.size);
-    fs.readSync(file.fd, arrayBuffer);
-    text = util.TextDecoder.create('utf-8').decodeToString(new Uint8Array(arrayBuffer))
-    logger.info(`readData = ${text}`)
-    //读取完成后关闭fd。
-    fs.closeSync(file);
-
-    let wrapper: DataWrapper<Expression> = JSON.parse(text) as DataWrapper<Expression>
-    if (wrapper) {
-      //this.chineseExpressionTotal = wrapper.total
-      wrapper.data.forEach((obj: Expression) => {
-        logger.info(`readData = ${text}`)
-        //DatasetViewModel.insertChineseExpressionToDb(obj);
-        createExpression(obj)
-      })
-    }
-  } catch (error) {
-    let err = error as BusinessError
-    logger.error(`read data failed, code = ${err.code}, message = ${err.message}`)
-  }
-}*/
-
-/*@Concurrent
-async function insertData(context: Context, objs: Expression[]) {
-  let logger: Logger = new Logger('insertData')
-
-  const STORE_CONFIG: relationalStore.StoreConfig = {
-    name: 'jingmo.db',
-    securityLevel: relationalStore.SecurityLevel.S1,
-    tokenizer: relationalStore.Tokenizer.ICU_TOKENIZER
-  };
-
-  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, STORE_CONFIG);
-
-  for (let obj of objs) {
-    const valuesBucket: relationalStore.ValuesBucket = {
-      'id': obj.id,
-      'word': obj.word,
-      'pinyin': obj.pinyin,
-      'explanation': obj.explanation,
-      'source': JSON.stringify(obj.source),
-      'quote': JSON.stringify(obj.quote),
-      'example': JSON.stringify(obj.example),
-      'similar': JSON.stringify(obj.similar),
-      'opposite': JSON.stringify(obj.opposite),
-      'usage': obj.usage,
-      'story': JSON.stringify(obj.story),
-      'notice': obj.notice,
-    }
-    // 数据插入
-    try {
-      logger.info(`try insert ${obj.id}`)
-      store.insert(
-        DbTableConst.CHINESE_EXPRESSION_TABLE,
-        valuesBucket,
-        relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
-      ).then((rowId: number) => {
-        logger.info(`insert id = ${rowId}`)
-      }).catch((err: BusinessError) => {
-        logger.error(`insert failed error code = ${err.code} message = ${err.message}`)
-      })
-    } catch (error) {
-      let err = error as BusinessError
-      logger.error(`insert failed error code = ${err.code} message = ${err.message}`)
-    }
-  }
-}*/

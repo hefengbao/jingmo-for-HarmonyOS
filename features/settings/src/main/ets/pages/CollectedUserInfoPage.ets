@@ -1,3 +1,5 @@
+import { ContentText } from 'uicomponents';
+
 @Builder
 export function CollectedUserInfoPageBuilder() {
   CollectedUserInfoPage()
@@ -10,9 +12,7 @@ export struct CollectedUserInfoPage {
   build() {
     NavDestination() {
       Column() {
-        Text('不收集、保存任何用户信息。')
-          .width('100%')
-          .textAlign(TextAlign.Start)
+        ContentText({ text: '不收集、保存任何用户信息。' })
       }
       .width('100%')
       .padding(16)

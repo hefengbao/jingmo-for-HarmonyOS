@@ -1,14 +1,11 @@
-import { ThemeConst } from 'constants';
 import { Knowledge } from '../model/Knowledge';
+import { ContentText } from 'uicomponents';
 
 @ComponentV2
 export struct KnowledgeView {
   @Param @Require knowledge: Knowledge
 
   build() {
-    Text(this.knowledge.content)
-      .width('100%')
-      .padding(ThemeConst.P_X16_Y8)
-      .lineHeight(24)
+    ContentText({ text: this.knowledge.content })
   }
 }

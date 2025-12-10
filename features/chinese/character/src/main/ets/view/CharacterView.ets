@@ -1,5 +1,5 @@
 import { ThemeConst } from 'constants';
-import { BoldTitle } from 'uicomponents';
+import { BoldTitle, ContentText } from 'uicomponents';
 import { Character, Detail, ExplanationItem, Word } from '../model/Character';
 
 @ComponentV2
@@ -14,32 +14,21 @@ export struct CharacterView {
         .fontWeight(FontWeight.Bold)
         .fontSize(24)
       if (this.character.pinyin) {
-        Text('拼音：' + this.character.pinyin)
-          .width('100%')
-          .padding(ThemeConst.P_X16_Y8)
+        ContentText({ text: '拼音：' + this.character.pinyin })
       }
       if (this.character.radical) {
-        Text('部首：' + this.character.radical)
-          .width('100%')
-          .padding(ThemeConst.P_X16_Y8)
+        ContentText({ text: '部首：' + this.character.radical })
       }
       if (this.character.stroke) {
-        Text('笔画：' + this.character.stroke)
-          .width('100%')
-          .padding(ThemeConst.P_X16_Y8)
+        ContentText({ text: '笔画：' + this.character.stroke })
       }
       if (this.character.wubi) {
-        Text('五笔：' + this.character.wubi)
-          .width('100%')
-          .padding(ThemeConst.P_X16_Y8)
+        ContentText({ text: '五笔：' + this.character.wubi })
       }
       if (this.character.explanations) {
         BoldTitle({ text: '简要释义' })
         ForEach(this.character.explanations, ((item: string) => {
-          Text(item)
-            .width('100%')
-            .padding(ThemeConst.P_X16_Y8)
-            .lineHeight(24)
+          ContentText({ text: item })
         }))
       }
       if (this.character.explanations2 && this.character.explanations2.length) {
@@ -47,38 +36,23 @@ export struct CharacterView {
         ForEach(this.character.explanations2, ((item: ExplanationItem, index: number) => {
           if (this.parseContent(item, index)) {
             Column() {
-              Text(this.parseContent(item, index))
-                .width('100%')
-                .padding(ThemeConst.P_X16_Y8)
-                .lineHeight(24)
+              ContentText({ text: this.parseContent(item, index) })
               Column() {
                 if (item.refer) {
-                  Text(`<参考> ${item.refer}`)
-                    .width('100%')
-                    .padding(ThemeConst.P_X16_Y8)
-                    .lineHeight(24)
+                  ContentText({ text: `<参考> ${item.refer}` })
                 }
                 if (item.detail) {
                   ForEach(item.detail, (itemDetail: Detail) => {
-                    Text(`<引> ${this.parseDetail(itemDetail)} `)
-                      .width('100%')
-                      .padding(ThemeConst.P_X16_Y8)
-                      .lineHeight(24)
+                    ContentText({ text: `<引> ${this.parseDetail(itemDetail)}` })
                   })
                 }
                 if (item.words) {
                   ForEach(item.words, (word: Word) => {
-                    Text(`<词> ${this.parseWord(word)} `)
-                      .width('100%')
-                      .padding(ThemeConst.P_X16_Y8)
-                      .lineHeight(24)
+                    ContentText({ text: `<词> ${this.parseWord(word)}` })
                   })
                 }
                 if (item.simplified) {
-                  Text(`<简体> ${item.simplified} `)
-                    .width('100%')
-                    .padding(ThemeConst.P_X16_Y8)
-                    .lineHeight(24)
+                  ContentText({ text: `<简体> ${item.simplified}` })
                 }
               }
             }

@@ -1,4 +1,5 @@
 import { AppConst, ThemeConst } from 'constants';
+import { ContentText } from 'uicomponents';
 
 @Builder
 export function AboutPageBuilder() {
@@ -30,25 +31,15 @@ https://gitee.com/hefengbao/jingmo-for-HarmonyOS
     NavDestination() {
       Scroll() {
         Column() {
-          Text('❤贺丰宝（hefengbao）设计和编码❤')
-            .width('100%')
-            .padding(ThemeConst.PY_16)
-          Text(this.desc)
-            .width('100%')
-            .padding(ThemeConst.PY_16)
-            .copyOption(CopyOptions.InApp)
-            .lineHeight(24)
-          Text('公众号：NowInLife')
-            .width('100%')
-            .padding(ThemeConst.PY_16)
-            .copyOption(CopyOptions.InApp)
+          ContentText({ text: '❤贺丰宝（hefengbao）设计和编码❤' })
+          ContentText({ text: this.desc })
+          ContentText({ text: '公众号：NowInLife' })
 
           Hyperlink('https://beian.miit.gov.cn', `备案号：${AppConst.ICP}`)
             .width('100%')
             .padding(ThemeConst.PY_16)
             .color(Color.Gray)
         }
-        .padding(ThemeConst.P_16)
       }
       .width('100%')
       .height('100%')

@@ -1,5 +1,5 @@
 import { Sentence } from '../model/Sentence';
-import { ThemeConst } from 'constants';
+import { ContentAuthor, ContentText } from 'uicomponents';
 
 @ComponentV2
 export struct SentenceView {
@@ -8,15 +8,8 @@ export struct SentenceView {
   build() {
     Column() {
       Column() {
-        Text(this.sentence.content)
-          .width('100%')
-          .padding(ThemeConst.P_X16_Y8)
-          .lineHeight(24)
-        Text(`—— ${this.sentence.from}`)
-          .width('100%')
-          .padding(ThemeConst.P_X16_Y8)
-          .fontSize(ThemeConst.FontSize_14)
-          .fontStyle(FontStyle.Italic)
+        ContentText({ text: this.sentence.content })
+        ContentAuthor({ text: this.sentence.from })
       }
     }
     .width('100%')

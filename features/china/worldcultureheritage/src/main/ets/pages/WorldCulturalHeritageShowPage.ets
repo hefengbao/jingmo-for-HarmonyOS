@@ -1,7 +1,7 @@
 import { String, ThemeConst } from 'constants';
 import { readWorldCulturalHeritage, WorldCulturalHeritage } from '../model/WorldCulturalHeritage';
 import { ShowParam } from '../model/Param';
-import { BoldTitle } from 'uicomponents';
+import { BoldTitle, ContentText } from 'uicomponents';
 import { webview } from '@kit.ArkWeb';
 import { HtmlStringParse } from '../model/HtmlStringParse';
 import { Logger } from 'utils';
@@ -31,31 +31,26 @@ export struct WorldCulturalHeritageShowPage {
               .padding(ThemeConst.P_X16_Y8)
               .fontColor(Color.Gray)
               .fontSize(ThemeConst.FontSize_14)
+
             BoldTitle({ text: '遗产分布' })
-            Text(this.worldCulturalHeritage.address)
-              .padding(ThemeConst.P_X16_Y8)
-              .lineHeight(24)
+            ContentText({ text: this.worldCulturalHeritage.address })
+
             BoldTitle({ text: '列入标准' })
-            Text(this.worldCulturalHeritage.level)
-              .padding(ThemeConst.P_X16_Y8)
-              .lineHeight(24)
+            ContentText({ text: this.worldCulturalHeritage.level })
+
             BoldTitle({ text: '列入时间' })
-            Text(this.worldCulturalHeritage.year)
-              .padding(ThemeConst.P_X16_Y8)
-              .lineHeight(24)
+            ContentText({ text: this.worldCulturalHeritage.year })
+
             if (this.worldCulturalHeritage.year2) {
               BoldTitle({ text: '扩展时间' })
-              Text(this.worldCulturalHeritage.year2)
-                .padding(ThemeConst.P_X16_Y8)
-                .lineHeight(24)
+              ContentText({ text: this.worldCulturalHeritage.year2 })
             }
+
             BoldTitle({ text: '遗产介绍' })
             ForEach(this.parseHtmlString(this.worldCulturalHeritage.content),
-              (item: HtmlStringParse, index: number) => {
+              (item: HtmlStringParse) => {
                 if (item.type == 'p') {
-                  Text(item.text)
-                    .padding(ThemeConst.P_X16_Y8)
-                    .lineHeight(24)
+                  ContentText({ text: item.text })
                 } else if (item.type == 'em') {
                   Text(item.text)
                     .padding(ThemeConst.PX_16)

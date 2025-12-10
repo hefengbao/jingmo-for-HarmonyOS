@@ -15,16 +15,16 @@ export struct UserAgreement {
       Text() {
         Span('欢迎使用『京墨文库』APP，为了更好的保护您的个人信息和隐私，在使用『京墨文库』服务之前，请仔细阅读')
         Span('《用户协议》')
-          .fontColor(Color.Blue)
+          .fontColor($r('sys.color.ohos_id_color_text_hyperlink'))
           .fontStyle(FontStyle.Italic)
-          .decoration({ type: TextDecorationType.Underline, color: Color.Blue })
+          .decoration({ type: TextDecorationType.Underline, color: $r('sys.color.ohos_id_color_text_hyperlink') })
           .onClick(() => {
             this.pageStack.pushPathByName('TosPage', null)
           })
         Span('和')
         Span('《隐私政策》')
-          .fontColor(Color.Blue)
-          .decoration({ type: TextDecorationType.Underline, color: Color.Blue })
+          .fontColor($r('sys.color.ohos_id_color_text_hyperlink'))
+          .decoration({ type: TextDecorationType.Underline, color: $r('sys.color.ohos_id_color_text_hyperlink') })
           .onClick(() => {
             this.pageStack.pushPathByName('PrivacyPage', null)
           })

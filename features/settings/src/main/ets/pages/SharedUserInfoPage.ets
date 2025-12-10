@@ -1,3 +1,5 @@
+import { ContentText } from 'uicomponents';
+
 @Builder
 export function SharedUserInfoPageBuilder() {
   SharedUserInfoPage()
@@ -10,9 +12,7 @@ export struct SharedUserInfoPage {
   build() {
     NavDestination() {
       Column() {
-        Text('不向第三方共享任何用户数据')
-          .width('100%')
-          .textAlign(TextAlign.Start)
+        ContentText({ text: '不向第三方共享任何用户数据' })
       }
       .width('100%')
       .padding(16)

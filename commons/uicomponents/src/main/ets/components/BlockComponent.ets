@@ -7,12 +7,7 @@ export struct BlockTitle {
   build() {
     Text(this.title)
       .width('100%')
-      .padding({
-        left: 16,
-        top: 8,
-        right: 16,
-        bottom: 8
-      })
+      .padding(ThemeConst.P_X16_Y8)
       .fontColor(ThemeConst.FontColor_BlockTitle)
       .fontSize(ThemeConst.FontSize_BlockTitle)
   }

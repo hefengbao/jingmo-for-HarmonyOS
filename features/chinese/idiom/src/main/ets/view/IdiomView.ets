@@ -1,5 +1,5 @@
 import { Idiom, IdiomQuote, IdiomSource } from '../model/Idiom';
-import { BoldTitle } from 'uicomponents';
+import { BoldTitle, ContentText } from 'uicomponents';
 import { ThemeConst } from 'constants';
 
 @ComponentV2
@@ -12,37 +12,27 @@ export struct IdiomView {
         .width('100%')
         .padding(ThemeConst.P_X16_Y8)
         .fontSize(12)
-      Text(this.idiom.word)
-        .width('100%')
-        .padding(ThemeConst.P_X16_Y8)
+      ContentText({ text: this.idiom.word })
+
       if (this.idiom.explanation) {
         BoldTitle({ text: '释义' })
-        Text(this.idiom.explanation)
-          .width('100%')
-          .padding(ThemeConst.P_X16_Y8)
-          .lineHeight(24)
+        ContentText({ text: this.idiom.explanation })
       }
+
       if (this.idiom.source) {
         BoldTitle({ text: '出处' })
-        Text(this.parseSource(this.idiom.source))
-          .width('100%')
-          .padding(ThemeConst.P_X16_Y8)
-          .lineHeight(24)
+        ContentText({ text: this.parseSource(this.idiom.source) })
       }
+
       if (this.idiom.quote) {
         BoldTitle({ text: '名著引用' })
-        Text(this.parseQuote(this.idiom.quote))
-          .width('100%')
-          .padding(ThemeConst.P_X16_Y8)
-          .lineHeight(24)
+        ContentText({ text: this.parseQuote(this.idiom.quote) })
       }
+
       if (this.idiom.story) {
         BoldTitle({ text: '成语故事' })
         ForEach(this.idiom.story, ((item: string) => {
-          Text(item)
-            .width('100%')
-            .padding(ThemeConst.P_X16_Y8)
-            .lineHeight(24)
+          ContentText({ text: item })
         }))
       }
     }

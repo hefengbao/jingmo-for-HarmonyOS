@@ -317,7 +317,7 @@ export struct SyncDataList {
         'buttons': [
           {
             text: '知道了',
-            color: '#000000',
+            color: $r('sys.color.popup_text_primary_color'),
           },
         ]
       }, (error: BusinessError, data: ShowDialogSuccessResponse) => {
@@ -414,9 +414,6 @@ export struct SyncDataList {
     this.chineseExpressionLoading = true;
     DatasetViewModel.getChineseExpressionList(this.chineseExpressionRemoteVersion, page)
       .then((wrapper: DataWrapper<Expression>) => {
-        /*wrapper.data.map(async (obj: Expression) => {
-          await DatasetViewModel.insertChineseExpressionToDb(obj)
-        })*/
         try {
           taskpool.execute(createExpressionList, context, wrapper.data).catch((error: BusinessError) => {
             logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)

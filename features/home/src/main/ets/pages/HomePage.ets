@@ -54,7 +54,7 @@ export struct HomePage {
               'buttons': [
                 {
                   text: '知道了',
-                  color: '#000000',
+                  color: $r('sys.color.popup_text_primary_color'),
                 },
               ]
             }, (error: BusinessError, data: ShowDialogSuccessResponse) => {
