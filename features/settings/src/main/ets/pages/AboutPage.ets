@@ -1,5 +1,6 @@
-import { AppConst, ThemeConst } from 'constants';
+import { AppConst, Icon, ThemeConst } from 'constants';
 import { ContentText } from 'uicomponents';
+import { bundleManager } from '@kit.AbilityKit';
 
 @Builder
 export function AboutPageBuilder() {
@@ -9,6 +10,7 @@ export function AboutPageBuilder() {
 @ComponentV2
 export struct AboutPage {
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local versionName: string = '';
   @Local desc: string = `
 『京墨文库』开源的中华文化阅读 APP。献给喜欢中华文字、文学、文化的人。
 
@@ -27,17 +29,39 @@ https://gitee.com/hefengbao/jingmo-for-HarmonyOS
 如果有人想要♥赞助♥本项目，可在公众号文章中赞赏👍。
   `;
 
+  aboutToAppear(): void {
+    bundleManager.getBundleInfoForSelf(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION).then((bundleInfo) => {
+      this.versionName = bundleInfo.versionName; //应用版本名
+      let versionNo = bundleInfo.versionCode; //应用版本号
+    }).catch((error: BusinessError) => {
+      console.error("get bundleInfo failed,error is " + error)
+    })
+  }
+
   build() {
     NavDestination() {
       Scroll() {
         Column() {
+          Row() {
+            Column() {
+              Image(Icon.app_icon)
+                .width(80)
+                .height(80)
+                .background(Color.White)
+              Text(this.versionName)
+                .margin({ top: 8 })
+                .fontSize(14)
+            }
+          }
+          .align(Alignment.Center)
+          .margin({ bottom: 16 })
+
           ContentText({ text: '❤贺丰宝（hefengbao）设计和编码❤' })
           ContentText({ text: this.desc })
           ContentText({ text: '公众号：NowInLife' })
-
           Hyperlink('https://beian.miit.gov.cn', `备案号：${AppConst.ICP}`)
             .width('100%')
-            .padding(ThemeConst.PY_16)
+            .padding(ThemeConst.P_X16_Y8)
             .color(Color.Gray)
         }
       }

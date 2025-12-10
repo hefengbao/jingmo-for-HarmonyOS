@@ -1,4 +1,5 @@
 export class Icon {
+  static readonly app_icon: Resource = $r('app.media.foreground')
   static readonly ic_bookmark: Resource = $r('app.media.ic_bookmark');
   static readonly ic_bookmark_border: Resource = $r('app.media.ic_bookmark_border');
   static readonly ic_public_cloud_download: Resource = $r('app.media.ic_public_cloud_download');
