@@ -1,11 +1,24 @@
 {
   "routerMap": [
     {
+      "name": "ClassicPoemBookmarkPage",
+      "pageSourceFile": "src/main/ets/pages/BookmarkPage.ets",
+      "buildFunction": "BookmarkPageBuilder"
+    },
+    {
       "name": "ClassicPoemIndexPage",
-      "pageSourceFile": "src/main/ets/pages/ClassicPoemIndexPage.ets",
-      "buildFunction": "ClassicPoemIndexPageBuilder",
+      "pageSourceFile": "src/main/ets/pages/IndexPage.ets",
+      "buildFunction": "IndexPageBuilder",
       "data": {
         "description": "ClassicPoem Index Page"
+      }
+    },
+    {
+      "name": "ClassicPoemShowPage",
+      "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
+      "buildFunction": "ShowPageBuilder",
+      "data": {
+        "description": "ClassicPoem Show Page"
       }
     }
   ]

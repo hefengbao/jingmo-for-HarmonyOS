@@ -8,6 +8,7 @@
   "dependencies": {
     "utils": "file:../../../commons/utils",
     "uicomponents": "file:../../../commons/uicomponents",
-    "constants": "file:../../../commons/constants"
+    "constants": "file:../../../commons/constants",
+    "bookmark": "file:../../bookmark"
   }
 }

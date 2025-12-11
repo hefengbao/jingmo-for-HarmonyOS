@@ -26,7 +26,7 @@ export class Quote {
   }
 }
 
-export async function createQuote(obj: Quote) {
+export async function insertQuote(obj: Quote) {
   const valuesBucket: relationalStore.ValuesBucket = {
     'id': obj.id,
     'content': obj.content,
@@ -34,7 +34,7 @@ export async function createQuote(obj: Quote) {
     'from_txt': obj.from,
   }
 
-  DbUtil.objectiveRDB?.insert(
+  await DbUtil.objectiveRDB?.insert(
     DbTableConst.CHINESE_QUOTE_TABLE,
     valuesBucket,
     relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
@@ -45,8 +45,8 @@ export async function createQuote(obj: Quote) {
   })
 }
 
-export async function readRandomQuote(): Promise<Quote | null> {
-  let obj: Quote | null = null
+export async function getRandomQuote(): Promise<Quote | undefined> {
+  let obj: Quote | undefined;
 
   await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_QUOTE)
     .then((resultSet: relationalStore.ResultSet) => {
@@ -64,6 +64,51 @@ export async function readRandomQuote(): Promise<Quote | null> {
     });
 
   return obj;
+}
+
+export async function getQuote(id: number): Promise<Quote | undefined> {
+  let obj: Quote | undefined;
+
+  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_QUOTE_TABLE)
+  predicates.equalTo('id', id);
+
+  await DbUtil.objectiveRDB?.query(predicates)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          obj = parse(resultSet)
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return obj;
+}
+
+export async function getBookmarks(): Promise<Quote[]> {
+  let objs: Quote[] = [];
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CHINESE_QUOTE_BOOKMARKS)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          objs.push(parse(resultSet))
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return objs;
 }
 
 /**

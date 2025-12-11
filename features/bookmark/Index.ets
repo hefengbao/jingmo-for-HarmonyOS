@@ -1,1 +1,3 @@
-export { BookmarkIndexPage as BookmarkIndex } from './src/main/ets/pages/BookmarkIndexPage';
+export {
+  addBookmark, cancelBookmark, getBookmark, Bookmark
+} from './src/main/ets/model/Bookmark';

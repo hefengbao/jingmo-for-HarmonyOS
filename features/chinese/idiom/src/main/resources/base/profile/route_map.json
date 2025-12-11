@@ -1,9 +1,19 @@
 {
   "routerMap": [
     {
+      "name": "IdiomBookmarkPage",
+      "pageSourceFile": "src/main/ets/pages/BookmarkPage.ets",
+      "buildFunction": "BookmarkPageBuilder"
+    },
+    {
       "name": "IdiomIndexPage",
-      "pageSourceFile": "src/main/ets/pages/IdiomIndexPage.ets",
-      "buildFunction": "IdiomIndexPageBuilder"
+      "pageSourceFile": "src/main/ets/pages/IndexPage.ets",
+      "buildFunction": "IndexPageBuilder"
+    },
+    {
+      "name": "IdiomShowPage",
+      "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
+      "buildFunction": "ShowPageBuilder"
     }
   ]
 }

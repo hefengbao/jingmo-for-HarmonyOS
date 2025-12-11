@@ -1,32 +1,37 @@
 {
   "routerMap": [
     {
+      "name": "CharacterBookmarkPage",
+      "pageSourceFile": "src/main/ets/pages/BookmarkPage.ets",
+      "buildFunction": "BookmarkPageBuilder"
+    },
+    {
       "name": "CharacterIndexPage",
-      "pageSourceFile": "src/main/ets/pages/CharacterIndexPage.ets",
-      "buildFunction": "CharacterIndexPageBuilder"
+      "pageSourceFile": "src/main/ets/pages/IndexPage.ets",
+      "buildFunction": "IndexPageBuilder"
     },
     {
       "name": "CharacterShowPage",
-      "pageSourceFile": "src/main/ets/pages/CharacterShowPage.ets",
-      "buildFunction": "CharacterShowPageBuilder"
+      "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
+      "buildFunction": "ShowPageBuilder"
     },
     {
-      "name": "RadicalPage",
+      "name": "CharacterRadicalPage",
       "pageSourceFile": "src/main/ets/pages/RadicalPage.ets",
       "buildFunction": "RadicalPageBuilder"
     },
     {
-      "name": "SearchListPage",
+      "name": "CharacterSearchListPage",
       "pageSourceFile": "src/main/ets/pages/SearchListPage.ets",
       "buildFunction": "SearchListPageBuilder"
     },
     {
-      "name": "StrokePage",
+      "name": "CharacterStrokePage",
       "pageSourceFile": "src/main/ets/pages/StrokePage.ets",
       "buildFunction": "StrokePageBuilder"
     },
     {
-      "name": "SyllablePage",
+      "name": "CharacterSyllablePage",
       "pageSourceFile": "src/main/ets/pages/SyllablePage.ets",
       "buildFunction": "SyllablePageBuilder"
     }

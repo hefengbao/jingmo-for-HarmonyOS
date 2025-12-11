@@ -25,7 +25,7 @@ export class AntitheticalCouplet {
   }
 }
 
-export async function createAntitheticalCouplet(obj: AntitheticalCouplet) {
+export async function insertAntitheticalCouplet(obj: AntitheticalCouplet) {
   const valuesBucket: relationalStore.ValuesBucket = {
     'id': obj.id,
     'body': obj.body,
@@ -33,7 +33,7 @@ export async function createAntitheticalCouplet(obj: AntitheticalCouplet) {
     'image': obj.image,
   }
 
-  DbUtil.objectiveRDB?.insert(
+  await DbUtil.objectiveRDB?.insert(
     DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE,
     valuesBucket,
     relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
@@ -44,8 +44,8 @@ export async function createAntitheticalCouplet(obj: AntitheticalCouplet) {
   })
 }
 
-export async function readRandomAntitheticalCouplet(): Promise<AntitheticalCouplet | null> {
-  let obj: AntitheticalCouplet | null = null
+export async function getRandomAntitheticalCouplet(): Promise<AntitheticalCouplet | undefined> {
+  let obj: AntitheticalCouplet | undefined
 
   await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_ANTITHETICALCOUPLET)
     .then((resultSet: relationalStore.ResultSet) => {
@@ -63,6 +63,51 @@ export async function readRandomAntitheticalCouplet(): Promise<AntitheticalCoupl
     });
 
   return obj;
+}
+
+export async function getAntitheticalCouplet(id: number): Promise<AntitheticalCouplet | undefined> {
+  let obj: AntitheticalCouplet | undefined
+
+  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE)
+  predicates.equalTo('id', id)
+
+  await DbUtil.objectiveRDB?.query(predicates)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          obj = parse(resultSet)
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return obj;
+}
+
+export async function getBookmarks(): Promise<AntitheticalCouplet[]> {
+  let objs: AntitheticalCouplet[] = [];
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CHINESE_ANTITHETICALCOUPLETI_BOOKMARKS)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          objs.push(parse(resultSet))
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return objs;
 }
 
 /**

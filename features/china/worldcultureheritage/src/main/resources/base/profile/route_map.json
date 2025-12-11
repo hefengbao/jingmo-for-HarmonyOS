@@ -2,13 +2,13 @@
   "routerMap": [
     {
       "name": "WorldCulturalHeritageIndexPage",
-      "pageSourceFile": "src/main/ets/pages/WorldCulturalHeritageIndexPage.ets",
-      "buildFunction": "WorldCulturalHeritageIndexPageBuilder"
+      "pageSourceFile": "src/main/ets/pages/IndexPage.ets",
+      "buildFunction": "IndexPageBuilder"
     },
     {
       "name": "WorldCulturalHeritageShowPage",
-      "pageSourceFile": "src/main/ets/pages/WorldCulturalHeritageShowPage.ets",
-      "buildFunction": "WorldCulturalHeritageShowPageBuilder"
+      "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
+      "buildFunction": "ShowPageBuilder"
     }
   ]
 }

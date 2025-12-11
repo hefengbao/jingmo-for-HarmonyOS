@@ -6,7 +6,7 @@ import Dataset from '../model/Dataset';
 import { WorldCulturalHeritage } from 'china_worldcultureheritage';
 import { AntitheticalCouplet } from 'chinese_antitheticalcouplet';
 import { Character } from 'chinese_character';
-import { createExpressionList, Expression } from 'chinese_expression';
+import { Expression, insertExpressionList } from 'chinese_expression';
 import { Idiom } from 'chinese_idiom';
 import { Knowledge } from 'chinese_knowledge';
 import { Quote } from 'chinese_quote';
@@ -415,7 +415,7 @@ export struct SyncDataList {
     DatasetViewModel.getChineseExpressionList(this.chineseExpressionRemoteVersion, page)
       .then((wrapper: DataWrapper<Expression>) => {
         try {
-          taskpool.execute(createExpressionList, context, wrapper.data).catch((error: BusinessError) => {
+          taskpool.execute(insertExpressionList, context, wrapper.data).catch((error: BusinessError) => {
             logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
           })
         } catch (error) {

@@ -68,7 +68,7 @@ export class IdiomExample {
   book: string | null = null;
 }
 
-export async function createIdiom(obj: Idiom) {
+export async function insertIdiom(obj: Idiom) {
   const valuesBucket: relationalStore.ValuesBucket = {
     'id': obj.id,
     'word': obj.word,
@@ -85,7 +85,7 @@ export async function createIdiom(obj: Idiom) {
     'notice': obj.notice,
   }
 
-  DbUtil.objectiveRDB?.insert(
+  await DbUtil.objectiveRDB?.insert(
     DbTableConst.CHINESE_IDIOM_TABLE,
     valuesBucket,
     relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
@@ -96,8 +96,8 @@ export async function createIdiom(obj: Idiom) {
   })
 }
 
-export async function readRandomIdiom(): Promise<Idiom | null> {
-  let obj: Idiom | null = null
+export async function getRandomIdiom(): Promise<Idiom | undefined> {
+  let obj: Idiom | undefined;
 
   await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_IDIOM)
     .then((resultSet: relationalStore.ResultSet) => {
@@ -115,6 +115,51 @@ export async function readRandomIdiom(): Promise<Idiom | null> {
     });
 
   return obj;
+}
+
+export async function getIdiom(id: number): Promise<Idiom | undefined> {
+  let obj: Idiom | undefined;
+
+  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_IDIOM_TABLE);
+  predicates.equalTo('id', id);
+
+  await DbUtil.objectiveRDB?.query(predicates)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          obj = parse(resultSet)
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return obj;
+}
+
+export async function getBookmarks(): Promise<Idiom[]> {
+  let objs: Idiom[] = [];
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CHINESE_IDIOM_BOOKMARKS)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          objs.push(parse(resultSet));
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return objs;
 }
 
 /**

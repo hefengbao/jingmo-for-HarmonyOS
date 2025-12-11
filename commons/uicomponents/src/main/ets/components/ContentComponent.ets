@@ -15,12 +15,14 @@ export struct BoldTitle {
 
 @ComponentV2
 export struct ContentText {
-  @Param @Require text: string | Resource
+  @Param @Require text: string | Resource;
+  @Param textAlign: TextAlign = TextAlign.Start
 
   build() {
     Text(this.text)
       .padding(ThemeConst.P_X16_Y8)
       .width('100%')
+      .textAlign(this.textAlign)
       .lineHeight(24)
       .copyOption(CopyOptions.InApp)
   }

@@ -1,4 +1,4 @@
-import { ThemeConst } from 'constants';
+import { ParamNumberId, ThemeConst } from 'constants';
 import { Logger } from 'utils';
 import {
   Character,
@@ -7,7 +7,7 @@ import {
   searchCharacterByStroke,
   searchCharacterByTone
 } from '../model/Character';
-import { SearchParam, ShowParam } from '../model/Param';
+import { SearchParam } from '../model/Param';
 
 @Builder
 export function SearchListPageBuilder() {
@@ -48,7 +48,7 @@ export struct SearchListPage {
                     }
                   })
                   .onClick(() => {
-                    this.pageStack.pushPathByName('CharacterShowPage', new ShowParam(item.id))
+                    this.pageStack.pushPathByName('CharacterShowPage', new ParamNumberId(item.id))
                   })
               }
             }, (item: Character) => item.id.toString(),)

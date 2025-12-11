@@ -123,6 +123,10 @@
     {
       "name": "solarterm",
       "srcPath": "./features/traditionalculture/solarterm",
+    },
+    {
+      "name": "link",
+      "srcPath": "./features/link",
     }
   ]
 }

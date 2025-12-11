@@ -1,12 +1,22 @@
 {
   "routerMap": [
     {
+      "name": "SentenceBookmarkPage",
+      "pageSourceFile": "src/main/ets/pages/BookmarkPage.ets",
+      "buildFunction": "BookmarkPageBuilder"
+    },
+    {
       "name": "SentenceIndexPage",
-      "pageSourceFile": "src/main/ets/pages/SentenceIndexPage.ets",
-      "buildFunction": "SentenceIndexPageBuilder",
+      "pageSourceFile": "src/main/ets/pages/IndexPage.ets",
+      "buildFunction": "IndexPageBuilder",
       "data": {
         "description": "Sentence Index Page"
       }
+    },
+    {
+      "name": "SentenceShowPage",
+      "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
+      "buildFunction": "ShowPageBuilder"
     }
   ]
 }

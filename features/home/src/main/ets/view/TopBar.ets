@@ -14,32 +14,56 @@ export struct TopBar {
           right: $r('sys.float.titlebar_title_margin_right')
         })
       Blank()
-      Stack({ alignContent: Alignment.Center }) {
-        Image(Icon.ic_public_settings)
-          .width($r('sys.float.titlebar_icon_width'))
-          .height($r('sys.float.titlebar_icon_height'))
-          .fillColor($r('sys.color.icon'))
-      }
-      .padding(8)
-      .margin({ right: $r('sys.float.titlebar_menu_margin_right') })
-      .onClick(() => {
-        this.pageStack.pushPathByName("SettingPage", null)
+      CustomMenuItem({
+        icon: Icon.ic_bookmark_border,
+        pageStack: this.pageStack,
+        pathName: "BookmarkIndexPage"
       })
-      .stateStyles({
-        normal: {
-          .backgroundColor($r('sys.color.titlebar_icon_background_color'))
-          .borderRadius(18)
-        },
-        pressed: {
-          .backgroundColor($r('sys.color.titlebar_icon_background_pressed_color'))
-          .borderRadius(18)
-        }
+      CustomMenuItem({
+        icon: Icon.ic_link,
+        pageStack: this.pageStack,
+        pathName: "LinkIndexPage"
       })
-
+      CustomMenuItem({
+        icon: Icon.ic_public_settings,
+        pageStack: this.pageStack,
+        pathName: "SettingPage"
+      })
     }
     .width('100%')
     .height($r('sys.float.titlebar_default_height'))
     .padding({ left: $r('sys.float.titlebar_padding_left'), right: $r('sys.float.titlebar_padding_right') })
     .alignItems(VerticalAlign.Center)
+  }
+}
+
+@ComponentV2
+struct CustomMenuItem {
+  @Param @Require @Once pageStack: NavPathStack;
+  @Param @Require icon: Resource;
+  @Param @Require pathName: string;
+
+  build() {
+    Stack({ alignContent: Alignment.Center }) {
+      Image(this.icon)
+        .width($r('sys.float.titlebar_icon_width'))
+        .height($r('sys.float.titlebar_icon_height'))
+        .fillColor($r('sys.color.icon'))
+    }
+    .padding(8)
+    .margin({ right: $r('sys.float.titlebar_menu_margin_right') })
+    .onClick(() => {
+      this.pageStack.pushPathByName(this.pathName, null)
+    })
+    .stateStyles({
+      normal: {
+        .backgroundColor($r('sys.color.titlebar_icon_background_color'))
+        .borderRadius(18)
+      },
+      pressed: {
+        .backgroundColor($r('sys.color.titlebar_icon_background_pressed_color'))
+        .borderRadius(18)
+      }
+    })
   }
 }

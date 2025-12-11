@@ -65,7 +65,7 @@ export class Word {
   text: string | null = null;
 }
 
-export async function createCharacter(character: Character) {
+export async function insertCharacter(character: Character) {
   const valuesBucket: relationalStore.ValuesBucket = {
     'id': character.id,
     'character': character.character,
@@ -78,7 +78,7 @@ export async function createCharacter(character: Character) {
     'explanations2': JSON.stringify(character.explanations2),
   }
 
-  DbUtil.objectiveRDB?.insert(
+  await DbUtil.objectiveRDB?.insert(
     DbTableConst.CHINESE_CHARACTER_TABLE,
     valuesBucket,
     relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
@@ -89,8 +89,8 @@ export async function createCharacter(character: Character) {
   })
 }
 
-export async function readRandomCharacter(): Promise<Character | null> {
-  let obj: Character | null = null
+export async function getRandomCharacter(): Promise<Character | undefined> {
+  let obj: Character | undefined;
 
   await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_CHARACTER)
     .then((resultSet: relationalStore.ResultSet) => {
@@ -110,8 +110,8 @@ export async function readRandomCharacter(): Promise<Character | null> {
   return obj;
 }
 
-export async function readCharacterById(id: number): Promise<Character | null> {
-  let character: Character | null = null;
+export async function getCharacter(id: number): Promise<Character | undefined> {
+  let character: Character | undefined;
   let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_CHARACTER_TABLE);
   predicates.equalTo('id', id)
 
@@ -131,6 +131,28 @@ export async function readCharacterById(id: number): Promise<Character | null> {
     });
 
   return character;
+}
+
+
+export async function getBookmarks(): Promise<Character[]> {
+  let objs: Character[] = [];
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CHINESE_CHARACTER_BOOKMARKS)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          objs.push(parse(resultSet))
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return objs;
 }
 
 export async function searchCharacterByChar(char: string): Promise<Character[]> {

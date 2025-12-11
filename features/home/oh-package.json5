@@ -9,6 +9,8 @@
     "constants": "file:../../commons/constants",
     "utils": "file:../../commons/utils",
     "settings": "file:../settings",
+    "bookmark": "file:../bookmark",
+    "link": "file:../link",
     "classicalliterature_classicpoem": "file:../classicalliterature/classicpoem",
     "classicalliterature_sentence": "file:../classicalliterature/sentence",
     "chinese_antitheticalcouplet": "file:../chinese/antitheticalcouplet",

@@ -1,4 +1,5 @@
 import { relationalStore } from '@kit.ArkData';
+import { PrefConst } from './PrefConst';
 
 export class DbConfigConst {
   static readonly STORE_CONFIG: relationalStore.StoreConfig = {
@@ -90,32 +91,101 @@ export class DbCRUDConst {
     'select * from ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
       ' where id = (select id from ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
       ' order by random() limit 1) limit 1';
+  static readonly CHINESE_ANTITHETICALCOUPLETI_BOOKMARKS: string =
+    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+      ' join ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE + ' as tbl' +
+      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_ANTITHETICALCOUPLET + '\'' +
+      ' order by b.id desc';
   static readonly READ_RANDOM_CHINESE_CHARACTER: string =
     'select * from ' + DbTableConst.CHINESE_CHARACTER_TABLE +
       ' where id = (select id from ' + DbTableConst.CHINESE_CHARACTER_TABLE +
       ' order by random() limit 1) limit 1';
+  static readonly CHINESE_CHARACTER_BOOKMARKS: string =
+    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+      ' join ' + DbTableConst.CHINESE_CHARACTER_TABLE + ' as tbl' +
+      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_CHARACTER + '\'' +
+      ' order by b.id desc';
   static readonly READ_RANDOM_CHINESE_EXPRESSION: string =
     'select * from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
       ' where id = (select id from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
       ' order by random() limit 1) limit 1';
+  static readonly CHINESE_EXPRESSION_BOOKMARKS: string =
+    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+      ' join ' + DbTableConst.CHINESE_EXPRESSION_TABLE + ' as tbl' +
+      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_EXPRESSION + '\'' +
+      ' order by b.id desc';
   static readonly READ_RANDOM_CHINESE_IDIOM: string =
     'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE +
       ' where id = (select id from ' + DbTableConst.CHINESE_IDIOM_TABLE +
       ' order by random() limit 1) limit 1';
+  static readonly CHINESE_IDIOM_BOOKMARKS: string =
+    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+      ' join ' + DbTableConst.CHINESE_IDIOM_TABLE + ' as tbl' +
+      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_IDIOM + '\'' +
+      ' order by b.id desc';
   static readonly READ_RANDOM_CHINESE_KNOWLEDGE: string =
     'select * from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
       ' where id = (select id from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
       ' order by random() limit 1) limit 1';
+  static readonly CHINESE_KNOWLEDGE_BOOKMARKS: string =
+    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+      ' join ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE + ' as tbl' +
+      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_KNOWLEDGE + '\'' +
+      ' order by b.id desc';
   static readonly READ_RANDOM_CHINESE_QUOTE: string =
     'select * from ' + DbTableConst.CHINESE_QUOTE_TABLE +
       ' where id = (select id from ' + DbTableConst.CHINESE_QUOTE_TABLE +
       ' order by random() limit 1) limit 1';
+  static readonly CHINESE_QUOTE_BOOKMARKS: string =
+    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+      ' join ' + DbTableConst.CHINESE_QUOTE_TABLE + ' as tbl' +
+      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_QUOTE + '\'' +
+      ' order by b.id desc';
   static readonly READ_RANDOM_CLASSICALLITERATURE_CLASSICPOEM: string =
     'select * from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
       ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
       ' order by random() limit 1) limit 1';
+  static readonly CLASSICALLITERATURE_CLASSICPOEM_BOOKMARKS: string =
+    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+      ' join ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' as tbl' +
+      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_CLASSICPOEM +
+      '\'' +
+      ' order by b.id desc';
   static readonly READ_RANDOM_CLASSICALLITERATURE_SENTENCE: string =
     'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
       ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
       ' order by random() limit 1) limit 1';
+  static readonly CLASSICALLITERATURE_SENTENCE_BOOKMARKS: string =
+    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+      ' join ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE + ' as tbl' +
+      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_SENTENCE + '\'' +
+      ' order by b.id desc';
+  static readonly BOOKMARKS: string =
+    'select b.*, tbl1.body as chinese_antitheticalcouplet,' +
+      ' tbl2.character as chinese_character,' +
+      ' tbl3.word as chinese_expression,' +
+      ' tbl4.word as chinese_idiom,' +
+      ' tbl5.content as chinese_knowledge,' +
+      ' tbl6.content as chinese_quote,' +
+      ' tbl7.title as classicalliterature_classicpoem,' +
+      ' tbl8.content as classicalliterature_sentence' +
+      ' from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+      ' left join ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE + ' as tbl1' +
+      ' on b.bookmarkable_id = tbl1.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_ANTITHETICALCOUPLET + '\'' +
+      ' left join ' + DbTableConst.CHINESE_CHARACTER_TABLE + ' as tbl2' +
+      ' on b.bookmarkable_id = tbl2.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_CHARACTER + '\'' +
+      ' left join ' + DbTableConst.CHINESE_EXPRESSION_TABLE + ' as tbl3' +
+      ' on b.bookmarkable_id = tbl3.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_EXPRESSION + '\'' +
+      ' left join ' + DbTableConst.CHINESE_IDIOM_TABLE + ' as tbl4' +
+      ' on b.bookmarkable_id = tbl4.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_IDIOM + '\'' +
+      ' left join ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE + ' as tbl5' +
+      ' on b.bookmarkable_id = tbl5.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_KNOWLEDGE + '\'' +
+      ' left join ' + DbTableConst.CHINESE_QUOTE_TABLE + ' as tbl6' +
+      ' on b.bookmarkable_id = tbl6.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_QUOTE + '\'' +
+      ' left join ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' as tbl7' +
+      ' on b.bookmarkable_id = tbl7.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_CLASSICPOEM +
+      '\'' +
+      ' left join ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE + ' as tbl8' +
+      ' on b.bookmarkable_id = tbl8.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_SENTENCE + '\'' +
+      ' order by b.id desc';
 }

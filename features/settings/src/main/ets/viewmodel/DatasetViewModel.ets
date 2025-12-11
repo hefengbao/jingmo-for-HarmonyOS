@@ -2,15 +2,15 @@ import { BusinessError } from '@kit.BasicServicesKit';
 import Dataset from '../model/Dataset';
 import { DataWrapper, httpRequestGet, Logger, ResponseResult } from 'utils';
 import { NetworkConst } from 'constants';
-import { createWorldCulturalHeritage, WorldCulturalHeritage } from 'china_worldcultureheritage';
-import { AntitheticalCouplet, createAntitheticalCouplet } from 'chinese_antitheticalcouplet';
-import { Character, createCharacter } from 'chinese_character';
-import { createExpression, Expression } from 'chinese_expression';
-import { createIdiom, Idiom } from 'chinese_idiom';
-import { createKnowledge, Knowledge } from 'chinese_knowledge';
-import { createQuote, Quote, } from 'chinese_quote';
-import { ClassicPoem, createClassicPoem } from 'classicalliterature_classicpoem';
-import { createSentence, Sentence } from 'classicalliterature_sentence';
+import { insertWorldCulturalHeritage, WorldCulturalHeritage } from 'china_worldcultureheritage';
+import { AntitheticalCouplet, insertAntitheticalCouplet } from 'chinese_antitheticalcouplet';
+import { Character, insertCharacter } from 'chinese_character';
+import { insertExpression, Expression } from 'chinese_expression';
+import { insertIdiom, Idiom } from 'chinese_idiom';
+import { insertKnowledge, Knowledge } from 'chinese_knowledge';
+import { insertQuote, Quote, } from 'chinese_quote';
+import { ClassicPoem, insertClassicPoem } from 'classicalliterature_classicpoem';
+import { insertSentence, Sentence } from 'classicalliterature_sentence';
 
 class DatasetViewModel {
   private logger: Logger = new Logger('DatasetViewModel');
@@ -50,7 +50,7 @@ class DatasetViewModel {
   }
 
   async insertClassicalLiteratureClassicPoemToDb(obj: ClassicPoem) {
-    await createClassicPoem(obj).catch((error: BusinessError) => {
+    await insertClassicPoem(obj).catch((error: BusinessError) => {
       this.logger.error(`insertClassicalLiteratureClassicPoemToDb error, code = :${error.code}, message = ${error.message}`)
     })
   }
@@ -73,7 +73,7 @@ class DatasetViewModel {
   }
 
   async insertClassicalLiteratureSentenceToDb(obj: Sentence) {
-    await createSentence(obj).catch((error: BusinessError) => {
+    await insertSentence(obj).catch((error: BusinessError) => {
       this.logger.error(`insertClassicalLiteratureSentenceToDb error, code = :${error.code}, message = ${error.message}`)
     })
   }
@@ -96,7 +96,7 @@ class DatasetViewModel {
   }
 
   async insertChineseAntitheticalCoupletToDb(obj: AntitheticalCouplet) {
-    await createAntitheticalCouplet(obj).catch((error: BusinessError) => {
+    await insertAntitheticalCouplet(obj).catch((error: BusinessError) => {
       this.logger.error(`insertChineseAntitheticalCoupletToDb error, code = :${error.code}, message = ${error.message}`)
     })
   }
@@ -119,7 +119,7 @@ class DatasetViewModel {
   }
 
   async insertChineseCharacterToDb(obj: Character) {
-    await createCharacter(obj).catch((error: BusinessError) => {
+    await insertCharacter(obj).catch((error: BusinessError) => {
       this.logger.error(`insertChineseCharacterToDb error, code = :${error.code}, message = ${error.message}`)
     })
   }
@@ -142,7 +142,7 @@ class DatasetViewModel {
   }
 
   async insertChineseExpressionToDb(obj: Expression) {
-    await createExpression(obj).catch((error: BusinessError) => {
+    await insertExpression(obj).catch((error: BusinessError) => {
       this.logger.error(`insertChineseExpressionToDb error, code = :${error.code}, message = ${error.message}`)
     })
   }
@@ -171,7 +171,7 @@ class DatasetViewModel {
   }
 
   async insertChineseIdiomToDb(obj: Idiom) {
-    await createIdiom(obj).catch((error: BusinessError) => {
+    await insertIdiom(obj).catch((error: BusinessError) => {
       this.logger.error(`insertChineseIdiomToDb error, code = :${error.code}, message = ${error.message}`)
     })
   }
@@ -194,7 +194,7 @@ class DatasetViewModel {
   }
 
   async insertChineseKnowledgeToDb(obj: Knowledge) {
-    await createKnowledge(obj).catch((error: BusinessError) => {
+    await insertKnowledge(obj).catch((error: BusinessError) => {
       this.logger.error(`insertChineseKnowledgeToDb error, code = :${error.code}, message = ${error.message}`)
     })
   }
@@ -217,7 +217,7 @@ class DatasetViewModel {
   }
 
   async insertChineseQuoteToDb(obj: Quote) {
-    await createQuote(obj).catch((error: BusinessError) => {
+    await insertQuote(obj).catch((error: BusinessError) => {
       this.logger.error(`insertChineseQuoteToDb error, code = :${error.code}, message = ${error.message}`)
     })
   }
@@ -240,7 +240,7 @@ class DatasetViewModel {
   }
 
   async insertChinaWorldCulturalHeritageToDb(obj: WorldCulturalHeritage) {
-    await createWorldCulturalHeritage(obj).catch((error: BusinessError) => {
+    await insertWorldCulturalHeritage(obj).catch((error: BusinessError) => {
       this.logger.error(`insertChinaWorldCulturalHeritageToDb error, code = :${error.code}, message = ${error.message}`)
     })
   }

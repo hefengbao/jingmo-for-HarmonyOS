@@ -41,7 +41,7 @@ export class WorldCulturalHeritage {
   }
 }
 
-export async function createWorldCulturalHeritage(obj: WorldCulturalHeritage) {
+export async function insertWorldCulturalHeritage(obj: WorldCulturalHeritage) {
   const valuesBucket: relationalStore.ValuesBucket = {
     'id': obj.id,
     'name': obj.name,
@@ -54,7 +54,7 @@ export async function createWorldCulturalHeritage(obj: WorldCulturalHeritage) {
     'content': obj.content,
   }
 
-  DbUtil.objectiveRDB?.insert(
+  await DbUtil.objectiveRDB?.insert(
     DbTableConst.CHINA_WORLDCULTUREHERITAGE_TABLE,
     valuesBucket,
     relationalStore.ConflictResolution.ON_CONFLICT_REPLACE

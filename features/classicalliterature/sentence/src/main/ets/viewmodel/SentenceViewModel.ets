@@ -1,0 +1,37 @@
+import { addBookmark, Bookmark, cancelBookmark, getBookmark } from 'bookmark';
+import { PrefConst } from 'constants';
+import { YmdHisToNumber } from 'utils';
+
+class SentenceViewModel {
+  getBookmark(id: number): Promise<Bookmark | undefined> {
+    return getBookmark(id, PrefConst.CLASSICALLITERATURE_SENTENCE)
+      .then((value: Bookmark | undefined) => {
+        return value
+      })
+      .catch(() => {
+        return undefined
+      })
+  }
+
+  addBookmark(id: number): Promise<Bookmark | undefined> {
+    return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CLASSICALLITERATURE_SENTENCE))
+      .then(() => {
+        return getBookmark(id, PrefConst.CLASSICALLITERATURE_SENTENCE)
+          .then((value: Bookmark | undefined) => {
+            return value
+          })
+          .catch(() => {
+            return undefined
+          })
+      })
+      .catch(() => {
+        return undefined
+      })
+  }
+
+  cancelBookmark(id: number): Promise<number | undefined> {
+    return cancelBookmark(id, PrefConst.CLASSICALLITERATURE_SENTENCE)
+  }
+}
+
+export default new SentenceViewModel();

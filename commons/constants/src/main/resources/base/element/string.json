@@ -119,6 +119,14 @@
     {
       "name": "bookmark",
       "value": "收藏夹"
+    },
+    {
+      "name": "add_bookmark",
+      "value": "添加收藏"
+    },
+    {
+      "name": "cancel_bookmark",
+      "value": "取消收藏"
     }
   ]
 }

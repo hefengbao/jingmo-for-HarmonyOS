@@ -1,12 +1,22 @@
 {
   "routerMap": [
     {
+      "name": "QuoteBookmarkPage",
+      "pageSourceFile": "src/main/ets/pages/BookmarkPage.ets",
+      "buildFunction": "BookmarkPageBuilder"
+    },
+    {
       "name": "QuoteIndexPage",
-      "pageSourceFile": "src/main/ets/pages/QuoteIndexPage.ets",
-      "buildFunction": "QuoteIndexPageBuilder",
+      "pageSourceFile": "src/main/ets/pages/IndexPage.ets",
+      "buildFunction": "IndexPageBuilder",
       "data": {
         "description": "Quote Index Page"
       }
+    },
+    {
+      "name": "QuoteShowPage",
+      "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
+      "buildFunction": "ShowPageBuilder"
     }
   ]
 }

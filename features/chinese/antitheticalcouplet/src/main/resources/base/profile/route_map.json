@@ -1,12 +1,22 @@
 {
   "routerMap": [
     {
+      "name": "AntitheticalCoupletBookmarkPage",
+      "pageSourceFile": "src/main/ets/pages/BookmarkPage.ets",
+      "buildFunction": "BookmarkPageBuilder"
+    },
+    {
       "name": "AntitheticalCoupletIndexPage",
-      "pageSourceFile": "src/main/ets/pages/AntitheticalCoupletIndexPage.ets",
-      "buildFunction": "AntitheticalCoupletIndexPageBuilder",
+      "pageSourceFile": "src/main/ets/pages/IndexPage.ets",
+      "buildFunction": "IndexPageBuilder",
       "data": {
         "description": "AntitheticalCouplet Index Page"
       }
+    },
+    {
+      "name": "AntitheticalCoupletShowPage",
+      "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
+      "buildFunction": "ShowPageBuilder"
     }
   ]
 }

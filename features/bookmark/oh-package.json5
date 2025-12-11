@@ -6,6 +6,8 @@
   "author": "hefengbao",
   "license": "Apache-2.0",
   "dependencies": {
-    "constants": "file:../../commons/constants"
+    "constants": "file:../../commons/constants",
+    "utils": "file:../../commons/utils",
+    "uicomponents": "file:../../commons/uicomponents"
   }
 }

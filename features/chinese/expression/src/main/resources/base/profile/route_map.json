@@ -1,9 +1,19 @@
 {
   "routerMap": [
     {
+      "name": "ExpressionBookmarkPage",
+      "pageSourceFile": "src/main/ets/pages/BookmarkPage.ets",
+      "buildFunction": "BookmarkPageBuilder"
+    },
+    {
       "name": "ExpressionIndexPage",
-      "pageSourceFile": "src/main/ets/pages/ExpressionIndexPage.ets",
-      "buildFunction": "ExpressionIndexPageBuilder"
+      "pageSourceFile": "src/main/ets/pages/IndexPage.ets",
+      "buildFunction": "IndexPageBuilder"
+    },
+    {
+      "name": "ExpressionShowPage",
+      "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
+      "buildFunction": "ShowPageBuilder"
     }
   ]
 }

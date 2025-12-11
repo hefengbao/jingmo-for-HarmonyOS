@@ -58,7 +58,7 @@ export class ClassicPoem {
   }
 }
 
-export async function createClassicPoem(obj: ClassicPoem) {
+export async function insertClassicPoem(obj: ClassicPoem) {
   const valuesBucket: relationalStore.ValuesBucket = {
     'id': obj.id,
     'dynasty': obj.dynasty,
@@ -88,8 +88,8 @@ export async function createClassicPoem(obj: ClassicPoem) {
   })
 }
 
-export async function readRandomClassicPoem(): Promise<ClassicPoem | null> {
-  let obj: ClassicPoem | null = null
+export async function getRandomClassicPoem(): Promise<ClassicPoem | undefined> {
+  let obj: ClassicPoem | undefined;
 
   await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CLASSICALLITERATURE_CLASSICPOEM)
     .then((resultSet: relationalStore.ResultSet) => {
@@ -107,6 +107,51 @@ export async function readRandomClassicPoem(): Promise<ClassicPoem | null> {
     });
 
   return obj;
+}
+
+export async function getClassicPoem(id: number): Promise<ClassicPoem | undefined> {
+  let obj: ClassicPoem | undefined;
+
+  let predicates = new relationalStore.RdbPredicates(DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE)
+  predicates.equalTo('id', id)
+
+  await DbUtil.objectiveRDB?.query(predicates)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          obj = parse(resultSet)
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return obj;
+}
+
+export async function getBookmarks(): Promise<ClassicPoem[]> {
+  let objs: ClassicPoem[] = [];
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CLASSICALLITERATURE_CLASSICPOEM_BOOKMARKS)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          objs.push(parse(resultSet))
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    })
+    .catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+  return objs;
 }
 
 /**

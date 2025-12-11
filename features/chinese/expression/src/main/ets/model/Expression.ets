@@ -51,7 +51,7 @@ export class Expression {
   }
 }
 
-export async function createExpression(obj: Expression): Promise<number | undefined> {
+export async function insertExpression(obj: Expression): Promise<number | undefined> {
   const valuesBucket: relationalStore.ValuesBucket = {
     'id': obj.id,
     'word': obj.word,
@@ -81,7 +81,7 @@ export async function createExpression(obj: Expression): Promise<number | undefi
 }
 
 @Concurrent
-export async function createExpressionList(context: Context, objs: Expression[]): Promise<void> {
+export async function insertExpressionList(context: Context, objs: Expression[]): Promise<void> {
   let logger: Logger = new Logger('Expression createExpressionList');
   let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
 
@@ -118,8 +118,8 @@ export async function createExpressionList(context: Context, objs: Expression[])
   }
 }
 
-export async function readRandomClassicPoem(): Promise<Expression | null> {
-  let obj: Expression | null = null
+export async function getRandomExpression(): Promise<Expression | undefined> {
+  let obj: Expression | undefined;
 
   await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_EXPRESSION)
     .then((resultSet: relationalStore.ResultSet) => {
@@ -137,6 +137,52 @@ export async function readRandomClassicPoem(): Promise<Expression | null> {
     });
 
   return obj;
+}
+
+export async function getExpression(id: number): Promise<Expression | undefined> {
+  let obj: Expression | undefined;
+
+  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_EXPRESSION_TABLE)
+  predicates.equalTo('id', id)
+
+  await DbUtil.objectiveRDB?.query(predicates)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          obj = parse(resultSet)
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return obj;
+}
+
+
+export async function getBookmarks(): Promise<Expression[]> {
+  let objs: Expression[] = [];
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CHINESE_EXPRESSION_BOOKMARKS)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          objs.push(parse(resultSet))
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return objs;
 }
 
 /**

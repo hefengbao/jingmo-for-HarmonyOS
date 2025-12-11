@@ -29,4 +29,6 @@ export class String {
   static readonly refresh: Resource = $r('app.string.refresh');
   static readonly settings: Resource = $r('app.string.settings');
   static readonly bookmark: Resource = $r('app.string.bookmark');
+  static readonly add_bookmark: Resource = $r('app.string.add_bookmark');
+  static readonly cancel_bookmark: Resource = $r('app.string.cancel_bookmark');
 }

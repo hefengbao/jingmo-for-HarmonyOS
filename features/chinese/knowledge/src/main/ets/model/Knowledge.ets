@@ -26,7 +26,7 @@ export class Knowledge {
   }
 }
 
-export async function createKnowledge(obj: Knowledge) {
+export async function insertKnowledge(obj: Knowledge) {
   const valuesBucket: relationalStore.ValuesBucket = {
     'id': obj.id,
     'content': obj.content,
@@ -45,8 +45,8 @@ export async function createKnowledge(obj: Knowledge) {
   })
 }
 
-export async function readRandomKnowledge(): Promise<Knowledge | null> {
-  let obj: Knowledge | null = null
+export async function getRandomKnowledge(): Promise<Knowledge | undefined> {
+  let obj: Knowledge | undefined;
 
   await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_KNOWLEDGE)
     .then((resultSet: relationalStore.ResultSet) => {
@@ -64,6 +64,51 @@ export async function readRandomKnowledge(): Promise<Knowledge | null> {
     });
 
   return obj;
+}
+
+export async function getKnowledge(id: number): Promise<Knowledge | undefined> {
+  let obj: Knowledge | undefined;
+
+  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_KNOWLEDGE_TABLE);
+  predicates.equalTo('id', id);
+
+  await DbUtil.objectiveRDB?.query(predicates)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          obj = parse(resultSet)
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return obj;
+}
+
+export async function getBookmarks(): Promise<Knowledge[]> {
+  let objs: Knowledge[] = [];
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CHINESE_KNOWLEDGE_BOOKMARKS)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          objs.push(parse(resultSet))
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return objs;
 }
 
 /**

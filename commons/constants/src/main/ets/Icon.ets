@@ -2,6 +2,8 @@ export class Icon {
   static readonly app_icon: Resource = $r('app.media.foreground')
   static readonly ic_bookmark: Resource = $r('app.media.ic_bookmark');
   static readonly ic_bookmark_border: Resource = $r('app.media.ic_bookmark_border');
+  static readonly ic_link: Resource = $r('app.media.ic_link');
+  static readonly ic_pic: Resource = $r('app.media.ic_pic');
   static readonly ic_public_cloud_download: Resource = $r('app.media.ic_public_cloud_download');
   static readonly ic_public_delete: Resource = $r('app.media.ic_public_delete');
   static readonly ic_public_download: Resource = $r('app.media.ic_public_download');
@@ -11,4 +13,5 @@ export class Icon {
   static readonly ic_public_settings: Resource = $r('app.media.ic_public_settings');
   static readonly ic_public_todo: Resource = $r('app.media.ic_public_todo');
   static readonly ic_public_todo_filled: Resource = $r('app.media.ic_public_todo_filled');
+  static readonly ic_read_more: Resource = $r('app.media.ic_read_more');
 }

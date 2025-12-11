@@ -7,11 +7,3 @@ export class SearchParam {
     this.data = data;
   }
 }
-
-export class ShowParam {
-  id: number;
-
-  constructor(id: number) {
-    this.id = id;
-  }
-}
