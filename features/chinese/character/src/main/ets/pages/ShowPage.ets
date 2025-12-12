@@ -5,7 +5,6 @@ import { AppStorageV2 } from '@kit.ArkUI';
 import { Bookmark } from 'bookmark';
 import CharacterViewModel from '../viewmodel/CharacterViewModel';
 import { Logger } from 'utils';
-';
 
 let logger: Logger = new Logger('CharacterShowPage');
 

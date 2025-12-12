@@ -1,7 +1,6 @@
 import { ParamNumberId, String, ThemeConst } from 'constants';
 import { uiObserver } from '@kit.ArkUI';
 import { Expression, getBookmarks } from '../model/Expression';
-n';
 
 @Builder
 export function BookmarkPageBuilder() {

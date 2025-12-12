@@ -81,7 +81,7 @@ export default class EntryAbility extends UIAbility {
       }
 
       // 监听窗口变化
-      windowClass.on('windowSizeChange', () => {
+      windowClass.on('avoidAreaChange', () => {
         try {
           let avoidArea = windowClass.getWindowAvoidArea(navigation);
           AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver(avoidArea))
