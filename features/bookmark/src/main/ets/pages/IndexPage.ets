@@ -1,7 +1,7 @@
-import { ParamNumberId, PrefConst, String, ThemeConst } from 'constants';
+import { AvoidAreaObserver, ParamNumberId, PrefConst, String, ThemeConst } from 'constants';
 import { Logger } from 'utils';
 import { BookmarkEntity, getEntities } from '../model/BookmarkEntity';
-import { uiObserver } from '@kit.ArkUI';
+import { AppStorageV2, uiObserver } from '@kit.ArkUI';
 import { BlockTitle, ContentText } from 'uicomponents';
 
 let logger: Logger = new Logger('BookmarkIndexPage')
@@ -14,6 +14,8 @@ export function IndexPageBuilder() {
 @ComponentV2
 export struct IndexPage {
   @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack();
+  @Local avoidAreaObserver: AvoidAreaObserver =
+    AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver())!;
   @Local entities: BookmarkEntity[] = [];
 
   aboutToAppear(): void {
@@ -119,6 +121,9 @@ export struct IndexPage {
       .edgeEffect(EdgeEffect.Spring)
       .align(Alignment.TopStart)
       .divider({ strokeWidth: 2 })
+      .padding({
+        bottom: this.avoidAreaObserver.navigation?.bottomRect.height
+      })
     }
     .title(String.bookmark)
     .onReady((ctx: NavDestinationContext) => {

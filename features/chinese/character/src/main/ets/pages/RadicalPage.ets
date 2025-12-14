@@ -39,7 +39,7 @@ export struct RadicalPage {
                 .padding(ThemeConst.P_16)
                 .fontWeight(FontWeight.Bold)
                 .textAlign(TextAlign.Center)
-                .backgroundColor(this.currentStrokeIndex == index ? Color.White : '')
+                .backgroundColor(this.currentStrokeIndex == index ? ThemeConst.BackGroundColor_Normal : '')
                 .onClick(() => {
                   this.strokeChangeAction(index, true)
                 })

@@ -1,10 +1,10 @@
 import { TopBar } from '../view/TopBar';
 import { MenuList } from '../view/MenuList';
-import { AppConst, PrefConst } from 'constants';
+import { AppConst, AvoidAreaObserver, PrefConst } from 'constants';
 import PrefUtil from 'utils/src/main/ets/data/PrefUtil';
 import { UserAgreement } from '../view/UserAgreement';
 import { Logger } from 'utils';
-import { PromptAction, ShowDialogSuccessResponse } from '@kit.ArkUI';
+import { AppStorageV2, PromptAction, ShowDialogSuccessResponse } from '@kit.ArkUI';
 
 let logger: Logger = new Logger('HomePage')
 
@@ -14,6 +14,8 @@ export struct HomePage {
   @Local userAgreementVersionPref: number = PrefUtil.getUserAgreementVersion();
   @Local isFirstLaunchPref: boolean = PrefUtil.getIsFirstLaunch();
   @Local promptAction: PromptAction = this.getUIContext().getPromptAction();
+  @Local avoidAreaObserver: AvoidAreaObserver =
+    AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver())!;
   observer = (key: string) => {
     if (key == PrefConst.USER_AGREEMENT_VERSION) {
       this.userAgreementVersionPref = PrefUtil.getUserAgreementVersion();
@@ -46,7 +48,11 @@ export struct HomePage {
         Column() {
           TopBar({ pageStack: this.pageStack })
           MenuList({ pageStack: this.pageStack })
-        }.onAppear(() => {
+        }
+        .padding({
+          bottom: this.avoidAreaObserver.navigation?.bottomRect.height
+        })
+        .onAppear(() => {
           if (this.isFirstLaunchPref) {
             this.promptAction.showDialog({
               'title': '温馨提示',

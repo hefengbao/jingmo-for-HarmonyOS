@@ -68,7 +68,7 @@ export struct SyllablePage {
                 .padding(ThemeConst.P_16)
                 .fontWeight(FontWeight.Bold)
                 .textAlign(TextAlign.Center)
-                .backgroundColor(this.currentAlphabetIndex == index ? Color.White : '')
+                .backgroundColor(this.currentAlphabetIndex == index ? ThemeConst.BackGroundColor_Normal : '')
                 .onClick(() => {
                   this.alphabetChangeAction(index, true)
                 })
