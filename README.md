@@ -31,6 +31,10 @@ Gitee:[https://gitee.com/hefengbao/jingmo-for-HarmonyOS](https://gitee.com/hefen
 <img src="screenshot/alipay.jpg" style="width: 45%" alt="支付宝赞赏码">
 </div>
 
+## 第三方库
+
+日历 [https://ohpm.openharmony.cn/#/cn/detail/tyme4oh](https://ohpm.openharmony.cn/#/cn/detail/tyme4oh)
+
 ## 参考
 
 ### 架构
