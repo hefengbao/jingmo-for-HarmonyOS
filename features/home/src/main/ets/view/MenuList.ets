@@ -146,6 +146,5 @@ export struct MenuList {
     .rowsGap(16)
     .columnsTemplate('1fr 1fr')
     .padding(16)
-    .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
   }
 }
