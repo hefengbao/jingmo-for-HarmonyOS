@@ -17,6 +17,11 @@
       "name": "QuoteShowPage",
       "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
       "buildFunction": "ShowPageBuilder"
+    },
+    {
+      "name": "SnapshotPage",
+      "pageSourceFile": "src/main/ets/pages/SnapshotPage.ets",
+      "buildFunction": "SnapshotPageBuilder"
     }
   ]
 }

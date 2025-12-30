@@ -37,6 +37,17 @@ export struct ShowPage {
       .align(Alignment.TopStart)
     }
     .title(String.chinese_quote)
+    .menus([
+      {
+        value: String.snapshot,
+        icon: Icon.ic_public_picture,
+        action: (() => {
+          if (this.quote) {
+            this.pageStack.pushPathByName("SnapshotPage", new ParamNumberId(this.quote.id))
+          }
+        })
+      }
+    ])
     .toolbarConfiguration([
       {
         "value": this.bookmarked ? String.cancel_bookmark : String.add_bookmark,

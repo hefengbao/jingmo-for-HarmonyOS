@@ -1,4 +1,4 @@
-import { AvoidAreaObserver, Icon, String } from 'constants';
+import { AvoidAreaObserver, Icon, ParamNumberId, String } from 'constants';
 import { getRandomQuote, Quote } from '../model/Quote';
 import { QuoteView } from '../view/QuoteView';
 import { AppStorageV2 } from '@kit.ArkUI';
@@ -47,6 +47,15 @@ export struct IndexPage {
         icon: Icon.ic_bookmark_border,
         action: (() => {
           this.pageStack.pushPathByName("QuoteBookmarkPage", null)
+        })
+      },
+      {
+        value: String.snapshot,
+        icon: Icon.ic_public_picture,
+        action: (() => {
+          if (this.quote) {
+            this.pageStack.pushPathByName("SnapshotPage", new ParamNumberId(this.quote.id))
+          }
         })
       }
     ])
