@@ -127,6 +127,10 @@
     {
       "name": "cancel_bookmark",
       "value": "取消收藏"
+    },
+    {
+      "name": "snapshot",
+      "value": "生成图片"
     }
   ]
 }
