@@ -31,5 +31,6 @@ export class String {
   static readonly bookmark: Resource = $r('app.string.bookmark');
   static readonly add_bookmark: Resource = $r('app.string.add_bookmark');
   static readonly cancel_bookmark: Resource = $r('app.string.cancel_bookmark');
-  static readonly snapshot: Resource = $r('app.string.snapshot')
+  static readonly snapshot: Resource = $r('app.string.snapshot');
+  static readonly search: Resource = $r('app.string.search');
 }

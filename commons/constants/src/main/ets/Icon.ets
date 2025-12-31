@@ -11,6 +11,8 @@ export class Icon {
   static readonly ic_public_refresh: Resource = $r('app.media.ic_public_refresh');
   static readonly ic_public_search: Resource = $r('app.media.ic_public_search');
   static readonly ic_public_settings: Resource = $r('app.media.ic_public_settings');
+  static readonly ic_public_text_black: Resource = $r('app.media.ic_public_text_black');
+  static readonly ic_public_text_white: Resource = $r('app.media.ic_public_text_white');
   static readonly ic_public_todo: Resource = $r('app.media.ic_public_todo');
   static readonly ic_public_todo_filled: Resource = $r('app.media.ic_public_todo_filled');
   static readonly ic_read_more: Resource = $r('app.media.ic_read_more');

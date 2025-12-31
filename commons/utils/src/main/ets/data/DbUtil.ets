@@ -31,8 +31,26 @@ export class DbUtil {
           }
         }
 
+        this.create_fts(rdbStore)
+
         rdbStore.version = storeVersion
       })
+  }
+
+  private async create_fts(rdbStore: relationalStore.RdbStore){
+    try {
+      await rdbStore.execute("drop table classicalliterature_classicpoem_fts")
+      await rdbStore.execute(DbMigrationConst.CREATE_CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+    try {
+      await rdbStore.execute("INSERT INTO classicalliterature_classicpoem_fts(id, writer, title, content) SELECT id, writer, title, content FROM classicalliterature_classicpoem")
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE. Code:${err.code}, message:${err.message}`);
+    }
   }
 
   private async migration_0_1(rdbStore: relationalStore.RdbStore) {

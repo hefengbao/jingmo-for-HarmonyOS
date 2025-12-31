@@ -20,6 +20,11 @@
       "data": {
         "description": "ClassicPoem Show Page"
       }
+    },
+    {
+      "name": "ClassicPoemSearchPage",
+      "pageSourceFile": "src/main/ets/pages/SearchPage.ets",
+      "buildFunction": "SearchPageBuilder"
     }
   ]
 }

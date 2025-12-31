@@ -131,6 +131,10 @@
     {
       "name": "snapshot",
       "value": "生成图片"
+    },
+    {
+      "name": "search",
+      "value": "搜索"
     }
   ]
 }

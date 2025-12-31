@@ -37,4 +37,9 @@ export class PrefConst {
   static readonly CHINESE_QUOTE_ID: string = 'chinese_quote_id';
   static readonly CHINESE_MODERNPOETRY_ID: string = 'chinese_modernpoetry_id';
   static readonly CHINA_WORLDCULTUREHERITAG_ID: string = 'china_worldcultureheritage_id';
+  static readonly SNAPSHOT_FONT_COLOR: string = 'snapshot_text_color';
+  static readonly SNAPSHOT_FONT_SIZE: string = 'snapshot_text_size';
+  static readonly SNAPSHOT_PADDING_X: string = 'snapshot_padding_x';
+  static readonly SNAPSHOT_PADDING_Y: string = 'snapshot_padding_y';
+  static readonly SNAPSHOT_BACKGROUND_COLOR: string = 'snapshot_background_color';
 }

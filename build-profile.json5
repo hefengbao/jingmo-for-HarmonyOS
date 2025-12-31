@@ -127,6 +127,10 @@
     {
       "name": "link",
       "srcPath": "./features/link",
+    },
+    {
+      "name": "data",
+      "srcPath": "./commons/data",
     }
   ]
 }

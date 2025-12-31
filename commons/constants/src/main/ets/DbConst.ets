@@ -48,6 +48,9 @@ export class DbMigrationConst {
       ' writer_introduction text, title text not null, subtitle text, preface text, content text not null,' +
       ' annotation text, translation text, creative_background text, explain text, comment text, collection text,' +
       ' category text )';
+  static readonly CREATE_CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE =
+    'CREATE VIRTUAL TABLE IF NOT EXISTS ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE +
+      ' USING fts4(id, writer, title, content, tokenize=icu zh_CN)';
   static readonly CREATE_CLASSICALLITERATURE_SENTENCE_TABLE: string =
     'create table if not exists ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
       ' (id integer primary key autoincrement not null, content text not null, from_txt text not null, poem_id integer)';
@@ -145,12 +148,13 @@ export class DbCRUDConst {
     'select * from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
       ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
       ' order by random() limit 1) limit 1';
-  static readonly CLASSICALLITERATURE_CLASSICPOEM_BOOKMARKS: string =
-    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
-      ' join ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' as tbl' +
-      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_CLASSICPOEM +
-      '\'' +
-      ' order by b.id desc';
+  static readonly SEARCH_CLASSICALLITERATURE_CLASSICPOEM: string =
+    'select tbl.* from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' as tbl' +
+      ' join ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE + ' as v' +
+      ' on tbl.id = v.id where ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE + ' match ?';
+  static readonly SEARCH_CLASSICALLITERATURE_CLASSICPOEM2: string =
+    'select tbl.* from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE + ' as tbl' +
+      ' where tbl match \'金\'';
   static readonly READ_RANDOM_CLASSICALLITERATURE_SENTENCE: string =
     'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
       ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +

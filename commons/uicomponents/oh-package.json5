@@ -8,5 +8,6 @@
   "dependencies": {
     "constants": "file:../constants",
     "utils": "file:../utils",
+    "data": "file:../data",
   }
 }

@@ -64,6 +64,13 @@ export struct IndexPage {
         action: (() => {
           this.pageStack.pushPathByName("ClassicPoemBookmarkPage", null)
         })
+      },
+      {
+        value: String.search,
+        icon: Icon.ic_public_search,
+        action: (() => {
+          this.pageStack.pushPathByName("ClassicPoemSearchPage", null)
+        })
       }
     ])
     .toolbarConfiguration([

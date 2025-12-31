@@ -21,7 +21,7 @@ export class PrefUtil {
   }
 
   saveUserAgreementVersion(version: number) {
-    this.setNumber(PrefConst.USER_AGREEMENT_VERSION, version)
+    this.set(PrefConst.USER_AGREEMENT_VERSION, version)
   }
 
   getUserAgreementVersion(): number {
@@ -29,7 +29,7 @@ export class PrefUtil {
   }
 
   saveIsFirstLaunch(bool: boolean) {
-    this.setBoolean(PrefConst.IS_FIRST_LAUNCH, bool)
+    this.set(PrefConst.IS_FIRST_LAUNCH, bool)
   }
 
   getIsFirstLaunch(): boolean {
@@ -37,7 +37,7 @@ export class PrefUtil {
   }
 
   saveSettingThemeMode(mode: number) {
-    this.setNumber(PrefConst.SETTING_THEME_MODE, mode)
+    this.set(PrefConst.SETTING_THEME_MODE, mode)
   }
 
   getSettingThemeMode(): number {
@@ -45,7 +45,7 @@ export class PrefUtil {
   }
 
   saveChinaWorldCulturalHeritageVersion(version: number) {
-    this.setNumber(PrefConst.CHINA_WORLDCULTUREHERITAGE, version)
+    this.set(PrefConst.CHINA_WORLDCULTUREHERITAGE, version)
   }
 
   getChinaWorldCulturalHeritageVersion(): number {
@@ -53,7 +53,7 @@ export class PrefUtil {
   }
 
   saveChineseAntitheticalCoupletVersion(version: number) {
-    this.setNumber(PrefConst.CHINESE_ANTITHETICALCOUPLET, version)
+    this.set(PrefConst.CHINESE_ANTITHETICALCOUPLET, version)
   }
 
   getChineseAntitheticalCoupletVersion(): number {
@@ -61,7 +61,7 @@ export class PrefUtil {
   }
 
   saveChineseCharacterVersion(version: number) {
-    this.setNumber(PrefConst.CHINESE_CHARACTER, version)
+    this.set(PrefConst.CHINESE_CHARACTER, version)
   }
 
   getChineseCharacterVersion(): number {
@@ -69,7 +69,7 @@ export class PrefUtil {
   }
 
   saveChineseExpressionVersion(version: number) {
-    this.setNumber(PrefConst.CHINESE_EXPRESSION, version)
+    this.set(PrefConst.CHINESE_EXPRESSION, version)
   }
 
   getChineseExpressionVersion(): number {
@@ -77,7 +77,7 @@ export class PrefUtil {
   }
 
   saveChineseIdiomVersion(version: number) {
-    this.setNumber(PrefConst.CHINESE_IDIOM, version)
+    this.set(PrefConst.CHINESE_IDIOM, version)
   }
 
   getChineseIdiomVersion(): number {
@@ -85,7 +85,7 @@ export class PrefUtil {
   }
 
   saveChineseKnowledgeVersion(version: number) {
-    this.setNumber(PrefConst.CHINESE_KNOWLEDGE, version)
+    this.set(PrefConst.CHINESE_KNOWLEDGE, version)
   }
 
   getChineseKnowledgeVersion(): number {
@@ -93,7 +93,7 @@ export class PrefUtil {
   }
 
   saveChineseQuoteVersion(version: number) {
-    this.setNumber(PrefConst.CHINESE_QUOTE, version)
+    this.set(PrefConst.CHINESE_QUOTE, version)
   }
 
   getChineseQuoteVersion(): number {
@@ -101,7 +101,7 @@ export class PrefUtil {
   }
 
   saveClassicalLiteratureClassicPoemVersion(version: number) {
-    this.setNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM, version)
+    this.set(PrefConst.CLASSICALLITERATURE_CLASSICPOEM, version)
   }
 
   getClassicalLiteratureClassicPoemVersion(): number {
@@ -109,11 +109,51 @@ export class PrefUtil {
   }
 
   saveClassicalLiteratureSentenceVersion(version: number) {
-    this.setNumber(PrefConst.CLASSICALLITERATURE_SENTENCE, version)
+    this.set(PrefConst.CLASSICALLITERATURE_SENTENCE, version)
   }
 
   getClassicalLiteratureSentenceVersion(): number {
     return this.getNumber(PrefConst.CLASSICALLITERATURE_SENTENCE)
+  }
+
+  saveSnapshotFontColor(color: string) {
+    this.set(PrefConst.SNAPSHOT_FONT_COLOR, color)
+  }
+
+  getSnapshotFontColor(): string {
+    return this.getString(PrefConst.SNAPSHOT_FONT_COLOR, '#000000');
+  }
+
+  saveSnapshotFontSize(size: number) {
+    this.set(PrefConst.SNAPSHOT_FONT_SIZE, size)
+  }
+
+  getSnapshotFontSize(): number {
+    return this.getNumber(PrefConst.SNAPSHOT_FONT_SIZE, 18)
+  }
+
+  saveSnapshotPaddingX(x: number) {
+    this.set(PrefConst.SNAPSHOT_PADDING_X, x)
+  }
+
+  getSnapshotPaddingX(): number {
+    return this.getNumber(PrefConst.SNAPSHOT_PADDING_X, 16)
+  }
+
+  saveSnapshotPaddingY(y: number) {
+    this.set(PrefConst.SNAPSHOT_PADDING_Y, y)
+  }
+
+  getSnapshotPaddingY(): number {
+    return this.getNumber(PrefConst.SNAPSHOT_PADDING_Y, 32)
+  }
+
+  saveSnapshotBackgroundColor(color: string) {
+    this.set(PrefConst.SNAPSHOT_BACKGROUND_COLOR, color)
+  }
+
+  getSnapshotBackgroundColor(): string {
+    return this.getString(PrefConst.SNAPSHOT_BACKGROUND_COLOR, '#426666')
   }
 
   public getBoolean(key: string, defaultValue: boolean = false) {
@@ -129,14 +169,14 @@ export class PrefUtil {
     return value;
   }
 
-  private setNumber(key: string, data: number) {
+  /*private setNumber(key: string, data: number) {
     try {
       this.preference?.putSync(key, data)
     } catch (error) {
       let err = error as BusinessError
       this.logger.error(`save data failed, key = ${key}, code = ${err.code}, messge = ${err.message}`)
     }
-  }
+  }*/
 
   private getNumber(key: string, defaultValue: number = 0): number {
     let value = defaultValue
@@ -150,7 +190,27 @@ export class PrefUtil {
     return value;
   }
 
-  private setBoolean(key: string, data: boolean) {
+  /*private setBoolean(key: string, data: boolean) {
+    try {
+      this.preference?.putSync(key, data)
+    } catch (error) {
+      let err = error as BusinessError
+      this.logger.error(`save data failed, key = ${key}, code = ${err.code}, messge = ${err.message}`)
+    }
+  }*/
+
+  private getString(key: string, defaultValue: string = ''): string {
+    let value = defaultValue
+    try {
+      value = this.preference?.getSync(key, defaultValue) as string
+    } catch (error) {
+      let err = error as BusinessError
+      this.logger.error(`get data failed, key = ${key}, code = ${err.code}, messge = ${err.message}`)
+    }
+    return value;
+  }
+
+  private set(key: string, data: boolean | number | string) {
     try {
       this.preference?.putSync(key, data)
     } catch (error) {

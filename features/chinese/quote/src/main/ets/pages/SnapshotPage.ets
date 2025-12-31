@@ -1,8 +1,9 @@
 import { getQuote, Quote } from '../model/Quote';
-import { QuoteView } from '../view/QuoteView';
+import { SnapshotView } from '../view/QuoteView';
 import { ParamNumberId, String } from 'constants';
 import { image } from '@kit.ImageKit';
 import { CopyrightView, SnapshotToolbar } from 'uicomponents';
+import PrefUtil from 'utils/src/main/ets/data/PrefUtil';
 
 @Builder
 export function SnapshotPageBuilder() {
@@ -14,6 +15,11 @@ struct SnapshotPage {
   @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack()
   @Local quote: Quote | undefined;
   @Local pixmap: image.PixelMap | undefined = undefined;
+  @Local paddingX: number = PrefUtil.getSnapshotPaddingX();
+  @Local paddingY: number = PrefUtil.getSnapshotPaddingY();
+  @Local fontSize: number = PrefUtil.getSnapshotFontSize();
+  @Local fontColor: string = PrefUtil.getSnapshotFontColor();
+  @Local bgColor: string = PrefUtil.getSnapshotBackgroundColor();
 
   build() {
     NavDestination() {
@@ -23,19 +29,30 @@ struct SnapshotPage {
             Column({
               space: 32
             }) {
-              QuoteView({ quote: this.quote })
-              CopyrightView()
+              SnapshotView({ quote: this.quote, fontSize: this.fontSize, fontColor: this.fontColor })
+              CopyrightView({
+                fontColor: this.fontColor
+              })
             }
-            .backgroundColor('#426666')
+            .backgroundColor(this.bgColor)
             .width('100%')
             .padding({
-              left: 16,
-              right: 16,
-              top: 64,
-              bottom: 64
+              left: this.paddingX,
+              right: this.paddingX,
+              top: this.paddingY,
+              bottom: this.paddingY
             })
             .id('image')
-            SnapshotToolbar()
+
+            SnapshotToolbar({
+              change: (paddingX: number, paddingY: number, fontSize: number, fontColor: string, bgColor: string) => {
+                this.paddingX = paddingX;
+                this.paddingY = paddingY;
+                this.fontSize = fontSize;
+                this.fontColor = fontColor;
+                this.bgColor = bgColor
+              }
+            })
           }
         }
       }
