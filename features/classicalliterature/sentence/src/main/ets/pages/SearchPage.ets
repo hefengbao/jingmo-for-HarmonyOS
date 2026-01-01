@@ -38,6 +38,7 @@ export struct SearchPage {
           ListItem(){
             Text(item.content)
               .width('100%')
+              .padding(ThemeConst.P_X16_Y8)
               .onClick(() => {
                 this.pageStack.pushPathByName("SentenceShowPage", new ParamNumberId(item.id))
               })

@@ -113,7 +113,7 @@ export async function getBookmarks(): Promise<Sentence[]> {
 export async function search(query: string): Promise<Sentence[]> {
   let objs: Sentence[] = [];
 
-  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.SEARCH_CLASSICALLITERATURE_SENTENCE, [`${query}`])
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.SEARCH_CLASSICALLITERATURE_SENTENCE, [`%${query}%`])
     .then((resultSet: relationalStore.ResultSet) => {
       try {
         while (resultSet.goToNextRow()) {
