@@ -14,12 +14,17 @@
       }
     },
     {
+      "name": "QuoteSearchPage",
+      "pageSourceFile": "src/main/ets/pages/SearchPage.ets",
+      "buildFunction": "SearchPageBuilder"
+    },
+    {
       "name": "QuoteShowPage",
       "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
       "buildFunction": "ShowPageBuilder"
     },
     {
-      "name": "SnapshotPage",
+      "name": "QuoteSnapshotPage",
       "pageSourceFile": "src/main/ets/pages/SnapshotPage.ets",
       "buildFunction": "SnapshotPageBuilder"
     }

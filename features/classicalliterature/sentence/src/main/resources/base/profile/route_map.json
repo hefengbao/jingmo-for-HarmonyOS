@@ -14,6 +14,11 @@
       }
     },
     {
+      "name": "SentenceSearchPage",
+      "pageSourceFile": "src/main/ets/pages/SearchPage.ets",
+      "buildFunction": "SearchPageBuilder"
+    },
+    {
       "name": "SentenceShowPage",
       "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
       "buildFunction": "ShowPageBuilder"

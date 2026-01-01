@@ -110,6 +110,27 @@ export async function getBookmarks(): Promise<Sentence[]> {
   return objs;
 }
 
+export async function search(query: string): Promise<Sentence[]> {
+  let objs: Sentence[] = [];
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.SEARCH_CLASSICALLITERATURE_SENTENCE, [`${query}`])
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          objs.push(parse(resultSet))
+        }
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    })
+    .catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    })
+
+  return objs;
+}
+
 /**
  * @throws
  */

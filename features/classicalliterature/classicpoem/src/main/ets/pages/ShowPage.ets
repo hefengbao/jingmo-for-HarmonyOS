@@ -39,7 +39,7 @@ export struct ShowPage {
         bottom: this.avoidAreaObserver.navigation?.bottomRect.height
       })
     }
-    .title(String.bookmark)
+    .title(String.classicalliterature_classicpoem)
     .toolbarConfiguration([
       {
         "value": this.bookmarked ? String.cancel_bookmark : String.add_bookmark,

@@ -188,6 +188,7 @@ export struct SnapshotToolbar {
       .alignListItem(ListItemAlign.Center)
       .margin({ top: '10vp' })
       .width('100%')
+      .height('100%')
       // 第二步：设置滚动组件的嵌套滚动属性
       .nestedScroll({
         scrollForward: NestedScrollMode.PARENT_FIRST,
@@ -252,12 +253,12 @@ export struct SnapshotToolbar {
               format: 'image/png',
               quality: 100,
             };
-            imagePackerApi.packing(pixmap, packOpts).then((data) => {
+            imagePackerApi.packToData(pixmap, packOpts).then((data) => {
               fileIo.writeSync(file.fd, data);
               fileIo.closeSync(file.fd);
               logger.info(`Succeeded in packToFile`);
               try {
-                promptAction.showToast({
+                this.getUIContext().getPromptAction().showToast({
                   message: '保存成功',
                   duration: 1800
                 })

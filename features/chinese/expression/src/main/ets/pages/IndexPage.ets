@@ -48,6 +48,13 @@ export struct IndexPage {
         action: (() => {
           this.pageStack.pushPathByName("ExpressionBookmarkPage", null)
         })
+      },
+      {
+        value: String.search,
+        icon: Icon.ic_public_search,
+        action: (() => {
+          this.pageStack.pushPathByName("ExpressionSearchPage", null)
+        })
       }
     ])
     .toolbarConfiguration([

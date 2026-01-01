@@ -94,6 +94,9 @@ export class DbCRUDConst {
     'select * from ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
       ' where id = (select id from ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
       ' order by random() limit 1) limit 1';
+  static readonly SEARCH_CHINESE_ANTITHETICALCOUPLET: string =
+    'select * from ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
+      ' where body like ?';
   static readonly CHINESE_ANTITHETICALCOUPLETI_BOOKMARKS: string =
     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
       ' join ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE + ' as tbl' +
@@ -112,6 +115,9 @@ export class DbCRUDConst {
     'select * from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
       ' where id = (select id from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
       ' order by random() limit 1) limit 1';
+  static readonly SEARCH_CHINESE_EXPRESSION: string =
+    'select * from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+      ' where word like ?';
   static readonly CHINESE_EXPRESSION_BOOKMARKS: string =
     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
       ' join ' + DbTableConst.CHINESE_EXPRESSION_TABLE + ' as tbl' +
@@ -121,6 +127,9 @@ export class DbCRUDConst {
     'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE +
       ' where id = (select id from ' + DbTableConst.CHINESE_IDIOM_TABLE +
       ' order by random() limit 1) limit 1';
+  static readonly SEARCH_CHINESE_IDIOM: string =
+    'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+      ' where word like ?';
   static readonly CHINESE_IDIOM_BOOKMARKS: string =
     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
       ' join ' + DbTableConst.CHINESE_IDIOM_TABLE + ' as tbl' +
@@ -130,6 +139,9 @@ export class DbCRUDConst {
     'select * from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
       ' where id = (select id from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
       ' order by random() limit 1) limit 1';
+  static readonly SEARCH_CHINESE_KNOWLEDGE: string =
+    'select * from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+      ' where content like ?';
   static readonly CHINESE_KNOWLEDGE_BOOKMARKS: string =
     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
       ' join ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE + ' as tbl' +
@@ -139,6 +151,9 @@ export class DbCRUDConst {
     'select * from ' + DbTableConst.CHINESE_QUOTE_TABLE +
       ' where id = (select id from ' + DbTableConst.CHINESE_QUOTE_TABLE +
       ' order by random() limit 1) limit 1';
+  static readonly SEARCH_CHINESE_QUOTE: string =
+    'select * from ' + DbTableConst.CHINESE_QUOTE_TABLE +
+      ' where content like ?';
   static readonly CHINESE_QUOTE_BOOKMARKS: string =
     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
       ' join ' + DbTableConst.CHINESE_QUOTE_TABLE + ' as tbl' +
@@ -152,13 +167,19 @@ export class DbCRUDConst {
     'select tbl.* from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' as tbl' +
       ' join ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE + ' as v' +
       ' on tbl.id = v.id where ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE + ' match ?';
-  static readonly SEARCH_CLASSICALLITERATURE_CLASSICPOEM2: string =
-    'select tbl.* from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE + ' as tbl' +
-      ' where tbl match \'金\'';
+  static readonly CLASSICALLITERATURE_CLASSICPOEM_BOOKMARKS: string =
+    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+      ' join ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' as tbl' +
+      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_CLASSICPOEM +
+      '\'' +
+      ' order by b.id desc';
   static readonly READ_RANDOM_CLASSICALLITERATURE_SENTENCE: string =
     'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
       ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
       ' order by random() limit 1) limit 1';
+  static readonly SEARCH_CLASSICALLITERATURE_SENTENCE: string =
+    'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+      ' where content like ?';
   static readonly CLASSICALLITERATURE_SENTENCE_BOOKMARKS: string =
     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
       ' join ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE + ' as tbl' +

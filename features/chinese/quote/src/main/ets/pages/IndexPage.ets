@@ -54,7 +54,16 @@ export struct IndexPage {
         icon: Icon.ic_public_picture,
         action: (() => {
           if (this.quote) {
-            this.pageStack.pushPathByName("SnapshotPage", new ParamNumberId(this.quote.id))
+            this.pageStack.pushPathByName("QuoteSnapshotPage", new ParamNumberId(this.quote.id))
+          }
+        })
+      },
+      {
+        value: String.search,
+        icon: Icon.ic_public_search,
+        action: (() => {
+          if (this.quote) {
+            this.pageStack.pushPathByName("QuoteSearchPage", null)
           }
         })
       }

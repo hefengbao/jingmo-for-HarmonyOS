@@ -48,7 +48,15 @@ export struct IndexPage {
         action: (() => {
           this.pageStack.pushPathByName("IdiomBookmarkPage", null)
         })
+      },
+      {
+        value: String.search,
+        icon: Icon.ic_public_search,
+        action: (() => {
+          this.pageStack.pushPathByName("IdiomSearchPage", null)
+        })
       }
+
     ])
     .toolbarConfiguration([
       {

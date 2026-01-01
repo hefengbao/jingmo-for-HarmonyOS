@@ -11,6 +11,11 @@
       "buildFunction": "IndexPageBuilder"
     },
     {
+      "name": "KnowledgeSearchPage",
+      "pageSourceFile": "src/main/ets/pages/SearchPage.ets",
+      "buildFunction": "SearchPageBuilder"
+    },
+    {
       "name": "KnowledgeShowPage",
       "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
       "buildFunction": "ShowPageBuilder"

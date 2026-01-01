@@ -111,6 +111,27 @@ export async function getBookmarks(): Promise<Knowledge[]> {
   return objs;
 }
 
+export async function search(query: string): Promise<Knowledge[]> {
+  let objs: Knowledge[] = [];
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.SEARCH_CHINESE_KNOWLEDGE, [`%${query}%`])
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          objs.push(parse(resultSet))
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return objs;
+}
+
 /**
  * @throws
  */
