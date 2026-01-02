@@ -19,6 +19,11 @@
       "name": "KnowledgeShowPage",
       "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
       "buildFunction": "ShowPageBuilder"
+    },
+    {
+      "name": "KnowledgeSnapshotPage",
+      "pageSourceFile": "src/main/ets/pages/SnapshotPage.ets",
+      "buildFunction": "SnapshotPageBuilder"
     }
   ]
 }

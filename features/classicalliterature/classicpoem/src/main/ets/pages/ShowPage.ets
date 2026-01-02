@@ -40,6 +40,17 @@ export struct ShowPage {
       })
     }
     .title(String.classicalliterature_classicpoem)
+    .menus([
+      {
+        value: String.snapshot,
+        icon: Icon.ic_public_picture,
+        action: (() => {
+          if (this.classicPoem) {
+            this.pageStack.pushPathByName("ClassicPoemSnapshotPage", new ParamNumberId(this.classicPoem.id))
+          }
+        })
+      },
+    ])
     .toolbarConfiguration([
       {
         "value": this.bookmarked ? String.cancel_bookmark : String.add_bookmark,

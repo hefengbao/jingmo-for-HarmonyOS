@@ -38,6 +38,17 @@ export struct ShowPage {
       .align(Alignment.TopStart)
     }
     .title(String.chinese_antitheticalcouplet)
+    .menus([
+      {
+        value: String.snapshot,
+        icon: Icon.ic_public_picture,
+        action: (() => {
+          if (this.antitheticalCouplet) {
+            this.pageStack.pushPathByName("AntitheticalCoupletSnapshotPage", new ParamNumberId(this.antitheticalCouplet.id))
+          }
+        })
+      },
+    ])
     .toolbarConfiguration([
       {
         "value": this.bookmarked ? String.cancel_bookmark : String.add_bookmark,

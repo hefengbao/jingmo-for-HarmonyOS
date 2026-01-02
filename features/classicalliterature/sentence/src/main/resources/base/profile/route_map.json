@@ -22,6 +22,11 @@
       "name": "SentenceShowPage",
       "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
       "buildFunction": "ShowPageBuilder"
+    },
+    {
+      "name": "SentenceSnapshotPage",
+      "pageSourceFile": "src/main/ets/pages/SnapshotPage.ets",
+      "buildFunction": "SnapshotPageBuilder"
     }
   ]
 }

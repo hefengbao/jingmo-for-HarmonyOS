@@ -22,3 +22,22 @@ export struct ContentView {
     .width('100%')
   }
 }
+
+@ComponentV2
+export struct SnapshotView {
+  @Param @Require antitheticalCouplet: AntitheticalCouplet;
+  @Param @Require fontSize: number;
+  @Param @Require fontColor: string;
+
+  build() {
+    Column() {
+      Text(this.antitheticalCouplet.body)
+        .width('100%')
+        .textAlign(TextAlign.Center)
+        .padding(ThemeConst.P_X16_Y8)
+        .fontColor(this.fontColor)
+        .fontSize(this.fontSize)
+    }
+    .width('100%')
+  }
+}

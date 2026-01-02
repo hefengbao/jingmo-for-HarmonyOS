@@ -51,3 +51,36 @@ export struct ClassicPoemView {
     }
   }
 }
+
+@ComponentV2
+export struct SnapshotView {
+  @Param @Require classicPoem: ClassicPoem;
+  @Param @Require fontSize: number;
+  @Param @Require fontColor: string;
+
+  build() {
+    Column() {
+      Text(this.classicPoem.title)
+        .padding(ThemeConst.P_X16_Y8)
+        .fontColor(this.fontColor)
+        .fontSize(this.fontSize)
+      Text(`【${this.classicPoem.dynasty}】${this.classicPoem.writer}`)
+        .padding(ThemeConst.P_X16_Y8)
+        .fontSize(ThemeConst.FontSize_14)
+        .fontColor(this.fontColor)
+      if (this.classicPoem.preface) {
+        Text(this.classicPoem.preface)
+          .fontSize(ThemeConst.FontSize_14)
+          .fontStyle(FontStyle.Italic)
+          .fontColor(this.fontColor)
+          .padding(ThemeConst.P_X16_Y8)
+      }
+
+      Text(this.classicPoem.content)
+        .padding(ThemeConst.P_X16_Y8)
+        .lineHeight(24)
+        .fontColor(this.fontColor)
+        .fontSize(this.fontSize)
+    }
+  }
+}

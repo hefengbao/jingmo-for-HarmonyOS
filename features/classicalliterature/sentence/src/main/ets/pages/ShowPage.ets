@@ -39,6 +39,17 @@ export struct ShowPage {
       .align(Alignment.TopStart)
     }
     .title(String.classicalliterature_sentence)
+    .menus([
+      {
+        value: String.snapshot,
+        icon: Icon.ic_public_picture,
+        action: (() => {
+          if (this.sentence) {
+            this.pageStack.pushPathByName("SentenceSnapshotPage", new ParamNumberId(this.sentence.id))
+          }
+        })
+      },
+    ])
     .toolbarConfiguration([
       {
         "value": this.bookmarked ? String.cancel_bookmark : String.add_bookmark,

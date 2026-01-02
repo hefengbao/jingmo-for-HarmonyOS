@@ -1,8 +1,8 @@
 import { ClassicPoem, getRandomClassicPoem } from '../model/ClassicPoem';
-import { AvoidAreaObserver, Icon, PrefConst, String } from 'constants';
+import { AvoidAreaObserver, Icon, ParamNumberId, PrefConst, String } from 'constants';
 import { ClassicPoemView } from '../view/ContentView';
 import { AppStorageV2 } from '@kit.ArkUI';
-import { Bookmark, cancelBookmark, getBookmark } from 'bookmark';
+import { Bookmark, getBookmark } from 'bookmark';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { Logger } from 'utils';
 import ClassicPoemViewModel from '../viewmodel/ClassicPoemViewModel';
@@ -63,6 +63,15 @@ export struct IndexPage {
         icon: Icon.ic_bookmark_border,
         action: (() => {
           this.pageStack.pushPathByName("ClassicPoemBookmarkPage", null)
+        })
+      },
+      {
+        value: String.snapshot,
+        icon: Icon.ic_public_picture,
+        action: (() => {
+          if (this.classicPoem) {
+            this.pageStack.pushPathByName("ClassicPoemSnapshotPage", new ParamNumberId(this.classicPoem.id))
+          }
         })
       },
       {

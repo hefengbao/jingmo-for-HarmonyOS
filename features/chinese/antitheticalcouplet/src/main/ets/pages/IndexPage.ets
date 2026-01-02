@@ -1,4 +1,4 @@
-import { AvoidAreaObserver, Icon, String } from 'constants';
+import { AvoidAreaObserver, Icon, ParamNumberId, String } from 'constants';
 import { AntitheticalCouplet, getRandomAntitheticalCouplet } from '../model/AntitheticalCouplet';
 import { ContentView } from '../view/ContentView';
 import { AppStorageV2 } from '@kit.ArkUI';
@@ -48,6 +48,15 @@ export struct IndexPage {
         icon: Icon.ic_bookmark_border,
         action: (() => {
           this.pageStack.pushPathByName("AntitheticalCoupletBookmarkPage", null)
+        })
+      },
+      {
+        value: String.snapshot,
+        icon: Icon.ic_public_picture,
+        action: (() => {
+          if (this.antitheticalCouplet) {
+            this.pageStack.pushPathByName("AntitheticalCoupletSnapshotPage", new ParamNumberId(this.antitheticalCouplet.id))
+          }
         })
       },
       {

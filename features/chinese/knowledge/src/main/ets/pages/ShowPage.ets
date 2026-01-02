@@ -37,6 +37,17 @@ export struct ShowPage {
       .align(Alignment.TopStart)
     }
     .title(String.chinese_knowledge)
+    .menus([
+      {
+        value: String.snapshot,
+        icon: Icon.ic_public_picture,
+        action: (() => {
+          if (this.knowledge) {
+            this.pageStack.pushPathByName("KnowledgeSnapshotPage", new ParamNumberId(this.knowledge.id))
+          }
+        })
+      },
+    ])
     .toolbarConfiguration([
       {
         "value": this.bookmarked ? String.cancel_bookmark : String.add_bookmark,

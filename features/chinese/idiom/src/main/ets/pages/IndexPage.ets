@@ -1,4 +1,4 @@
-import { AvoidAreaObserver, Icon, String } from 'constants';
+import { AvoidAreaObserver, Icon, ParamNumberId, String } from 'constants';
 import { getRandomIdiom, Idiom } from '../model/Idiom';
 import { IdiomView } from '../view/IdiomView';
 import { AppStorageV2 } from '@kit.ArkUI';
@@ -47,6 +47,15 @@ export struct IndexPage {
         icon: Icon.ic_bookmark_border,
         action: (() => {
           this.pageStack.pushPathByName("IdiomBookmarkPage", null)
+        })
+      },
+      {
+        value: String.snapshot,
+        icon: Icon.ic_public_picture,
+        action: (() => {
+          if (this.idiom) {
+            this.pageStack.pushPathByName("IdiomSnapshotPage", new ParamNumberId(this.idiom.id))
+          }
         })
       },
       {

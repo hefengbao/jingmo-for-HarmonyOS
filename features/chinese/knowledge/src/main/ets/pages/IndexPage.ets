@@ -1,4 +1,4 @@
-import { AvoidAreaObserver, Icon, String } from 'constants';
+import { AvoidAreaObserver, Icon, ParamNumberId, String } from 'constants';
 import { getRandomKnowledge, Knowledge } from '../model/Knowledge';
 import { KnowledgeView } from '../view/KnowledgeView';
 import { AppStorageV2 } from '@kit.ArkUI';
@@ -47,6 +47,15 @@ export struct IndexPage {
         icon: Icon.ic_bookmark_border,
         action: (() => {
           this.pageStack.pushPathByName("KnowledgeBookmarkPage", null)
+        })
+      },
+      {
+        value: String.snapshot,
+        icon: Icon.ic_public_picture,
+        action: (() => {
+          if (this.knowledge) {
+            this.pageStack.pushPathByName("KnowledgeSnapshotPage", new ParamNumberId(this.knowledge.id))
+          }
         })
       },
       {

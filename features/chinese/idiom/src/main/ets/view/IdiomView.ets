@@ -21,12 +21,12 @@ export struct IdiomView {
 
       if (this.idiom.source) {
         BoldTitle({ text: '出处' })
-        ContentText({ text: this.parseSource(this.idiom.source) })
+        ContentText({ text: parseSource(this.idiom.source) })
       }
 
       if (this.idiom.quote) {
         BoldTitle({ text: '名著引用' })
-        ContentText({ text: this.parseQuote(this.idiom.quote) })
+        ContentText({ text: parseQuote(this.idiom.quote) })
       }
 
       if (this.idiom.story) {
@@ -38,28 +38,69 @@ export struct IdiomView {
     }
     .width('100%')
   }
+}
 
-  parseSource(source: IdiomSource): string {
-    let txt = '';
-    if (source.text) {
-      txt += source.text;
-    }
-    if (source.book) {
-      txt += ' ——' + source.book
-    }
+@ComponentV2
+export struct SnapshotView {
+  @Param @Require idiom: Idiom;
+  @Param @Require fontSize: number;
+  @Param @Require fontColor: string;
 
-    return txt;
+  build() {
+    Column() {
+      Text(this.idiom.pinyin)
+        .width('100%')
+        .padding(ThemeConst.P_X16_Y8)
+        .fontSize(12)
+        .fontColor(this.fontColor)
+      ContentText({ text: this.idiom.word, fontSize: this.fontSize, fontColor: this.fontColor })
+
+      if (this.idiom.explanation) {
+        BoldTitle({ text: '释义', fontColor: this.fontColor })
+        ContentText({ text: this.idiom.explanation, fontSize: this.fontSize, fontColor: this.fontColor })
+      }
+
+      if (this.idiom.source) {
+        BoldTitle({ text: '出处', fontColor: this.fontColor })
+        ContentText({ text: parseSource(this.idiom.source), fontSize: this.fontSize, fontColor: this.fontColor })
+      }
+
+      if (this.idiom.quote) {
+        BoldTitle({ text: '名著引用', fontColor: this.fontColor })
+        ContentText({ text: parseQuote(this.idiom.quote), fontSize: this.fontSize, fontColor: this.fontColor })
+      }
+
+      if (this.idiom.story) {
+        BoldTitle({ text: '成语故事', fontColor: this.fontColor })
+        ForEach(this.idiom.story, ((item: string) => {
+          ContentText({ text: item, fontSize: this.fontSize, fontColor: this.fontColor })
+        }))
+      }
+    }
+    .width('100%')
+  }
+}
+
+function parseSource(source: IdiomSource): string {
+  let txt = '';
+  if (source.text) {
+    txt += source.text;
+  }
+  if (source.book) {
+    txt += ' ——' + source.book
   }
 
-  parseQuote(quote: IdiomQuote): string {
-    let txt = '';
-    if (quote.text) {
-      txt += quote.text;
-    }
-    if (quote.book) {
-      txt += ' ——' + quote.book
-    }
+  return txt;
+}
 
-    return txt;
+function parseQuote(quote: IdiomQuote): string {
+  let txt = '';
+  if (quote.text) {
+    txt += quote.text;
   }
+  if (quote.book) {
+    txt += ' ——' + quote.book
+  }
+
+  return txt;
 }

@@ -37,6 +37,17 @@ export struct ShowPage {
       .align(Alignment.TopStart)
     }
     .title(String.chinese_idiom)
+    .menus([
+      {
+        value: String.snapshot,
+        icon: Icon.ic_public_picture,
+        action: (() => {
+          if (this.idiom) {
+            this.pageStack.pushPathByName("IdiomSnapshotPage", new ParamNumberId(this.idiom.id))
+          }
+        })
+      },
+    ])
     .toolbarConfiguration([
       {
         "value": this.bookmarked ? String.cancel_bookmark : String.add_bookmark,

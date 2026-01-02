@@ -1,4 +1,4 @@
-import { AvoidAreaObserver, Icon, String } from 'constants';
+import { AvoidAreaObserver, Icon, ParamNumberId, String } from 'constants';
 import { getRandomSentence, Sentence } from '../model/Sentence';
 import { SentenceView } from '../view/SentenceView';
 import { AppStorageV2 } from '@kit.ArkUI';
@@ -60,6 +60,15 @@ export struct IndexPage {
         icon: Icon.ic_bookmark_border,
         action: (() => {
           this.pageStack.pushPathByName("SentenceBookmarkPage", null)
+        })
+      },
+      {
+        value: String.snapshot,
+        icon: Icon.ic_public_picture,
+        action: (() => {
+          if (this.sentence) {
+            this.pageStack.pushPathByName("SentenceSnapshotPage", new ParamNumberId(this.sentence.id))
+          }
         })
       },
       {
