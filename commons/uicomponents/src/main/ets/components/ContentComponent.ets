@@ -2,7 +2,8 @@ import { ThemeConst } from 'constants';
 
 @ComponentV2
 export struct BoldTitle {
-  @Param @Require @Once text: string | Resource
+  @Param @Require @Once text: string | Resource;
+  @Param fontColor: string | Resource = $r('sys.color.ohos_id_color_text_primary')
 
   build() {
     Text(this.text)
@@ -10,6 +11,7 @@ export struct BoldTitle {
       .padding(ThemeConst.P_X16_Y8)
       .width('100%')
       .textAlign(TextAlign.Start)
+      .fontColor(this.fontColor)
   }
 }
 
