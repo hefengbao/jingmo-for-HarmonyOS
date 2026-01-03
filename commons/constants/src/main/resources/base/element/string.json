@@ -135,6 +135,10 @@
     {
       "name": "search",
       "value": "搜索"
+    },
+    {
+      "name": "calendar",
+      "value": "日历"
     }
   ]
 }

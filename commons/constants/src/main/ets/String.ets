@@ -26,11 +26,12 @@ export class String {
   static readonly traditionalculture_festival: Resource = $r('app.string.traditionalculture_festival');
   static readonly traditionalculture_solarterm: Resource = $r('app.string.traditionalculture_solarterm');
   static readonly http_error_message: Resource = $r('app.string.http_error_message');
-  static readonly refresh: Resource = $r('app.string.refresh');
-  static readonly settings: Resource = $r('app.string.settings');
-  static readonly bookmark: Resource = $r('app.string.bookmark');
   static readonly add_bookmark: Resource = $r('app.string.add_bookmark');
+  static readonly bookmark: Resource = $r('app.string.bookmark');
+  static readonly calendar: Resource = $r('app.string.calendar');
   static readonly cancel_bookmark: Resource = $r('app.string.cancel_bookmark');
-  static readonly snapshot: Resource = $r('app.string.snapshot');
+  static readonly refresh: Resource = $r('app.string.refresh');
   static readonly search: Resource = $r('app.string.search');
+  static readonly settings: Resource = $r('app.string.settings');
+  static readonly snapshot: Resource = $r('app.string.snapshot');
 }

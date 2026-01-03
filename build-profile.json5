@@ -131,6 +131,10 @@
     {
       "name": "data",
       "srcPath": "./commons/data",
+    },
+    {
+      "name": "calendar",
+      "srcPath": "./features/traditionalculture/calendar",
     }
   ]
 }

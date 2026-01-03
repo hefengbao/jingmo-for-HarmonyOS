@@ -19,6 +19,7 @@
     "chinese_idiom": "file:../chinese/idiom",
     "chinese_knowledge": "file:../chinese/knowledge",
     "chinese_quote": "file:../chinese/quote",
+    "traditionalculture_calendar": "file:../traditionalculture/calendar",
     "traditionalculture_color": "file:../traditionalculture/color",
     "traditionalculture_festival": "file:../traditionalculture/festival",
     "traditionalculture_solarterm": "file:../traditionalculture/solarterm",

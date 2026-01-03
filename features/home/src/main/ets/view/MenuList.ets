@@ -125,6 +125,14 @@ export struct MenuList {
         })
       }
 
+      /*GridItem() {
+        Item({
+          title: String.traditionalculture_calendar
+        }).onClick(() => {
+          this.pageStack.pushPathByName('CalendarIndexPage', null)
+        })
+      }*/
+
       GridItem() {
         Title({
           title: String.china

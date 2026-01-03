@@ -1,0 +1,13 @@
+{
+  "name": "traditionalculture_calendar",
+  "version": "1.0.0",
+  "description": "老黄历模块",
+  "main": "Index.ets",
+  "author": "贺丰宝（hefengbao）",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "constants": "file:../../../commons/constants",
+    "uicomponents": "file:../../../commons/uicomponents",
+    "utils": "file:../../../commons/utils"
+  }
+}
