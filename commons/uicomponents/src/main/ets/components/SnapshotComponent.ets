@@ -1,5 +1,4 @@
 import { Icon, PrefConst, ThemeConst } from 'constants';
-import { promptAction } from '@kit.ArkUI';
 import { image } from '@kit.ImageKit';
 import { photoAccessHelper } from '@kit.MediaLibraryKit';
 import { fileIo } from '@kit.CoreFileKit';
@@ -19,8 +18,9 @@ export struct SnapshotToolbar {
   @Local fontColor: string = PrefUtil.getSnapshotFontColor();
   @Local bgColor: string = PrefUtil.getSnapshotBackgroundColor();
   @Local chineseColors: ChineseColor[] = getChineseColorList();
-  @Event change:(paddingX: number, paddingY: number, fontSize: number, fontColor: string, bgColor: string) => void = (paddingX: number, paddingY: number, fontSize: number, fontColor: string, bgColor: string) => {}
-
+  @Event change: (paddingX: number, paddingY: number, fontSize: number, fontColor: string, bgColor: string) => void =
+    (paddingX: number, paddingY: number, fontSize: number, fontColor: string, bgColor: string) => {
+    }
   observer = (key: string) => {
     if (key == PrefConst.SNAPSHOT_PADDING_X) {
       this.paddingX = PrefUtil.getSnapshotPaddingX();
@@ -58,11 +58,12 @@ export struct SnapshotToolbar {
       // 第一步：自定义滚动容器
       List({ space: '10vp' }) {
         ListItem() {
-          BoldTitle({text:"边距"})
+          BoldTitle({ text: "边距" })
         }
+
         ListItem() {
-          Column(){
-            Row({ space: 16 }){
+          Column() {
+            Row({ space: 16 }) {
               Text("左右边距：")
               Button("-")
                 .onClick(() => {
@@ -81,7 +82,8 @@ export struct SnapshotToolbar {
             .alignItems(VerticalAlign.Center)
             .width('100%')
             .padding(ThemeConst.P_X16_Y8)
-            Row({ space: 16 }){
+
+            Row({ space: 16 }) {
               Text("上下边距：")
               Button("-")
                 .onClick(() => {
@@ -102,11 +104,13 @@ export struct SnapshotToolbar {
             .padding(16)
           }
         }
+
         ListItem() {
-          BoldTitle({text:"字体大小"})
+          BoldTitle({ text: "字体大小" })
         }
+
         ListItem() {
-          Row({ space: 16 }){
+          Row({ space: 16 }) {
             Button("-")
               .onClick(() => {
                 if (this.fontSize) {
@@ -125,12 +129,14 @@ export struct SnapshotToolbar {
           .width('100%')
           .padding(16)
         }
+
         ListItem() {
-          BoldTitle({text:"文字颜色"})
+          BoldTitle({ text: "文字颜色" })
         }
-        ListItem(){
-          Row({ space: 16 }){
-            Stack(){
+
+        ListItem() {
+          Row({ space: 16 }) {
+            Stack() {
               Image(Icon.ic_public_text_black)
                 .width(32)
                 .height(32)
@@ -142,7 +148,8 @@ export struct SnapshotToolbar {
             .height(40)
             .background(this.bgColor)
             .align(Alignment.Center)
-            Stack(){
+
+            Stack() {
               Image(Icon.ic_public_text_white)
                 .width(32)
                 .height(32)
@@ -159,10 +166,12 @@ export struct SnapshotToolbar {
           .width('100%')
           .padding(16)
         }
+
         ListItem() {
-          BoldTitle({text:"背景颜色"})
+          BoldTitle({ text: "背景颜色" })
         }
-        ListItem(){
+
+        ListItem() {
           Grid() {
             ForEach(this.chineseColors, (color: ChineseColor, index) => {
               GridItem() {
@@ -176,7 +185,7 @@ export struct SnapshotToolbar {
                   })
               }
               .width(100)
-            }, (color:ChineseColor):string => color.id)
+            }, (color: ChineseColor): string => color.id)
           }
           .rowsTemplate('1fr 1fr 1fr') // 只设置rowsTemplate属性，当内容超出Grid区域时，可水平滚动。
           .rowsGap(16)

@@ -44,7 +44,8 @@ export struct ShowPage {
         icon: Icon.ic_public_picture,
         action: (() => {
           if (this.antitheticalCouplet) {
-            this.pageStack.pushPathByName("AntitheticalCoupletSnapshotPage", new ParamNumberId(this.antitheticalCouplet.id))
+            this.pageStack.pushPathByName("AntitheticalCoupletSnapshotPage",
+              new ParamNumberId(this.antitheticalCouplet.id))
           }
         })
       },

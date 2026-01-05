@@ -1,11 +1,7 @@
-import { AvoidAreaObserver, Icon, ParamNumberId, String, ThemeConst } from 'constants';
-import { getRandomSentence, getSentence, search, Sentence } from '../model/Sentence';
-import { SentenceView } from '../view/SentenceView';
+import { AvoidAreaObserver, ParamNumberId, String, ThemeConst } from 'constants';
+import { search, Sentence } from '../model/Sentence';
 import { AppStorageV2 } from '@kit.ArkUI';
-import SentenceViewModel from '../viewmodel/SentenceViewModel';
-import { Bookmark } from 'bookmark';
 import { Logger } from 'utils';
-import { it } from '@ohos/hypium';
 
 let logger: Logger = new Logger('SentenceSearchPage');
 
@@ -23,10 +19,9 @@ export struct SearchPage {
 
   build() {
     NavDestination() {
-      List(){
-        ListItem(){
+      List() {
+        ListItem() {
           Search()
-            .padding(ThemeConst.P_X16_Y8)
             .onSubmit((query: string) => {
               search(query).then((value: Sentence[]) => {
                 this.sentences.push(...value)
@@ -34,8 +29,9 @@ export struct SearchPage {
             })
         }
         .padding(ThemeConst.P_X16_Y8)
+
         ForEach(this.sentences, (item: Sentence) => {
-          ListItem(){
+          ListItem() {
             Text(item.content)
               .width('100%')
               .padding(ThemeConst.P_X16_Y8)
@@ -44,7 +40,7 @@ export struct SearchPage {
               })
           }
           .padding(ThemeConst.P_X16_Y8)
-        },(item: Sentence) => item.id.toString())
+        }, (item: Sentence) => item.id.toString())
       }
       .width('100%')
       .height('100%')

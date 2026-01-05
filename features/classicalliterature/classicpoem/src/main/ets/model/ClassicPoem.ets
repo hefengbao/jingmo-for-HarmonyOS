@@ -158,27 +158,27 @@ export async function search(query: string): Promise<ClassicPoem[]> {
   let objs: ClassicPoem[] = [];
 
   logger.info(`查询：${query}`)
-/*//, [`'${query}'`]
-  await DbUtil.objectiveRDB?.querySql("select * from classicalliterature_classicpoem tbl join  classicalliterature_classicpoem_fts v on tbl.id = v.id where classicalliterature_classicpoem_fts match ?", [query])
-    .then((resultSet: relationalStore.ResultSet) => {
-      try {
-        while (resultSet.goToNextRow()) {
-          logger.info(`id：${resultSet.getString(resultSet.getColumnIndex('id'))}`)
-          logger.info(`title：${resultSet.getString(resultSet.getColumnIndex('title'))}`)
-          logger.info(`content：${resultSet.getString(resultSet.getColumnIndex('content'))}`)
-          //objs.push(parse(resultSet))
+  /*//, [`'${query}'`]
+    await DbUtil.objectiveRDB?.querySql("select * from classicalliterature_classicpoem tbl join  classicalliterature_classicpoem_fts v on tbl.id = v.id where classicalliterature_classicpoem_fts match ?", [query])
+      .then((resultSet: relationalStore.ResultSet) => {
+        try {
+          while (resultSet.goToNextRow()) {
+            logger.info(`id：${resultSet.getString(resultSet.getColumnIndex('id'))}`)
+            logger.info(`title：${resultSet.getString(resultSet.getColumnIndex('title'))}`)
+            logger.info(`content：${resultSet.getString(resultSet.getColumnIndex('content'))}`)
+            //objs.push(parse(resultSet))
+          }
+          logger.info('这里还好！！！')
+          resultSet.close()
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`！！Query is failed, code is ${err.code},message is ${err.message}`)
         }
-        logger.info('这里还好！！！')
-        resultSet.close()
-      } catch (error) {
-        let err = error as BusinessError
-        logger.error(`！！Query is failed, code is ${err.code},message is ${err.message}`)
-      }
-    }).catch(() => {
-      // TODO: Implement error handling.
-    })*/
+      }).catch(() => {
+        // TODO: Implement error handling.
+      })*/
 
-  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.SEARCH_CLASSICALLITERATURE_CLASSICPOEM,[query])
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.SEARCH_CLASSICALLITERATURE_CLASSICPOEM, [query])
     .then((resultSet: relationalStore.ResultSet) => {
       try {
         while (resultSet.goToNextRow()) {

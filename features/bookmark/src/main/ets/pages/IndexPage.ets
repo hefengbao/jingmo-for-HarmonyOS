@@ -2,7 +2,7 @@ import { AvoidAreaObserver, ParamNumberId, PrefConst, String, ThemeConst } from 
 import { Logger } from 'utils';
 import { BookmarkEntity, getEntities } from '../model/BookmarkEntity';
 import { AppStorageV2, uiObserver } from '@kit.ArkUI';
-import { BlockTitle, ContentText } from 'uicomponents';
+import { BlockTitle } from 'uicomponents';
 
 let logger: Logger = new Logger('BookmarkIndexPage')
 

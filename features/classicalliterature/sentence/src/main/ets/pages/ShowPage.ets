@@ -1,5 +1,5 @@
 import { AvoidAreaObserver, Icon, ParamNumberId, String } from 'constants';
-import { getRandomSentence, getSentence, Sentence } from '../model/Sentence';
+import { getSentence, Sentence } from '../model/Sentence';
 import { SentenceView } from '../view/SentenceView';
 import { AppStorageV2 } from '@kit.ArkUI';
 import SentenceViewModel from '../viewmodel/SentenceViewModel';

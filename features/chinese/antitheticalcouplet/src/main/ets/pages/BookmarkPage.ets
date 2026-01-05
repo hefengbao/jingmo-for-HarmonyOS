@@ -1,6 +1,7 @@
 import { ParamNumberId, String, ThemeConst } from 'constants';
 import { uiObserver } from '@kit.ArkUI';
 import { AntitheticalCouplet, getBookmarks } from '../model/AntitheticalCouplet';
+
 ;
 
 @Builder

@@ -1,4 +1,3 @@
 export {
-  WorldCulturalHeritage,
-  insertWorldCulturalHeritage
+  WorldCulturalHeritage, insertWorldCulturalHeritage
 } from './src/main/ets/model/WorldCulturalHeritage';

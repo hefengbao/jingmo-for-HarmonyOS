@@ -22,7 +22,6 @@ export struct SearchPage {
       List() {
         ListItem() {
           Search()
-            .padding(ThemeConst.P_X16_Y8)
             .onSubmit((query: string) => {
               search(query).then((value: Knowledge[]) => {
                 this.knowledges.push(...value)

@@ -29,7 +29,11 @@ struct SnapshotPage {
             Column({
               space: 32
             }) {
-              SnapshotView({ antitheticalCouplet: this.antitheticalCouplet, fontSize: this.fontSize, fontColor: this.fontColor })
+              SnapshotView({
+                antitheticalCouplet: this.antitheticalCouplet,
+                fontSize: this.fontSize,
+                fontColor: this.fontColor
+              })
               CopyrightView({
                 fontColor: this.fontColor
               })
