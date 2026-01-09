@@ -1,0 +1,24 @@
+{
+  "routerMap": [
+    {
+      "name": "PeopleBookmarkPage",
+      "pageSourceFile": "src/main/ets/pages/BookmarkPage.ets",
+      "buildFunction": "BookmarkPageBuilder"
+    },
+    {
+      "name": "PeopleIndexPage",
+      "pageSourceFile": "src/main/ets/pages/IndexPage.ets",
+      "buildFunction": "IndexPageBuilder"
+    },
+    {
+      "name": "PeopleSearchPage",
+      "pageSourceFile": "src/main/ets/pages/SearchPage.ets",
+      "buildFunction": "SearchPageBuilder"
+    },
+    {
+      "name": "PeopleShowPage",
+      "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
+      "buildFunction": "ShowPageBuilder"
+    }
+  ]
+}
