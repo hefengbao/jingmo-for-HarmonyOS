@@ -34,4 +34,6 @@ export class String {
   static readonly search: Resource = $r('app.string.search');
   static readonly settings: Resource = $r('app.string.settings');
   static readonly snapshot: Resource = $r('app.string.snapshot');
+  static readonly show_answer: Resource = $r('app.string.show_answer');
+  static readonly hide_answer: Resource = $r('app.string.hide_answer');
 }

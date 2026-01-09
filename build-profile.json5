@@ -135,6 +135,38 @@
     {
       "name": "calendar",
       "srcPath": "./features/traditionalculture/calendar",
+    },
+    {
+      "name": "people",
+      "srcPath": "./features/classicalliterature/people",
+    },
+    {
+      "name": "writing",
+      "srcPath": "./features/classicalliterature/writing",
+    },
+    {
+      "name": "lyric",
+      "srcPath": "./features/chinese/lyric",
+    },
+    {
+      "name": "poetry",
+      "srcPath": "./features/chinese/poetry",
+    },
+    {
+      "name": "proverb",
+      "srcPath": "./features/chinese/proverb",
+    },
+    {
+      "name": "tonguetwister",
+      "srcPath": "./features/chinese/tonguetwister",
+    },
+    {
+      "name": "wisecrack",
+      "srcPath": "./features/chinese/wisecrack",
+    },
+    {
+      "name": "riddle",
+      "srcPath": "./features/chinese/riddle",
     }
   ]
 }

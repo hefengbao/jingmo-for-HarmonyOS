@@ -17,7 +17,7 @@ export class ThemeConst {
     bottom: 8
   };
   static readonly ListDivider: ListDividerOptions = {
-    strokeWidth: 1,
+    strokeWidth: 0.5,
     color: $r('sys.color.ohos_id_color_text_primary'),
     startMargin: ThemeConst.P_16,
     endMargin: ThemeConst.P_16

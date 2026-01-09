@@ -1,7 +1,7 @@
 import { relationalStore } from '@kit.ArkData';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { Logger } from '../log/Logger';
-import { AppConst, DbConfigConst, DbMigrationConst } from 'constants';
+import { AppConst, DbConfigConst, DbCRUDConst, DbMigrationConst } from 'constants';
 
 /**
  * 官方文档：https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/data-persistence-by-rdb-store
@@ -29,6 +29,10 @@ export class DbUtil {
             this.migration_0_1(rdbStore)
             storeVersion = 1
           }
+          if (storeVersion == 1) {
+            this.migration_1_2(rdbStore)
+            storeVersion = 2
+          }
         }
 
         this.create_fts(rdbStore)
@@ -37,20 +41,8 @@ export class DbUtil {
       })
   }
 
-  private async create_fts(rdbStore: relationalStore.RdbStore){
-    try {
-      await rdbStore.execute("drop table classicalliterature_classicpoem_fts")
-      await rdbStore.execute(DbMigrationConst.CREATE_CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE)
-    } catch (e) {
-      const err = e as BusinessError;
-      this.logger.error(`Failed to CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE. Code:${err.code}, message:${err.message}`);
-    }
-    try {
-      await rdbStore.execute("INSERT INTO classicalliterature_classicpoem_fts(id, writer, title, content) SELECT id, writer, title, content FROM classicalliterature_classicpoem")
-    } catch (e) {
-      const err = e as BusinessError;
-      this.logger.error(`Failed to CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE. Code:${err.code}, message:${err.message}`);
-    }
+  private async create_fts(rdbStore: relationalStore.RdbStore) {
+
   }
 
   private async migration_0_1(rdbStore: relationalStore.RdbStore) {
@@ -129,6 +121,82 @@ export class DbUtil {
     } catch (e) {
       const err = e as BusinessError;
       this.logger.error(`Failed to CREATE_BOOKMARKS_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+  }
+
+  private async migration_1_2(rdbStore: relationalStore.RdbStore) {
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_LYRIC_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINESE_LYRIC_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_LYRIC_FTS_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINESE_LYRIC_FTS_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_MODERNPOETRY_FTS_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINESE_MODERNPOETRY_FTS_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_PROVERB_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINESE_PROVERB_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_RIDDLE_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINESE_RIDDLE_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_TONGUETWISTER_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINESE_TONGUETWISTER_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_WISECRACK_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CHINESE_WISECRACK_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+    try {
+      await rdbStore.execute(DbCRUDConst.INSERT_CLASSICALLITERATURE_CLASSICPOEM_FTS)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to INSERT_CLASSICALLITERATURE_CLASSICPOEM_FTS. Code:${err.code}, message:${err.message}`);
+    }
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CLASSICALLITERATURE_PEOPLE_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CLASSICALLITERATURE_PEOPLE_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CLASSICALLITERATURE_WRITING_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CLASSICALLITERATURE_WRITING_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_CLASSICALLITERATURE_WRITING_FTS_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_CLASSICALLITERATURE_WRITING_FTS_TABLE. Code:${err.code}, message:${err.message}`);
     }
   }
 }

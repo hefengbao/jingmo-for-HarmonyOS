@@ -92,12 +92,60 @@ export class PrefUtil {
     return this.getNumber(PrefConst.CHINESE_KNOWLEDGE)
   }
 
-  saveChineseQuoteVersion(version: number) {
-    this.set(PrefConst.CHINESE_QUOTE, version)
+  getChineseLyricVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_LYRIC)
+  }
+
+  saveChineseLyricVersion(version: number) {
+    this.set(PrefConst.CHINESE_LYRIC, version)
+  }
+
+  getChineseModernPoetryVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_MODERNPOETRY)
+  }
+
+  saveChineseModernPoetryVersion(version: number) {
+    this.set(PrefConst.CHINESE_MODERNPOETRY, version)
+  }
+
+  getChineseProverbVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_PROVERB)
+  }
+
+  saveChineseProverbVersion(version: number) {
+    this.set(PrefConst.CHINESE_PROVERB, version)
   }
 
   getChineseQuoteVersion(): number {
     return this.getNumber(PrefConst.CHINESE_QUOTE)
+  }
+
+  saveChineseQuoteVersion(version: number) {
+    this.set(PrefConst.CHINESE_QUOTE, version)
+  }
+
+  getChineseRiddleVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_RIDDLE)
+  }
+
+  saveChineseRiddleVersion(version: number) {
+    this.set(PrefConst.CHINESE_RIDDLE, version)
+  }
+
+  getChineseTongueTwisterVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_TONGUETWISTER)
+  }
+
+  saveChineseTongueTwisterVersion(version: number) {
+    this.set(PrefConst.CHINESE_TONGUETWISTER, version)
+  }
+
+  getChineseWisecrackVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_WISECRACK)
+  }
+
+  saveChineseWisecrackVersion(version: number) {
+    this.set(PrefConst.CHINESE_WISECRACK, version)
   }
 
   saveClassicalLiteratureClassicPoemVersion(version: number) {
@@ -108,12 +156,28 @@ export class PrefUtil {
     return this.getNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM)
   }
 
+  saveClassicalLiteraturePeopleVersion(version: number) {
+    this.set(PrefConst.CLASSICALLITERATURE_PEOPLE, version)
+  }
+
+  getClassicalLiteraturePeopleVersion(): number {
+    return this.getNumber(PrefConst.CLASSICALLITERATURE_PEOPLE)
+  }
+
   saveClassicalLiteratureSentenceVersion(version: number) {
     this.set(PrefConst.CLASSICALLITERATURE_SENTENCE, version)
   }
 
   getClassicalLiteratureSentenceVersion(): number {
     return this.getNumber(PrefConst.CLASSICALLITERATURE_SENTENCE)
+  }
+
+  saveClassicalLiteratureWritingVersion(version: number) {
+    this.set(PrefConst.CLASSICALLITERATURE_WRITING, version)
+  }
+
+  getClassicalLiteratureWritingVersion(): number {
+    return this.getNumber(PrefConst.CLASSICALLITERATURE_WRITING)
   }
 
   saveSnapshotFontColor(color: string) {
@@ -169,15 +233,6 @@ export class PrefUtil {
     return value;
   }
 
-  /*private setNumber(key: string, data: number) {
-    try {
-      this.preference?.putSync(key, data)
-    } catch (error) {
-      let err = error as BusinessError
-      this.logger.error(`save data failed, key = ${key}, code = ${err.code}, messge = ${err.message}`)
-    }
-  }*/
-
   private getNumber(key: string, defaultValue: number = 0): number {
     let value = defaultValue
     try {
@@ -189,15 +244,6 @@ export class PrefUtil {
 
     return value;
   }
-
-  /*private setBoolean(key: string, data: boolean) {
-    try {
-      this.preference?.putSync(key, data)
-    } catch (error) {
-      let err = error as BusinessError
-      this.logger.error(`save data failed, key = ${key}, code = ${err.code}, messge = ${err.message}`)
-    }
-  }*/
 
   private getString(key: string, defaultValue: string = ''): string {
     let value = defaultValue

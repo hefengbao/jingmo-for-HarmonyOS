@@ -139,6 +139,14 @@
     {
       "name": "calendar",
       "value": "日历"
+    },
+    {
+      "name": "show_answer",
+      "value": "显示谜底"
+    },
+    {
+      "name": "hide_answer",
+      "value": "隐藏谜底"
     }
   ]
 }
