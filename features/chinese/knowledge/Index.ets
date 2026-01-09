@@ -1,1 +1,1 @@
-export { Knowledge, insertKnowledge } from './src/main/ets/model/Knowledge';
+export { Knowledge, insertKnowledge, batchInsertKnowledge } from './src/main/ets/model/Knowledge';

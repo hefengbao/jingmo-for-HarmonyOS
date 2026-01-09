@@ -81,12 +81,14 @@ export async function insertExpression(obj: Expression): Promise<number | undefi
 }
 
 @Concurrent
-export async function insertExpressionList(context: Context, objs: Expression[]): Promise<void> {
-  let logger: Logger = new Logger('Expression createExpressionList');
+export async function batchInsertExpression(context: Context, objs: Expression[]): Promise<void> {
+  let logger: Logger = new Logger('Expression#batchInsertInsertExpression');
   let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
 
+  let valuesBuckets: relationalStore.ValuesBucket[] = [];
+
   for (let obj of objs) {
-    const valuesBucket: relationalStore.ValuesBucket = {
+    valuesBuckets.push({
       'id': obj.id,
       'word': obj.word,
       'pinyin': obj.pinyin,
@@ -99,22 +101,23 @@ export async function insertExpressionList(context: Context, objs: Expression[])
       'usage': obj.usage,
       'story': JSON.stringify(obj.story),
       'notice': obj.notice,
-    }
-    // 数据插入
-    try {
-      store.insert(
-        DbTableConst.CHINESE_EXPRESSION_TABLE,
-        valuesBucket,
-        relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
-      ).then((rowId: number) => {
-        logger.info(`insert id = ${rowId}`)
-      }).catch((err: BusinessError) => {
-        logger.error(`insert failed error code = ${err.code} message = ${err.message}`)
-      })
-    } catch (error) {
-      let err = error as BusinessError
+    })
+  }
+
+  // 数据插入
+  try {
+    store.batchInsertWithConflictResolution(
+      DbTableConst.CHINESE_EXPRESSION_TABLE,
+      valuesBuckets,
+      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    ).then((rowId: number) => {
+      logger.info(`insert id = ${rowId}`)
+    }).catch((err: BusinessError) => {
       logger.error(`insert failed error code = ${err.code} message = ${err.message}`)
-    }
+    })
+  } catch (error) {
+    let err = error as BusinessError
+    logger.error(`insert failed error code = ${err.code} message = ${err.message}`)
   }
 }
 

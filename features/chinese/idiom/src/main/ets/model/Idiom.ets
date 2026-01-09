@@ -1,6 +1,6 @@
 import { relationalStore } from '@kit.ArkData';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { DbCRUDConst, DbTableConst } from 'constants';
+import { DbConfigConst, DbCRUDConst, DbTableConst } from 'constants';
 import { Logger } from 'utils';
 import DbUtil from 'utils/src/main/ets/data/DbUtil';
 import { JSON } from '@kit.ArkTS';
@@ -94,6 +94,49 @@ export async function insertIdiom(obj: Idiom) {
   }).catch((err: BusinessError) => {
     logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
   })
+}
+
+@Concurrent
+export async function batchInsertIdiom(context: Context, objs: Idiom[]): Promise<void> {
+  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+  let logger: Logger = new Logger('Idiom#batchInsertIdiom');
+
+  let valuesBuckets: relationalStore.ValuesBucket[] = []
+
+  objs.forEach((obj: Idiom) => {
+    valuesBuckets.push(
+      {
+        'id': obj.id,
+        'word': obj.word,
+        'pinyin': obj.pinyin,
+        'abbr': obj.abbr,
+        'explanation': obj.explanation,
+        'source': JSON.stringify(obj.source),
+        'quote': JSON.stringify(obj.quote),
+        'example': JSON.stringify(obj.example),
+        'similar': JSON.stringify(obj.similar),
+        'opposite': JSON.stringify(obj.opposite),
+        'usage': obj.usage,
+        'story': JSON.stringify(obj.story),
+        'notice': obj.notice,
+      }
+    )
+  })
+
+  try {
+    await store.batchInsertWithConflictResolution(
+      DbTableConst.CHINESE_IDIOM_TABLE,
+      valuesBuckets,
+      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    ).then((value: number) => {
+      logger.info(`insert rows = ${value}`)
+    }).catch((err: BusinessError) => {
+      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+    })
+  } catch (error) {
+    const err = error as BusinessError;
+    logger.error(`batchInsertCharacter failed, code is ${err.code}, message is ${err.message}`);
+  }
 }
 
 export async function getRandomIdiom(): Promise<Idiom | undefined> {

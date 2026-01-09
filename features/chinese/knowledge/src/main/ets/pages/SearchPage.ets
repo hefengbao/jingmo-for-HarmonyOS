@@ -24,7 +24,8 @@ export struct SearchPage {
           Search()
             .onSubmit((query: string) => {
               search(query).then((value: Knowledge[]) => {
-                this.knowledges.push(...value)
+                this.knowledges.length = 0;
+                this.knowledges.push(...value);
               })
             })
         }

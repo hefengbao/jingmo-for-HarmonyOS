@@ -55,7 +55,7 @@ export struct BookmarkPage {
       .height('100%')
       .edgeEffect(EdgeEffect.Spring)
       .align(Alignment.TopStart)
-      .divider({ strokeWidth: 2 })
+      .divider(ThemeConst.ListDivider)
     }
     .title(String.bookmark)
     .onReady((ctx: NavDestinationContext) => {

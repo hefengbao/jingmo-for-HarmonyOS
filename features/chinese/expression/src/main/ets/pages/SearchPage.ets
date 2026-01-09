@@ -24,7 +24,8 @@ export struct SearchPage {
           Search()
             .onSubmit((query: string) => {
               search(query).then((value: Expression[]) => {
-                this.expressions.push(...value)
+                this.expressions.length = 0;
+                this.expressions.push(...value);
               })
             })
         }
@@ -48,12 +49,7 @@ export struct SearchPage {
       })
       .edgeEffect(EdgeEffect.Spring)
       .align(Alignment.TopStart)
-      .divider({
-        strokeWidth: 1,
-        color: $r('sys.color.ohos_id_color_text_primary'),
-        startMargin: ThemeConst.P_16,
-        endMargin: ThemeConst.P_16
-      })
+      .divider(ThemeConst.ListDivider)
     }
     .title(String.search)
     .onReady((ctx: NavDestinationContext) => {

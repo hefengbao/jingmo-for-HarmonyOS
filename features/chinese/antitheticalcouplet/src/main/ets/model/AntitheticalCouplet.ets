@@ -1,6 +1,6 @@
 import { relationalStore } from '@kit.ArkData';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { DbCRUDConst, DbTableConst } from 'constants';
+import { DbConfigConst, DbCRUDConst, DbTableConst } from 'constants';
 import { Logger } from 'utils';
 import DbUtil from 'utils/src/main/ets/data/DbUtil';
 
@@ -42,6 +42,40 @@ export async function insertAntitheticalCouplet(obj: AntitheticalCouplet) {
   }).catch((err: BusinessError) => {
     logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
   })
+}
+
+@Concurrent
+export async function batchInsertAntitheticalCouplet(context: Context, objs: AntitheticalCouplet[]): Promise<void> {
+  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+  let logger: Logger = new Logger('Lyric#batchInsertLyric');
+
+  let valueBuckets: relationalStore.ValuesBucket[] = []
+
+  objs.forEach((obj: AntitheticalCouplet) => {
+    valueBuckets.push(
+      {
+        'id': obj.id,
+        'body': obj.body,
+        'description': obj.description,
+        'image': obj.image,
+      }
+    )
+  })
+
+  try {
+    await store.batchInsertWithConflictResolution(
+      DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE,
+      valueBuckets,
+      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    ).then((value: number) => {
+      logger.info(`insert rows = ${value}`)
+    }).catch((err: BusinessError) => {
+      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+    })
+  } catch (error) {
+    const err = error as BusinessError;
+    logger.error(`batchInsertAntitheticalCouplet failed, code is ${err.code}, message is ${err.message}`);
+  }
 }
 
 export async function getRandomAntitheticalCouplet(): Promise<AntitheticalCouplet | undefined> {

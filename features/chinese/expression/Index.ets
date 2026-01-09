@@ -1,3 +1,3 @@
 export {
-  Expression, insertExpression, insertExpressionList
+  Expression, insertExpression, batchInsertExpression
 } from './src/main/ets/model/Expression';

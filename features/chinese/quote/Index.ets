@@ -1,3 +1,3 @@
 export {
-  Quote, insertQuote
+  Quote, insertQuote, batchInsertQuote
 } from './src/main/ets/model/Quote';
