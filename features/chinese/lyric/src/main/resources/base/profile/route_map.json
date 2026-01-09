@@ -1,0 +1,29 @@
+{
+  "routerMap": [
+    {
+      "name": "LyricBookmarkPage",
+      "pageSourceFile": "src/main/ets/pages/BookmarkPage.ets",
+      "buildFunction": "BookmarkPageBuilder"
+    },
+    {
+      "name": "LyricIndexPage",
+      "pageSourceFile": "src/main/ets/pages/IndexPage.ets",
+      "buildFunction": "IndexPageBuilder"
+    },
+    {
+      "name": "LyricSearchPage",
+      "pageSourceFile": "src/main/ets/pages/SearchPage.ets",
+      "buildFunction": "SearchPageBuilder"
+    },
+    {
+      "name": "LyricShowPage",
+      "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
+      "buildFunction": "ShowPageBuilder"
+    },
+    {
+      "name": "LyricSnapshotPage",
+      "pageSourceFile": "src/main/ets/pages/SnapshotPage.ets",
+      "buildFunction": "SnapshotPageBuilder"
+    }
+  ]
+}
