@@ -1,0 +1,29 @@
+{
+  "routerMap": [
+    {
+      "name": "RiddleBookmarkPage",
+      "pageSourceFile": "src/main/ets/pages/BookmarkPage.ets",
+      "buildFunction": "BookmarkPageBuilder"
+    },
+    {
+      "name": "RiddleIndexPage",
+      "pageSourceFile": "src/main/ets/pages/IndexPage.ets",
+      "buildFunction": "IndexPageBuilder"
+    },
+    {
+      "name": "RiddleSearchPage",
+      "pageSourceFile": "src/main/ets/pages/SearchPage.ets",
+      "buildFunction": "SearchPageBuilder"
+    },
+    {
+      "name": "RiddleShowPage",
+      "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
+      "buildFunction": "ShowPageBuilder"
+    },
+    {
+      "name": "RiddleSnapshotPage",
+      "pageSourceFile": "src/main/ets/pages/SnapshotPage.ets",
+      "buildFunction": "SnapshotPageBuilder"
+    }
+  ]
+}
