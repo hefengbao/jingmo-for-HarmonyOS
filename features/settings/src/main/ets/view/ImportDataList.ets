@@ -4,21 +4,28 @@ import { fileIo as fs, picker } from '@kit.CoreFileKit';
 import { common } from '@kit.AbilityKit';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { BlockTitle } from 'uicomponents';
-import util from '@ohos.util';
-import { JSON, taskpool } from '@kit.ArkTS';
-import { ClassicPoem } from 'classicalliterature_classicpoem';
-import { Sentence } from 'classicalliterature_sentence';
-import { AntitheticalCouplet } from 'chinese_antitheticalcouplet';
-import { WorldCulturalHeritage } from 'china_worldcultureheritage';
-import { Character } from 'chinese_character';
-import { Expression, insertExpressionList } from 'chinese_expression';
-import { Idiom } from 'chinese_idiom';
-import { Knowledge } from 'chinese_knowledge';
-import { Quote } from 'chinese_quote';
+import { taskpool } from '@kit.ArkTS';
 import { relationalStore } from '@kit.ArkData';
-import DbUtil from 'utils/src/main/ets/data/DbUtil';
 import { PromptAction, ShowDialogSuccessResponse } from '@kit.ArkUI';
-import DatasetViewModel from '../viewmodel//DatasetViewModel';
+import DbUtil from 'utils/src/main/ets/data/DbUtil';
+import util from '@ohos.util';
+import { batchInsertWorldCulturalHeritage, WorldCulturalHeritage } from 'china_worldcultureheritage';
+import { AntitheticalCouplet, batchInsertAntitheticalCouplet } from 'chinese_antitheticalcouplet';
+import { batchInsertCharacter, Character } from 'chinese_character';
+import { batchInsertExpression, Expression } from 'chinese_expression';
+import { batchInsertIdiom, Idiom } from 'chinese_idiom';
+import { batchInsertKnowledge, Knowledge } from 'chinese_knowledge';
+import { batchInsertLyric, batchInsertLyricFTS, Lyric } from 'chinese_lyric';
+import { batchInsertModernPoetry, batchInsertModernPoetryFTS, ModernPoetry } from 'chinese_poetry';
+import { batchInsertProverb, Proverb } from 'chinese_proverb';
+import { batchInsertQuote, Quote } from 'chinese_quote';
+import { batchInsertRiddle, Riddle } from 'chinese_riddle';
+import { batchInsertTongueTwister, TongueTwister } from 'chinese_tonguetwister';
+import { batchInsertWisecrack, Wisecrack } from 'chinese_wisecrack';
+import { batchInsertClassicPoem, batchInsertClassicPoemFTS, ClassicPoem } from 'classicalliterature_classicpoem';
+import { batchInsertPeople, People } from 'classicalliterature_people';
+import { batchInsertSentence, Sentence } from 'classicalliterature_sentence';
+import { batchInsertWriting, batchInsertWritingFTS, Writing } from 'classicalliterature_writing';
 
 let logger: Logger = new Logger('ImportDataList')
 
@@ -29,14 +36,22 @@ export struct ImportDataList {
   @Local classicalliteratureClassicpoemCount: number = 0;
   @Local classicalliteratureClassicpoemError: BusinessError | null = null;
   @Local classicalliteratureClassicpoemLoading: boolean = false;
+  @Local classicalliteraturePeopleTotal: number = 0;
+  @Local classicalliteraturePeopleCount: number = 0;
+  @Local classicalliteraturePeopleError: BusinessError | null = null;
+  @Local classicalliteraturePeopleLoading: boolean = false;
   @Local classicalliteratureSentenceTotal: number = 0;
   @Local classicalliteratureSentenceCount: number = 0;
   @Local classicalliteratureSentenceError: BusinessError | null = null;
   @Local classicalliteratureSentenceLoading: boolean = false;
-  @Local chineseAntitheticalcoupletTotal: number = 0;
-  @Local chineseAntitheticalcoupletCount: number = 0;
-  @Local chineseAntitheticalcoupletError: BusinessError | null = null;
-  @Local chineseAntitheticalcoupletLoading: boolean = false;
+  @Local classicalliteratureWritingTotal: number = 0;
+  @Local classicalliteratureWritingCount: number = 0;
+  @Local classicalliteratureWritingError: BusinessError | null = null;
+  @Local classicalliteratureWritingLoading: boolean = false;
+  @Local chineseAntitheticalCoupletTotal: number = 0;
+  @Local chineseAntitheticalCoupletCount: number = 0;
+  @Local chineseAntitheticalCoupletError: BusinessError | null = null;
+  @Local chineseAntitheticalCoupletLoading: boolean = false;
   @Local chineseCharacterTotal: number = 0;
   @Local chineseCharacterCount: number = 0;
   @Local chineseCharacterError: BusinessError | null = null;
@@ -53,39 +68,80 @@ export struct ImportDataList {
   @Local chineseKnowledgeCount: number = 0;
   @Local chineseKnowledgeError: BusinessError | null = null;
   @Local chineseKnowledgeLoading: boolean = false;
+  @Local chineseLyricTotal: number = 0;
+  @Local chineseLyricCount: number = 0;
+  @Local chineseLyricError: BusinessError | null = null;
+  @Local chineseLyricLoading: boolean = false;
+  @Local chineseModernPoetryTotal: number = 0;
+  @Local chineseModernPoetryCount: number = 0;
+  @Local chineseModernPoetryError: BusinessError | null = null;
+  @Local chineseModernPoetryLoading: boolean = false;
+  @Local chineseProverbTotal: number = 0;
+  @Local chineseProverbCount: number = 0;
+  @Local chineseProverbError: BusinessError | null = null;
+  @Local chineseProverbLoading: boolean = false;
   @Local chineseQuoteTotal: number = 0;
   @Local chineseQuoteCount: number = 0;
   @Local chineseQuoteError: BusinessError | null = null;
   @Local chineseQuoteLoading: boolean = false;
+  @Local chineseRiddleTotal: number = 0;
+  @Local chineseRiddleCount: number = 0;
+  @Local chineseRiddleError: BusinessError | null = null;
+  @Local chineseRiddleLoading: boolean = false;
+  @Local chineseTongueTwisterTotal: number = 0;
+  @Local chineseTongueTwisterCount: number = 0;
+  @Local chineseTongueTwisterError: BusinessError | null = null;
+  @Local chineseTongueTwisterLoading: boolean = false;
+  @Local chineseWisecrackTotal: number = 0;
+  @Local chineseWisecrackCount: number = 0;
+  @Local chineseWisecrackError: BusinessError | null = null;
+  @Local chineseWisecrackLoading: boolean = false;
   @Local chinaWorldcultureheritageTotal: number = 0;
   @Local chinaWorldcultureheritageCount: number = 0;
   @Local chinaWorldcultureheritageError: BusinessError | null = null;
   @Local chinaWorldcultureheritageLoading: boolean = false;
-  changeInfos = (changeInfos: Array<relationalStore.ChangeInfo>) => {
-    for (let i = 0; i < changeInfos.length; i++) {
-      let info = changeInfos[i]
-      logger.info(`changeInfos: table = ${info.table}, type = ${info.type}, inserted = ${info.inserted}, updated = ${info.updated}`);
-      if (info.table == DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE) {
-        this.classicalliteratureClassicpoemCount++
-      } else if (info.table == DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE) {
-        this.classicalliteratureSentenceCount++
-      } else if (info.table == DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE) {
-        this.chineseAntitheticalcoupletCount++
-      } else if (info.table == DbTableConst.CHINESE_CHARACTER_TABLE) {
-        this.chineseCharacterCount++
-      } else if (info.table == DbTableConst.CHINESE_EXPRESSION_TABLE) {
-        this.chineseExpressionCount++
-      } else if (info.table == DbTableConst.CHINESE_IDIOM_TABLE) {
-        this.chineseIdiomCount++
-      } else if (info.table == DbTableConst.CHINESE_KNOWLEDGE_TABLE) {
-        this.chineseKnowledgeCount++
-      } else if (info.table == DbTableConst.CHINESE_QUOTE_TABLE) {
-        this.chineseQuoteCount++
-      } else if (info.table == DbTableConst.CHINA_WORLDCULTUREHERITAGE_TABLE) {
-        this.chinaWorldcultureheritageCount++
+  @Local changeInfos: Callback<Array<relationalStore.ChangeInfo>> =
+    (changeInfos: Array<relationalStore.ChangeInfo>) => {
+      for (let i = 0; i < changeInfos.length; i++) {
+        let info = changeInfos[i]
+        logger.info(`changeInfos: table = ${info.table}, type = ${info.type}, inserted = ${info.inserted}, updated = ${info.updated}`);
+        if (info.table == DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE) {
+          this.classicalliteratureClassicpoemCount += info.inserted.length
+        } else if (info.table == DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE) {
+          this.classicalliteraturePeopleCount += info.inserted.length
+        } else if (info.table == DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE) {
+          this.classicalliteratureSentenceCount += info.inserted.length
+        } else if (info.table == DbTableConst.CLASSICALLITERATURE_WRITING_TABLE) {
+          this.classicalliteratureWritingCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE) {
+          this.chineseAntitheticalCoupletCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_CHARACTER_TABLE) {
+          this.chineseCharacterCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_EXPRESSION_TABLE) {
+          this.chineseExpressionCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_IDIOM_TABLE) {
+          this.chineseIdiomCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_KNOWLEDGE_TABLE) {
+          this.chineseKnowledgeCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_LYRIC_TABLE) {
+          this.chineseLyricCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_MODERNPOETRY_TABLE) {
+          this.chineseModernPoetryCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_PROVERB_TABLE) {
+          this.chineseProverbCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_QUOTE_TABLE) {
+          this.chineseQuoteCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_RIDDLE_TABLE) {
+          this.chineseRiddleCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_TONGUETWISTER_TABLE) {
+          this.chineseTongueTwisterCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_WISECRACK_TABLE) {
+          this.chineseWisecrackCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINA_WORLDCULTUREHERITAGE_TABLE) {
+          this.chinaWorldcultureheritageCount += info.inserted.length
+        }
       }
     }
-  }
 
   aboutToAppear(): void {
     try {
@@ -125,6 +181,8 @@ export struct ImportDataList {
           this.classicalliteratureClassicpoemLoading = true
         }),
         clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+          let context = this.getUIContext().getHostContext() as Context;
+
           if (error) {
             this.classicalliteratureClassicpoemLoading = false
             this.classicalliteratureClassicpoemError = error
@@ -133,13 +191,62 @@ export struct ImportDataList {
             let wrapper = JSON.parse(await readData(uri)) as DataWrapper<ClassicPoem>
             if (wrapper) {
               this.classicalliteratureClassicpoemTotal = wrapper.total
-              logger.info(`classicalliteratureClassicpoemTotal = ${this.classicalliteratureClassicpoemTotal}`)
-              wrapper.data.forEach((obj: ClassicPoem) => {
-                DatasetViewModel.insertClassicalLiteratureClassicPoemToDb(obj);
-              })
+              let objs = wrapper.data
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                  taskpool.execute(batchInsertClassicPoem, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                  taskpool.execute(batchInsertClassicPoemFTS, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
             }
           })
           this.classicalliteratureClassicpoemLoading = false
+        })
+      })
+      Item({
+        title: String.classicalliterature_people,
+        total: this.classicalliteraturePeopleTotal,
+        count: this.classicalliteraturePeopleCount,
+        error: this.classicalliteraturePeopleError,
+        loading: this.classicalliteraturePeopleLoading,
+        loadingStatusChange: (() => {
+          this.classicalliteraturePeopleLoading = true
+        }),
+        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+          let context = this.getUIContext().getHostContext() as Context;
+
+          if (error) {
+            this.classicalliteraturePeopleLoading = false
+            this.classicalliteraturePeopleError = error
+          }
+          uris.forEach(async (uri: string) => {
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<People>
+            if (wrapper) {
+              this.classicalliteraturePeopleTotal = wrapper.total;
+
+              let objs = wrapper.data
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                  taskpool.execute(batchInsertPeople, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
+            }
+          })
+          this.classicalliteraturePeopleLoading = false
         })
       })
       Item({
@@ -152,6 +259,7 @@ export struct ImportDataList {
           this.classicalliteratureSentenceLoading = true
         }),
         clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+          let context = this.getUIContext().getHostContext() as Context;
           if (error) {
             this.classicalliteratureSentenceLoading = false
             this.classicalliteratureSentenceError = error
@@ -159,39 +267,101 @@ export struct ImportDataList {
           uris.forEach(async (uri: string) => {
             let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Sentence>
             if (wrapper) {
-              this.classicalliteratureSentenceTotal = wrapper.total
-              wrapper.data.forEach((obj: Sentence) => {
-                DatasetViewModel.insertClassicalLiteratureSentenceToDb(obj);
-              })
+              this.classicalliteratureSentenceTotal = wrapper.total;
+
+              let objs = wrapper.data
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                  taskpool.execute(batchInsertSentence, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
             }
           })
           this.classicalliteratureSentenceLoading = false
         })
       })
+      Item({
+        title: String.classicalliterature_writing,
+        total: this.classicalliteratureWritingTotal,
+        count: this.classicalliteratureWritingCount,
+        error: this.classicalliteratureWritingError,
+        loading: this.classicalliteratureWritingLoading,
+        loadingStatusChange: (() => {
+          this.classicalliteratureWritingLoading = true
+        }),
+        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+          let context = this.getUIContext().getHostContext() as Context;
+          if (error) {
+            this.classicalliteratureWritingLoading = false
+            this.classicalliteratureWritingError = error
+          }
+          uris.forEach(async (uri: string) => {
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Writing>
+            if (wrapper) {
+              this.classicalliteratureWritingTotal = wrapper.total;
+
+              let objs = wrapper.data;
+              let limit: number = 50;
+
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > limit ? limit : objs.length)
+                  taskpool.execute(batchInsertWriting, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                  taskpool.execute(batchInsertWritingFTS, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
+            }
+          })
+          this.classicalliteratureWritingLoading = false
+        })
+      })
       BlockTitle({ title: String.chinese })
       Item({
         title: String.chinese_antitheticalcouplet,
-        total: this.chineseAntitheticalcoupletTotal,
-        count: this.chineseAntitheticalcoupletCount,
-        error: this.chineseAntitheticalcoupletError,
-        loading: this.chineseAntitheticalcoupletLoading,
+        total: this.chineseAntitheticalCoupletTotal,
+        count: this.chineseAntitheticalCoupletCount,
+        error: this.chineseAntitheticalCoupletError,
+        loading: this.chineseAntitheticalCoupletLoading,
         loadingStatusChange: (() => {
-          this.chineseAntitheticalcoupletLoading = true
+          this.chineseAntitheticalCoupletLoading = true
         }),
         clickEventCallback: ((uris: string[], error: BusinessError | null) => {
           if (error) {
-            this.chineseAntitheticalcoupletLoading = false
+            this.chineseAntitheticalCoupletLoading = false
           }
           uris.forEach(async (uri: string) => {
+            let context = this.getUIContext().getHostContext() as Context;
             let wrapper = JSON.parse(await readData(uri)) as DataWrapper<AntitheticalCouplet>
             if (wrapper) {
-              this.chineseAntitheticalcoupletTotal = wrapper.total
-              wrapper.data.forEach((obj: AntitheticalCouplet) => {
-                DatasetViewModel.insertChineseAntitheticalCoupletToDb(obj);
-              })
+              this.chineseAntitheticalCoupletTotal = wrapper.total;
+              let objs = wrapper.data
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                  taskpool.execute(batchInsertAntitheticalCouplet, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
             }
           })
-          this.chineseAntitheticalcoupletLoading = false
+          this.chineseAntitheticalCoupletLoading = false
         })
       })
       Item({
@@ -209,12 +379,22 @@ export struct ImportDataList {
             this.chineseCharacterError = error
           }
           uris.forEach(async (uri: string) => {
+            let context = this.getUIContext().getHostContext() as Context;
             let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Character>
             if (wrapper) {
               this.chineseCharacterTotal = wrapper.total
-              wrapper.data.forEach((obj: Character) => {
-                DatasetViewModel.insertChineseCharacterToDb(obj);
-              })
+              let objs = wrapper.data
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                  taskpool.execute(batchInsertCharacter, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
             }
           })
           this.chineseCharacterLoading = false
@@ -242,10 +422,14 @@ export struct ImportDataList {
               wrapper = JSON.parse(await readData(uri)) as DataWrapper<Expression>
               if (wrapper) {
                 this.chineseExpressionTotal = wrapper.total
+                let objs = wrapper.data
                 try {
-                  taskpool.execute(insertExpressionList, context, wrapper.data).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
-                  })
+                  while (objs.length) {
+                    let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                    taskpool.execute(batchInsertExpression, context, spliced).catch((error: BusinessError) => {
+                      logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    })
+                  }
                 } catch (error) {
                   let err = error as BusinessError
                   logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
@@ -273,12 +457,19 @@ export struct ImportDataList {
           }
 
           uris.forEach(async (uri: string) => {
+            let context = this.getUIContext().getHostContext() as Context;
             let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Idiom>
-            if (wrapper) {
-              this.chineseIdiomTotal = wrapper.total
-              wrapper.data.forEach((obj: Idiom) => {
-                DatasetViewModel.insertChineseIdiomToDb(obj);
-              })
+            let objs = wrapper.data
+            try {
+              while (objs.length) {
+                let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                taskpool.execute(batchInsertIdiom, context, spliced).catch((error: BusinessError) => {
+                  logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                })
+              }
+            } catch (error) {
+              let err = error as BusinessError
+              logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
             }
           })
           this.chineseIdiomLoading = false
@@ -299,15 +490,139 @@ export struct ImportDataList {
             this.chineseKnowledgeError = error
           }
           uris.forEach(async (uri: string) => {
+            let context = this.getUIContext().getHostContext() as Context;
             let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Knowledge>
             if (wrapper) {
               this.chineseKnowledgeTotal = wrapper.total
-              wrapper.data.forEach((obj: Knowledge) => {
-                DatasetViewModel.insertChineseKnowledgeToDb(obj);
-              })
+              let objs = wrapper.data
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                  taskpool.execute(batchInsertKnowledge, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
             }
           })
           this.chineseKnowledgeLoading = false
+        })
+      })
+      Item({
+        title: String.chinese_lyric,
+        total: this.chineseLyricTotal,
+        count: this.chineseLyricCount,
+        error: this.chineseLyricError,
+        loading: this.chineseLyricLoading,
+        loadingStatusChange: (() => {
+          this.chineseLyricLoading = true
+        }),
+        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+          if (error) {
+            this.chineseLyricLoading = false
+            this.chineseLyricError = error
+          }
+          uris.forEach(async (uri: string) => {
+            let context = this.getUIContext().getHostContext() as Context;
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Lyric>
+            if (wrapper) {
+              this.chineseLyricTotal = wrapper.total
+              let objs = wrapper.data
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                  taskpool.execute(batchInsertLyric, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                  taskpool.execute(batchInsertLyricFTS, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
+            }
+          })
+          this.chineseLyricLoading = false
+        })
+      })
+      Item({
+        title: String.chinese_modernpoetry,
+        total: this.chineseModernPoetryTotal,
+        count: this.chineseModernPoetryCount,
+        error: this.chineseModernPoetryError,
+        loading: this.chineseModernPoetryLoading,
+        loadingStatusChange: (() => {
+          this.chineseModernPoetryLoading = true
+        }),
+        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+          if (error) {
+            this.chineseModernPoetryLoading = false
+            this.chineseModernPoetryError = error
+          }
+          uris.forEach(async (uri: string) => {
+            let context = this.getUIContext().getHostContext() as Context;
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<ModernPoetry>
+            if (wrapper) {
+              this.chineseModernPoetryTotal = wrapper.total
+              let objs = wrapper.data
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                  taskpool.execute(batchInsertModernPoetry, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                  taskpool.execute(batchInsertModernPoetryFTS, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
+            }
+          })
+          this.chineseModernPoetryLoading = false
+        })
+      })
+      Item({
+        title: String.chinese_proverb,
+        total: this.chineseProverbTotal,
+        count: this.chineseProverbCount,
+        error: this.chineseProverbError,
+        loading: this.chineseProverbLoading,
+        loadingStatusChange: (() => {
+          this.chineseProverbLoading = true
+        }),
+        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+          if (error) {
+            this.chineseProverbLoading = false
+            this.chineseProverbError = error
+          }
+          uris.forEach(async (uri: string) => {
+            let context = this.getUIContext().getHostContext() as Context;
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Proverb>;
+            if (wrapper) {
+              this.chineseProverbTotal = wrapper.total
+              let objs = wrapper.data
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                  taskpool.execute(batchInsertProverb, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
+            }
+          })
+          this.chineseProverbLoading = false
         })
       })
       Item({
@@ -325,15 +640,133 @@ export struct ImportDataList {
             this.chineseQuoteError = error
           }
           uris.forEach(async (uri: string) => {
-            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Quote>
+            let context = this.getUIContext().getHostContext() as Context;
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Quote>;
             if (wrapper) {
               this.chineseQuoteTotal = wrapper.total
-              wrapper.data.forEach((obj: Quote) => {
-                DatasetViewModel.insertChineseQuoteToDb(obj);
-              })
+              let objs = wrapper.data
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                  taskpool.execute(batchInsertQuote, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
             }
           })
           this.chineseQuoteLoading = false
+        })
+      })
+      Item({
+        title: String.chinese_riddle,
+        total: this.chineseRiddleTotal,
+        count: this.chineseRiddleCount,
+        error: this.chineseRiddleError,
+        loading: this.chineseRiddleLoading,
+        loadingStatusChange: (() => {
+          this.chineseRiddleLoading = true
+        }),
+        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+          if (error) {
+            this.chineseRiddleLoading = false
+            this.chineseRiddleError = error
+          }
+          uris.forEach(async (uri: string) => {
+            let context = this.getUIContext().getHostContext() as Context;
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Riddle>;
+            if (wrapper) {
+              this.chineseRiddleTotal = wrapper.total
+              let objs = wrapper.data
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                  taskpool.execute(batchInsertRiddle, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
+            }
+          })
+          this.chineseRiddleLoading = false
+        })
+      })
+      Item({
+        title: String.chinese_tonguetwister,
+        total: this.chineseTongueTwisterTotal,
+        count: this.chineseTongueTwisterCount,
+        error: this.chineseTongueTwisterError,
+        loading: this.chineseTongueTwisterLoading,
+        loadingStatusChange: (() => {
+          this.chineseTongueTwisterLoading = true
+        }),
+        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+          if (error) {
+            this.chineseTongueTwisterLoading = false
+            this.chineseTongueTwisterError = error
+          }
+          uris.forEach(async (uri: string) => {
+            let context = this.getUIContext().getHostContext() as Context;
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<TongueTwister>;
+            if (wrapper) {
+              this.chineseTongueTwisterTotal = wrapper.total
+              let objs = wrapper.data
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                  taskpool.execute(batchInsertTongueTwister, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
+            }
+          })
+          this.chineseTongueTwisterLoading = false
+        })
+      })
+      Item({
+        title: String.chinese_wisecrack,
+        total: this.chineseWisecrackTotal,
+        count: this.chineseWisecrackCount,
+        error: this.chineseWisecrackError,
+        loading: this.chineseWisecrackLoading,
+        loadingStatusChange: (() => {
+          this.chineseWisecrackLoading = true
+        }),
+        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+          if (error) {
+            this.chineseWisecrackLoading = false
+            this.chineseWisecrackError = error
+          }
+          uris.forEach(async (uri: string) => {
+            let context = this.getUIContext().getHostContext() as Context;
+            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Wisecrack>;
+            if (wrapper) {
+              this.chineseWisecrackTotal = wrapper.total
+              let objs = wrapper.data
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                  taskpool.execute(batchInsertWisecrack, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
+            }
+          })
+          this.chineseWisecrackLoading = false
         })
       })
       BlockTitle({ title: String.china })
@@ -351,13 +784,23 @@ export struct ImportDataList {
             this.chinaWorldcultureheritageLoading = false
           }
           uris.forEach(async (uri: string) => {
+            let context = this.getUIContext().getHostContext() as Context;
             let wrapper: DataWrapper<WorldCulturalHeritage> | null =
               JSON.parse(await readData(uri)) as DataWrapper<WorldCulturalHeritage>
             if (wrapper) {
               this.chinaWorldcultureheritageTotal = wrapper.total
-              wrapper.data.forEach((obj: WorldCulturalHeritage) => {
-                DatasetViewModel.insertChinaWorldCulturalHeritageToDb(obj);
-              })
+              let objs = wrapper.data
+              try {
+                while (objs.length) {
+                  let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+                  taskpool.execute(batchInsertWorldCulturalHeritage, context, spliced).catch((error: BusinessError) => {
+                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  })
+                }
+              } catch (error) {
+                let err = error as BusinessError
+                logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+              }
             }
             wrapper = null
           })
@@ -414,7 +857,7 @@ struct Item {
           LoadingProgress()
             .width(36)
             .height(36)
-            .color(Color.Black)
+            .color($r('sys.color.ohos_id_color_text_primary'))
         } else {
           Image(Icon.ic_public_folder)
             .height(36)

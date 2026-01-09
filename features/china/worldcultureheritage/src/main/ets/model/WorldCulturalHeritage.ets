@@ -1,6 +1,6 @@
 import { relationalStore } from '@kit.ArkData';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { DbTableConst } from 'constants';
+import { DbConfigConst, DbTableConst } from 'constants';
 import { Logger } from 'utils';
 
 import DbUtil from 'utils/src/main/ets/data/DbUtil';
@@ -63,6 +63,45 @@ export async function insertWorldCulturalHeritage(obj: WorldCulturalHeritage) {
   }).catch((err: BusinessError) => {
     logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
   })
+}
+
+@Concurrent
+export async function batchInsertWorldCulturalHeritage(context: Context, objs: WorldCulturalHeritage[]): Promise<void> {
+  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+  let logger: Logger = new Logger('WorldCulturalHeritage#batchInsertWorldCulturalHeritage');
+
+  let valuesBuckets: relationalStore.ValuesBucket[] = []
+
+  objs.forEach((obj: WorldCulturalHeritage) => {
+    valuesBuckets.push(
+      {
+        'id': obj.id,
+        'name': obj.name,
+        'type': obj.type,
+        'year': obj.year,
+        'year2': obj.year2,
+        'level': obj.level,
+        'address': obj.address,
+        'image': obj.image,
+        'content': obj.content,
+      }
+    )
+  })
+
+  try {
+    await store.batchInsertWithConflictResolution(
+      DbTableConst.CHINA_WORLDCULTUREHERITAGE_TABLE,
+      valuesBuckets,
+      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    ).then((value: number) => {
+      logger.info(`insert rows = ${value}`)
+    }).catch((err: BusinessError) => {
+      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+    })
+  } catch (error) {
+    const err = error as BusinessError;
+    logger.error(`batchInsertWorldCulturalHeritage failed, code is ${err.code}, message is ${err.message}`);
+  }
 }
 
 export async function readWorldCulturalHeritage(id: number): Promise<WorldCulturalHeritage | null> {

@@ -8,7 +8,7 @@ let logger: Logger = new Logger('CheckDataset');
 @ComponentV2
 export struct CheckDataset {
   @Param @Require dataset: Dataset[]
-  @Local datasetListLoading: boolean = false;
+  @Local datasetListLoading: boolean = true;
   @Local datasetListLoadingError: string = '';
   @Event changeDataset: (dataset: Dataset[]) => void = () => {
   };
@@ -22,7 +22,7 @@ export struct CheckDataset {
       Column() {
         if (this.datasetListLoading) {
           LoadingProgress()
-            .color(Color.Black)
+            .color($r('sys.color.ohos_id_color_text_primary'))
             .width(80)
             .height(80)
         } else {
@@ -32,8 +32,8 @@ export struct CheckDataset {
             .padding(ThemeConst.P_8)
           Button("点击重试")
             .padding(ThemeConst.P_8)
-            .backgroundColor(Color.Black)
-            .fontColor(Color.White)
+            .backgroundColor($r('sys.color.background_primary'))
+            .fontColor($r('sys.color.ohos_id_color_text_primary'))
             .onClick(() => this.getDatasetList())
         }
       }

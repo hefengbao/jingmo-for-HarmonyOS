@@ -120,7 +120,7 @@ export struct IndexPage {
       .height('100%')
       .edgeEffect(EdgeEffect.Spring)
       .align(Alignment.TopStart)
-      .divider({ strokeWidth: 2 })
+      .divider(ThemeConst.ListDivider)
       .padding({
         bottom: this.avoidAreaObserver.navigation?.bottomRect.height
       })

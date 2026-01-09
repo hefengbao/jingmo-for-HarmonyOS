@@ -2,6 +2,7 @@ import { AvoidAreaObserver, ParamNumberId, String, ThemeConst } from 'constants'
 import { search, Sentence } from '../model/Sentence';
 import { AppStorageV2 } from '@kit.ArkUI';
 import { Logger } from 'utils';
+import { ContentText } from 'uicomponents';
 
 let logger: Logger = new Logger('SentenceSearchPage');
 
@@ -24,6 +25,7 @@ export struct SearchPage {
           Search()
             .onSubmit((query: string) => {
               search(query).then((value: Sentence[]) => {
+                this.sentences.length = 0;
                 this.sentences.push(...value)
               })
             })
@@ -32,12 +34,12 @@ export struct SearchPage {
 
         ForEach(this.sentences, (item: Sentence) => {
           ListItem() {
-            Text(item.content)
-              .width('100%')
-              .padding(ThemeConst.P_X16_Y8)
-              .onClick(() => {
-                this.pageStack.pushPathByName("SentenceShowPage", new ParamNumberId(item.id))
-              })
+            Column(){
+              ContentText({text: item.content})
+            }
+            .onClick(() => {
+              this.pageStack.pushPathByName("SentenceShowPage", new ParamNumberId(item.id))
+            })
           }
           .padding(ThemeConst.P_X16_Y8)
         }, (item: Sentence) => item.id.toString())
@@ -49,12 +51,7 @@ export struct SearchPage {
       })
       .edgeEffect(EdgeEffect.Spring)
       .align(Alignment.TopStart)
-      .divider({
-        strokeWidth: 1,
-        color: $r('sys.color.ohos_id_color_text_primary'),
-        startMargin: ThemeConst.P_16,
-        endMargin: ThemeConst.P_16
-      })
+      .divider(ThemeConst.ListDivider)
     }
     .title(String.search)
     .onReady((ctx: NavDestinationContext) => {

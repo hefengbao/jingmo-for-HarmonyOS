@@ -13,9 +13,17 @@
     "chinese_expression": "file:../chinese/expression",
     "chinese_idiom": "file:../chinese/idiom",
     "chinese_knowledge": "file:../chinese/knowledge",
+    "chinese_lyric": "file:../chinese/lyric",
+    "chinese_poetry": "file:../chinese/poetry",
+    "chinese_proverb": "file:../chinese/proverb",
     "chinese_quote": "file:../chinese/quote",
+    "chinese_riddle": "file:../chinese/riddle",
+    "chinese_tonguetwister": "file:../chinese/tonguetwister",
+    "chinese_wisecrack": "file:../chinese/wisecrack",
     "classicalliterature_classicpoem": "file:../classicalliterature/classicpoem",
+    "classicalliterature_people": "file:../classicalliterature/people",
     "classicalliterature_sentence": "file:../classicalliterature/sentence",
+    "classicalliterature_writing": "file:../classicalliterature/writing",
     "uicomponents": "file:../../commons/uicomponents",
     "utils": "file:../../commons/utils"
   }

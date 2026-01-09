@@ -16,7 +16,8 @@ export struct HomePage {
   @Local promptAction: PromptAction = this.getUIContext().getPromptAction();
   @Local avoidAreaObserver: AvoidAreaObserver =
     AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver())!;
-  observer = (key: string) => {
+  @Local scroller: Scroller = new Scroller();
+  @Local observer: Callback<string> = (key: string) => {
     if (key == PrefConst.USER_AGREEMENT_VERSION) {
       this.userAgreementVersionPref = PrefUtil.getUserAgreementVersion();
     } else if (key == PrefConst.IS_FIRST_LAUNCH) {
@@ -45,10 +46,14 @@ export struct HomePage {
       if (AppConst.USER_AGREEMENT_VERSION > this.userAgreementVersionPref) {
         UserAgreement({ pageStack: this.pageStack })
       } else {
-        Column() {
-          TopBar({ pageStack: this.pageStack })
-          MenuList({ pageStack: this.pageStack })
+        Scroll(this.scroller) {
+          Column() {
+            TopBar({ pageStack: this.pageStack })
+            MenuList({ pageStack: this.pageStack })
+          }
         }
+        .scrollable(ScrollDirection.Vertical)
+        .scrollBar(BarState.Off)
         .padding({
           bottom: this.avoidAreaObserver.navigation?.bottomRect.height
         })

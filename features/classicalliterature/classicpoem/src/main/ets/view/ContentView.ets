@@ -22,7 +22,7 @@ export struct ClassicPoemView {
 
       Text(this.classicPoem.content)
         .padding(ThemeConst.P_X16_Y8)
-        .lineHeight(24)
+        .lineHeight('150%')
 
       if (this.classicPoem.annotation) {
         BoldTitle({ text: '注释' })

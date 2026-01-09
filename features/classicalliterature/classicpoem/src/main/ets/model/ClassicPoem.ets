@@ -1,6 +1,6 @@
 import { relationalStore } from '@kit.ArkData';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { DbCRUDConst, DbTableConst } from 'constants';
+import { DbConfigConst, DbCRUDConst, DbTableConst } from 'constants';
 import { Logger } from 'utils';
 import DbUtil from 'utils/src/main/ets/data/DbUtil';
 
@@ -86,6 +86,85 @@ export async function insertClassicPoem(obj: ClassicPoem) {
   }).catch((err: BusinessError) => {
     logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
   })
+}
+
+@Concurrent
+export async function batchInsertClassicPoem(context: Context, objs: ClassicPoem[]): Promise<void> {
+  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+  let logger: Logger = new Logger('ClassicPoem#batchInsertClassicPoem');
+
+  let valuesBuckets: relationalStore.ValuesBucket[] = []
+
+  objs.forEach((obj: ClassicPoem) => {
+    valuesBuckets.push(
+      {
+        'id': obj.id,
+        'dynasty': obj.dynasty,
+        'writer': obj.writer,
+        'writer_introduction': obj.writer_introduction,
+        'title': obj.title,
+        'subtitle': obj.subtitle,
+        'preface': obj.preface,
+        'content': obj.content,
+        'annotation': obj.annotation,
+        'translation': obj.translation,
+        'creative_background': obj.creative_background,
+        'explain': obj.explain,
+        'comment': obj.comment,
+        'collection': obj.collection,
+        'category': obj.category,
+      }
+    )
+  })
+
+  try {
+    await store.batchInsertWithConflictResolution(
+      DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE,
+      valuesBuckets,
+      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    ).then((value: number) => {
+      logger.info(`insert rows = ${value}`)
+    }).catch((err: BusinessError) => {
+      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+    })
+  } catch (error) {
+    const err = error as BusinessError;
+    logger.error(`batchInsertClassicPoem failed, code is ${err.code}, message is ${err.message}`);
+  }
+}
+
+@Concurrent
+export async function batchInsertClassicPoemFTS(context: Context, objs: ClassicPoem[]): Promise<void> {
+  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+  let logger: Logger = new Logger('ClassicPoem#batchInsertClassicPoemFTS');
+
+  let valuesBuckets: relationalStore.ValuesBucket[] = []
+
+  objs.forEach((obj: ClassicPoem) => {
+    valuesBuckets.push(
+      {
+        'id': obj.id,
+        'writer': obj.writer,
+        'title': obj.title,
+        'content': obj.content,
+      }
+    )
+  })
+
+  try {
+    await store.batchInsertWithConflictResolution(
+      DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE,
+      valuesBuckets,
+      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    ).then((value: number) => {
+      logger.info(`insert rows = ${value}`)
+    }).catch((err: BusinessError) => {
+      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+    })
+  } catch (error) {
+    const err = error as BusinessError;
+    logger.error(`batchInsertClassicPoemFTS failed, code is ${err.code}, message is ${err.message}`);
+  }
 }
 
 export async function getRandomClassicPoem(): Promise<ClassicPoem | undefined> {

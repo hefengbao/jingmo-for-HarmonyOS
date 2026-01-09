@@ -25,9 +25,25 @@ export struct MenuList {
 
       GridItem() {
         Item({
+          title: String.classicalliterature_writing
+        }).onClick(() => {
+          this.pageStack.pushPathByName('WritingIndexPage', null)
+        })
+      }
+
+      GridItem() {
+        Item({
           title: String.classicalliterature_sentence
         }).onClick(() => {
           this.pageStack.pushPathByName('SentenceIndexPage', null)
+        })
+      }
+
+      GridItem() {
+        Item({
+          title: String.classicalliterature_people
+        }).onClick(() => {
+          this.pageStack.pushPathByName('PeopleIndexPage', null)
         })
       }
 
@@ -65,9 +81,49 @@ export struct MenuList {
 
       GridItem() {
         Item({
+          title: String.chinese_wisecrack
+        }).onClick(() => [
+          this.pageStack.pushPathByName('WisecrackIndexPage', null)
+        ])
+      }
+
+      GridItem() {
+        Item({
+          title: String.chinese_proverb
+        }).onClick(() => [
+          this.pageStack.pushPathByName('ProverbIndexPage', null)
+        ])
+      }
+
+      GridItem() {
+        Item({
+          title: String.chinese_riddle
+        }).onClick(() => [
+          this.pageStack.pushPathByName('RiddleIndexPage', null)
+        ])
+      }
+
+      GridItem() {
+        Item({
+          title: String.chinese_tonguetwister
+        }).onClick(() => [
+          this.pageStack.pushPathByName('TongueTwisterIndexPage', null)
+        ])
+      }
+
+      GridItem() {
+        Item({
           title: String.chinese_antitheticalcouplet
         }).onClick(() => [
           this.pageStack.pushPathByName('AntitheticalCoupletIndexPage', null)
+        ])
+      }
+
+      GridItem() {
+        Item({
+          title: String.chinese_lyric
+        }).onClick(() => [
+          this.pageStack.pushPathByName('LyricIndexPage', null)
         ])
       }
 
@@ -79,11 +135,13 @@ export struct MenuList {
         ])
       }
 
-      /*GridItem() {
+      GridItem() {
         Item({
           title: String.chinese_modernpoetry
-        })
-      }*/
+        }).onClick(() => [
+          this.pageStack.pushPathByName('ModernPoetryIndexPage', null)
+        ])
+      }
 
       GridItem() {
         Item({

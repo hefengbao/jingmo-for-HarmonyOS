@@ -49,10 +49,7 @@ export struct IndexPage {
           }
         }, (item: WorldCulturalHeritage) => item.id.toString())
       }
-      .divider({
-        strokeWidth: 1,
-        color: '#ffe9f0f0'
-      })
+      .divider(ThemeConst.ListDivider)
       .width('100%')
       .height('100%')
       .edgeEffect(EdgeEffect.Spring)

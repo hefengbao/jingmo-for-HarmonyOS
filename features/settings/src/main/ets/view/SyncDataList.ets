@@ -1,23 +1,31 @@
 import { BusinessError } from '@kit.BasicServicesKit';
+import { PromptAction, ShowDialogSuccessResponse } from '@kit.ArkUI';
 import { DataWrapper, Logger } from 'utils';
 import { DbTableConst, Icon, PrefConst, String, ThemeConst } from 'constants';
-import DatasetViewModel from '../viewmodel/DatasetViewModel';
-import Dataset from '../model/Dataset';
-import { WorldCulturalHeritage } from 'china_worldcultureheritage';
-import { AntitheticalCouplet } from 'chinese_antitheticalcouplet';
-import { Character } from 'chinese_character';
-import { Expression, insertExpressionList } from 'chinese_expression';
-import { Idiom } from 'chinese_idiom';
-import { Knowledge } from 'chinese_knowledge';
-import { Quote } from 'chinese_quote';
-import { ClassicPoem } from 'classicalliterature_classicpoem';
-import { Sentence } from 'classicalliterature_sentence';
 import { BlockTitle } from 'uicomponents';
-import PrefUtil from 'utils/src/main/ets/data/PrefUtil';
 import { relationalStore } from '@kit.ArkData';
 import { taskpool } from '@kit.ArkTS';
 import DbUtil from 'utils/src/main/ets/data/DbUtil';
-import { PromptAction, ShowDialogSuccessResponse } from '@kit.ArkUI';
+import PrefUtil from 'utils/src/main/ets/data/PrefUtil';
+import DatasetViewModel from '../viewmodel/DatasetViewModel';
+import Dataset from '../model/Dataset';
+import { batchInsertWorldCulturalHeritage, WorldCulturalHeritage } from 'china_worldcultureheritage';
+import { AntitheticalCouplet, batchInsertAntitheticalCouplet } from 'chinese_antitheticalcouplet';
+import { batchInsertCharacter, Character } from 'chinese_character';
+import { batchInsertExpression, Expression } from 'chinese_expression';
+import { batchInsertIdiom, Idiom } from 'chinese_idiom';
+import { batchInsertKnowledge, Knowledge } from 'chinese_knowledge';
+import { batchInsertLyric, batchInsertLyricFTS, Lyric } from 'chinese_lyric';
+import { batchInsertModernPoetry, batchInsertModernPoetryFTS, ModernPoetry } from 'chinese_poetry';
+import { batchInsertProverb, Proverb } from 'chinese_proverb';
+import { batchInsertQuote, Quote } from 'chinese_quote';
+import { batchInsertRiddle, Riddle } from 'chinese_riddle';
+import { batchInsertTongueTwister, TongueTwister } from 'chinese_tonguetwister';
+import { batchInsertWisecrack, Wisecrack } from 'chinese_wisecrack';
+import { batchInsertClassicPoem, batchInsertClassicPoemFTS, ClassicPoem } from 'classicalliterature_classicpoem';
+import { batchInsertPeople, People } from 'classicalliterature_people';
+import { batchInsertSentence, Sentence } from 'classicalliterature_sentence';
+import { batchInsertWriting, batchInsertWritingFTS, Writing } from 'classicalliterature_writing';
 
 let logger: Logger = new Logger('SyncData');
 
@@ -31,12 +39,24 @@ export struct SyncDataList {
   @Local classicalliteratureClassicpoemCount: number = 0;
   @Local classicalliteratureClassicpoemLoading: boolean = false;
   @Local classicalliteratureClassicpoemLoadingError: string | null = null;
+  @Local classicalliteraturePeopleLocalVersion: number = PrefUtil.getClassicalLiteraturePeopleVersion();
+  @Local classicalliteraturePeopleRemoteVersion: number = 0;
+  @Local classicalliteraturePeopleTotal: number = 0;
+  @Local classicalliteraturePeopleCount: number = 0;
+  @Local classicalliteraturePeopleLoading: boolean = false;
+  @Local classicalliteraturePeopleLoadingError: string | null = null;
   @Local classicalliteratureSentenceLocalVersion: number = PrefUtil.getClassicalLiteratureSentenceVersion();
   @Local classicalliteratureSentenceRemoteVersion: number = 0;
   @Local classicalliteratureSentenceTotal: number = 0;
   @Local classicalliteratureSentenceCount: number = 0;
   @Local classicalliteratureSentenceLoading: boolean = false;
   @Local classicalliteratureSentenceLoadingError: string | null = null;
+  @Local classicalliteratureWritingLocalVersion: number = PrefUtil.getClassicalLiteratureWritingVersion();
+  @Local classicalliteratureWritingRemoteVersion: number = 0;
+  @Local classicalliteratureWritingTotal: number = 0;
+  @Local classicalliteratureWritingCount: number = 0;
+  @Local classicalliteratureWritingLoading: boolean = false;
+  @Local classicalliteratureWritingLoadingError: string | null = null;
   @Local chineseAntitheticalCoupletLocalVersion: number = PrefUtil.getChineseAntitheticalCoupletVersion();
   @Local chineseAntitheticalCoupletRemoteVersion: number = 0;
   @Local chineseAntitheticalCoupletTotal: number = 0;
@@ -67,48 +87,105 @@ export struct SyncDataList {
   @Local chineseKnowledgeCount: number = 0;
   @Local chineseKnowledgeLoading: boolean = false;
   @Local chineseKnowledgeLoadingError: string | null = null;
+  @Local chineseLyricLocalVersion: number = PrefUtil.getChineseLyricVersion();
+  @Local chineseLyricRemoteVersion: number = 0;
+  @Local chineseLyricTotal: number = 0;
+  @Local chineseLyricCount: number = 0;
+  @Local chineseLyricLoading: boolean = false;
+  @Local chineseLyricLoadingError: string | null = null;
+  @Local chinesePoetryLocalVersion: number = PrefUtil.getChineseModernPoetryVersion();
+  @Local chineseModernPoetryRemoteVersion: number = 0;
+  @Local chineseModernPoetryTotal: number = 0;
+  @Local chineseModernPoetryCount: number = 0;
+  @Local chineseModernPoetryLoading: boolean = false;
+  @Local chineseModernPoetryLoadingError: string | null = null;
+  @Local chineseProverbLocalVersion: number = PrefUtil.getChineseProverbVersion();
+  @Local chineseProverbRemoteVersion: number = 0;
+  @Local chineseProverbTotal: number = 0;
+  @Local chineseProverbCount: number = 0;
+  @Local chineseProverbLoading: boolean = false;
+  @Local chineseProverbLoadingError: string | null = null;
   @Local chineseQuoteLocalVersion: number = PrefUtil.getChineseQuoteVersion();
   @Local chineseQuoteRemoteVersion: number = 0;
   @Local chineseQuoteTotal: number = 0;
   @Local chineseQuoteCount: number = 0;
   @Local chineseQuoteLoading: boolean = false;
   @Local chineseQuoteLoadingError: string | null = null;
+  @Local chineseRiddleLocalVersion: number = PrefUtil.getChineseRiddleVersion();
+  @Local chineseRiddleRemoteVersion: number = 0;
+  @Local chineseRiddleTotal: number = 0;
+  @Local chineseRiddleCount: number = 0;
+  @Local chineseRiddleLoading: boolean = false;
+  @Local chineseRiddleLoadingError: string | null = null;
+  @Local chineseTongueTwisterLocalVersion: number = PrefUtil.getChineseTongueTwisterVersion();
+  @Local chineseTongueTwisterRemoteVersion: number = 0;
+  @Local chineseTongueTwisterTotal: number = 0;
+  @Local chineseTongueTwisterCount: number = 0;
+  @Local chineseTongueTwisterLoading: boolean = false;
+  @Local chineseTongueTwisterLoadingError: string | null = null;
+  @Local chineseWisecrackLocalVersion: number = PrefUtil.getChineseWisecrackVersion();
+  @Local chineseWisecrackRemoteVersion: number = 0;
+  @Local chineseWisecrackTotal: number = 0;
+  @Local chineseWisecrackCount: number = 0;
+  @Local chineseWisecrackLoading: boolean = false;
+  @Local chineseWisecrackLoadingError: string | null = null;
   @Local chinaWorldCulturalHeritageLocalVersion: number = PrefUtil.getChinaWorldCulturalHeritageVersion();
   @Local chinaWorldCulturalHeritageRemoteVersion: number = 0;
   @Local chinaWorldCulturalHeritageTotal: number = 0;
   @Local chinaWorldCulturalHeritageCount: number = 0;
   @Local chinaWorldCulturalHeritageLoading: boolean = false;
   @Local chinaWorldCulturalHeritageLoadingError: string | null = null;
-  changeInfos = (changeInfos: Array<relationalStore.ChangeInfo>) => {
-    for (let i = 0; i < changeInfos.length; i++) {
-      let info = changeInfos[i]
-      logger.info(`changeInfos: table = ${info.table}, type = ${info.type}, inserted = ${info.inserted}, updated = ${info.updated}`);
-      if (info.table == DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE) {
-        this.classicalliteratureClassicpoemCount++
-      } else if (info.table == DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE) {
-        this.classicalliteratureSentenceCount++
-      } else if (info.table == DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE) {
-        this.chineseAntitheticalCoupletCount++
-      } else if (info.table == DbTableConst.CHINESE_CHARACTER_TABLE) {
-        this.chineseCharacterCount++
-      } else if (info.table == DbTableConst.CHINESE_EXPRESSION_TABLE) {
-        this.chineseExpressionCount++
-      } else if (info.table == DbTableConst.CHINESE_IDIOM_TABLE) {
-        this.chineseIdiomCount++
-      } else if (info.table == DbTableConst.CHINESE_KNOWLEDGE_TABLE) {
-        this.chineseKnowledgeCount++
-      } else if (info.table == DbTableConst.CHINESE_QUOTE_TABLE) {
-        this.chineseQuoteCount++
-      } else if (info.table == DbTableConst.CHINA_WORLDCULTUREHERITAGE_TABLE) {
-        this.chinaWorldCulturalHeritageCount++
+  @Local changeInfos: Callback<Array<relationalStore.ChangeInfo>> =
+    (changeInfos: Array<relationalStore.ChangeInfo>) => {
+      for (let i = 0; i < changeInfos.length; i++) {
+        let info = changeInfos[i]
+        logger.info(`changeInfos: table = ${info.table}, type = ${info.type}, inserted = ${info.inserted}, updated = ${info.updated}`);
+        if (info.table == DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE) {
+          this.classicalliteratureClassicpoemCount += info.inserted.length
+        } else if (info.table == DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE) {
+          this.classicalliteraturePeopleCount += info.inserted.length
+        } else if (info.table == DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE) {
+          this.classicalliteratureSentenceCount += info.inserted.length
+        } else if (info.table == DbTableConst.CLASSICALLITERATURE_WRITING_TABLE) {
+          this.classicalliteratureWritingCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE) {
+          this.chineseAntitheticalCoupletCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_CHARACTER_TABLE) {
+          this.chineseCharacterCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_EXPRESSION_TABLE) {
+          this.chineseExpressionCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_IDIOM_TABLE) {
+          this.chineseIdiomCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_KNOWLEDGE_TABLE) {
+          this.chineseKnowledgeCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_LYRIC_TABLE) {
+          this.chineseLyricCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_MODERNPOETRY_TABLE) {
+          this.chineseModernPoetryCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_PROVERB_TABLE) {
+          this.chineseProverbCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_QUOTE_TABLE) {
+          this.chineseQuoteCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_RIDDLE_TABLE) {
+          this.chineseRiddleCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_TONGUETWISTER_TABLE) {
+          this.chineseTongueTwisterCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINESE_WISECRACK_TABLE) {
+          this.chineseWisecrackCount += info.inserted.length
+        } else if (info.table == DbTableConst.CHINA_WORLDCULTUREHERITAGE_TABLE) {
+          this.chinaWorldCulturalHeritageCount += info.inserted.length
+        }
       }
     }
-  }
-  observer = (key: string) => {
+  @Local observer: Callback<string> = (key: string) => {
     if (key == PrefConst.CLASSICALLITERATURE_CLASSICPOEM) {
       this.classicalliteratureClassicpoemLocalVersion = PrefUtil.getClassicalLiteratureClassicPoemVersion();
+    } else if (key == PrefConst.CLASSICALLITERATURE_PEOPLE) {
+      this.classicalliteraturePeopleLocalVersion = PrefUtil.getClassicalLiteraturePeopleVersion()
     } else if (key == PrefConst.CLASSICALLITERATURE_SENTENCE) {
       this.classicalliteratureSentenceLocalVersion = PrefUtil.getClassicalLiteratureSentenceVersion()
+    } else if (key == PrefConst.CLASSICALLITERATURE_WRITING) {
+      this.classicalliteratureWritingLocalVersion = PrefUtil.getClassicalLiteratureWritingVersion()
     } else if (key == PrefConst.CHINESE_ANTITHETICALCOUPLET) {
       this.chineseAntitheticalCoupletLocalVersion = PrefUtil.getChineseAntitheticalCoupletVersion()
     } else if (key == PrefConst.CHINESE_CHARACTER) {
@@ -119,8 +196,20 @@ export struct SyncDataList {
       this.chineseIdiomLocalVersion = PrefUtil.getChineseIdiomVersion()
     } else if (key == PrefConst.CHINESE_KNOWLEDGE) {
       this.chineseKnowledgeLocalVersion = PrefUtil.getChineseKnowledgeVersion()
+    } else if (key == PrefConst.CHINESE_LYRIC) {
+      this.chineseLyricLocalVersion = PrefUtil.getChineseLyricVersion()
+    } else if (key == PrefConst.CHINESE_MODERNPOETRY) {
+      this.chinesePoetryLocalVersion = PrefUtil.getChineseModernPoetryVersion()
+    } else if (key == PrefConst.CHINESE_PROVERB) {
+      this.chineseProverbLocalVersion = PrefUtil.getChineseProverbVersion()
     } else if (key == PrefConst.CHINESE_QUOTE) {
       this.chineseQuoteLocalVersion = PrefUtil.getChineseQuoteVersion()
+    } else if (key == PrefConst.CHINESE_RIDDLE) {
+      this.chineseRiddleLocalVersion = PrefUtil.getChineseRiddleVersion()
+    } else if (key == PrefConst.CHINESE_TONGUETWISTER) {
+      this.chineseTongueTwisterLocalVersion = PrefUtil.getChineseTongueTwisterVersion()
+    } else if (key == PrefConst.CHINESE_WISECRACK) {
+      this.chineseWisecrackLocalVersion = PrefUtil.getChineseWisecrackVersion()
     } else if (key == PrefConst.CHINA_WORLDCULTUREHERITAGE) {
       this.chinaWorldCulturalHeritageLocalVersion = PrefUtil.getChinaWorldCulturalHeritageVersion()
     }
@@ -131,9 +220,15 @@ export struct SyncDataList {
       if (item.name == PrefConst.CLASSICALLITERATURE_CLASSICPOEM) {
         this.classicalliteratureClassicpoemRemoteVersion = item.version;
         this.classicalliteratureClassicpoemTotal = item.count;
+      } else if (item.name == PrefConst.CLASSICALLITERATURE_WRITING) {
+        this.classicalliteratureWritingRemoteVersion = item.version;
+        this.classicalliteratureWritingTotal = item.count;
       } else if (item.name == PrefConst.CLASSICALLITERATURE_SENTENCE) {
         this.classicalliteratureSentenceRemoteVersion = item.version;
         this.classicalliteratureSentenceTotal = item.count;
+      } else if (item.name == PrefConst.CLASSICALLITERATURE_PEOPLE) {
+        this.classicalliteraturePeopleRemoteVersion = item.version;
+        this.classicalliteraturePeopleTotal = item.count;
       } else if (item.name == PrefConst.CHINESE_ANTITHETICALCOUPLET) {
         this.chineseAntitheticalCoupletRemoteVersion = item.version;
         this.chineseAntitheticalCoupletTotal = item.count;
@@ -149,9 +244,27 @@ export struct SyncDataList {
       } else if (item.name == PrefConst.CHINESE_KNOWLEDGE) {
         this.chineseKnowledgeRemoteVersion = item.version;
         this.chineseKnowledgeTotal = item.count;
+      } else if (item.name == PrefConst.CHINESE_LYRIC) {
+        this.chineseLyricRemoteVersion = item.version;
+        this.chineseLyricTotal = item.count;
+      } else if (item.name == PrefConst.CHINESE_MODERNPOETRY) {
+        this.chineseModernPoetryRemoteVersion = item.version;
+        this.chineseModernPoetryTotal = item.count;
+      } else if (item.name == PrefConst.CHINESE_PROVERB) {
+        this.chineseProverbRemoteVersion = item.version;
+        this.chineseProverbTotal = item.count;
       } else if (item.name == PrefConst.CHINESE_QUOTE) {
         this.chineseQuoteRemoteVersion = item.version;
         this.chineseQuoteTotal = item.count;
+      } else if (item.name == PrefConst.CHINESE_RIDDLE) {
+        this.chineseRiddleRemoteVersion = item.version;
+        this.chineseRiddleTotal = item.count;
+      } else if (item.name == PrefConst.CHINESE_TONGUETWISTER) {
+        this.chineseTongueTwisterRemoteVersion = item.version;
+        this.chineseTongueTwisterTotal = item.count;
+      } else if (item.name == PrefConst.CHINESE_WISECRACK) {
+        this.chineseWisecrackRemoteVersion = item.version;
+        this.chineseWisecrackTotal = item.count;
       } else if (item.name == PrefConst.CHINA_WORLDCULTUREHERITAGE) {
         this.chinaWorldCulturalHeritageRemoteVersion = item.version;
         this.chinaWorldCulturalHeritageTotal = item.count;
@@ -206,7 +319,21 @@ export struct SyncDataList {
         loading: this.classicalliteratureClassicpoemLoading,
         error: this.classicalliteratureClassicpoemLoadingError,
         clickEvent: (): void => {
-          this.syncClassicalLiteratureClassicPoem()
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncClassicalLiteratureClassicPoem(context)
+        }
+      })
+      Item({
+        title: String.classicalliterature_writing,
+        remoteVersion: this.classicalliteratureWritingRemoteVersion,
+        localVersion: this.classicalliteratureWritingLocalVersion,
+        total: this.classicalliteratureWritingTotal,
+        progress: this.classicalliteratureWritingCount,
+        loading: this.classicalliteratureWritingLoading,
+        error: this.classicalliteratureWritingLoadingError,
+        clickEvent: (): void => {
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncClassicalLiteratureWriting(context)
         }
       })
       Item({
@@ -218,7 +345,21 @@ export struct SyncDataList {
         loading: this.classicalliteratureSentenceLoading,
         error: this.classicalliteratureSentenceLoadingError,
         clickEvent: (): void => {
-          this.syncClassicalLiteratureSentence()
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncClassicalLiteratureSentence(context)
+        }
+      })
+      Item({
+        title: String.classicalliterature_people,
+        remoteVersion: this.classicalliteraturePeopleRemoteVersion,
+        localVersion: this.classicalliteraturePeopleLocalVersion,
+        total: this.classicalliteraturePeopleTotal,
+        progress: this.classicalliteraturePeopleCount,
+        loading: this.classicalliteraturePeopleLoading,
+        error: this.classicalliteraturePeopleLoadingError,
+        clickEvent: (): void => {
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncClassicalLiteraturePeople(context)
         }
       })
       BlockTitle({ title: String.chinese })
@@ -231,7 +372,8 @@ export struct SyncDataList {
         loading: this.chineseAntitheticalCoupletLoading,
         error: this.chineseAntitheticalCoupletLoadingError,
         clickEvent: (): void => {
-          this.syncChineseAntitheticalCouplet()
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncChineseAntitheticalCouplet(context)
         }
       })
       Item({
@@ -243,7 +385,8 @@ export struct SyncDataList {
         loading: this.chineseCharacterLoading,
         error: this.chineseCharacterLoadingError,
         clickEvent: (): void => {
-          this.syncChineseCharacter()
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncChineseCharacter(context)
         }
       })
       Item({
@@ -268,7 +411,8 @@ export struct SyncDataList {
         loading: this.chineseIdiomLoading,
         error: this.chineseIdiomLoadingError,
         clickEvent: (): void => {
-          this.syncChineseIdiom()
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncChineseIdiom(context)
         }
       })
       Item({
@@ -280,7 +424,47 @@ export struct SyncDataList {
         loading: this.chineseKnowledgeLoading,
         error: this.chineseKnowledgeLoadingError,
         clickEvent: (): void => {
-          this.syncChineseKnowledge()
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncChineseKnowledge(context)
+        }
+      })
+      Item({
+        title: String.chinese_lyric,
+        remoteVersion: this.chineseLyricRemoteVersion,
+        localVersion: this.chineseLyricLocalVersion,
+        total: this.chineseLyricTotal,
+        progress: this.chineseLyricCount,
+        loading: this.chineseLyricLoading,
+        error: this.chineseLyricLoadingError,
+        clickEvent: (): void => {
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncChineseLyric(context)
+        }
+      })
+      Item({
+        title: String.chinese_modernpoetry,
+        remoteVersion: this.chineseModernPoetryRemoteVersion,
+        localVersion: this.chinesePoetryLocalVersion,
+        total: this.chineseModernPoetryTotal,
+        progress: this.chineseModernPoetryCount,
+        loading: this.chineseModernPoetryLoading,
+        error: this.chineseModernPoetryLoadingError,
+        clickEvent: (): void => {
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncChineseModernPoetry(context)
+        }
+      })
+      Item({
+        title: String.chinese_proverb,
+        remoteVersion: this.chineseProverbRemoteVersion,
+        localVersion: this.chineseProverbLocalVersion,
+        total: this.chineseProverbTotal,
+        progress: this.chineseProverbCount,
+        loading: this.chineseProverbLoading,
+        error: this.chineseProverbLoadingError,
+        clickEvent: (): void => {
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncChineseProverb(context)
         }
       })
       Item({
@@ -292,7 +476,47 @@ export struct SyncDataList {
         loading: this.chineseQuoteLoading,
         error: this.chineseQuoteLoadingError,
         clickEvent: (): void => {
-          this.syncChineseQuote()
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncChineseQuote(context)
+        }
+      })
+      Item({
+        title: String.chinese_riddle,
+        remoteVersion: this.chineseRiddleRemoteVersion,
+        localVersion: this.chineseRiddleLocalVersion,
+        total: this.chineseRiddleTotal,
+        progress: this.chineseRiddleCount,
+        loading: this.chineseRiddleLoading,
+        error: this.chineseRiddleLoadingError,
+        clickEvent: (): void => {
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncChineseRiddle(context)
+        }
+      })
+      Item({
+        title: String.chinese_tonguetwister,
+        remoteVersion: this.chineseTongueTwisterRemoteVersion,
+        localVersion: this.chineseTongueTwisterLocalVersion,
+        total: this.chineseTongueTwisterTotal,
+        progress: this.chineseTongueTwisterCount,
+        loading: this.chineseTongueTwisterLoading,
+        error: this.chineseTongueTwisterLoadingError,
+        clickEvent: (): void => {
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncChineseTongueTwister(context)
+        }
+      })
+      Item({
+        title: String.chinese_wisecrack,
+        remoteVersion: this.chineseWisecrackRemoteVersion,
+        localVersion: this.chineseWisecrackLocalVersion,
+        total: this.chineseWisecrackTotal,
+        progress: this.chineseWisecrackCount,
+        loading: this.chineseWisecrackLoading,
+        error: this.chineseWisecrackLoadingError,
+        clickEvent: (): void => {
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncChineseWisecrack(context)
         }
       })
       BlockTitle({ title: String.china })
@@ -305,7 +529,8 @@ export struct SyncDataList {
         loading: this.chinaWorldCulturalHeritageLoading,
         error: this.chinaWorldCulturalHeritageLoadingError,
         clickEvent: (): void => {
-          this.syncChinaWorldCulturalHeritage()
+          let context: Context = this.getUIContext().getHostContext() as Context;
+          this.syncChinaWorldCulturalHeritage(context)
         }
       })
     }
@@ -326,15 +551,27 @@ export struct SyncDataList {
     })
   }
 
-  syncClassicalLiteratureClassicPoem(page: number = 1) {
+  syncClassicalLiteratureClassicPoem(context: Context, page: number = 1) {
     this.classicalliteratureClassicpoemLoading = true;
     DatasetViewModel.getClassicalLiteratureClassicPoemList(this.classicalliteratureClassicpoemRemoteVersion, page)
       .then((wrapper: DataWrapper<ClassicPoem>) => {
-        wrapper.data.map((obj: ClassicPoem) => {
-          DatasetViewModel.insertClassicalLiteratureClassicPoemToDb(obj);
-        })
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertClassicPoem, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+            taskpool.execute(batchInsertClassicPoemFTS, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
         if (wrapper.next_page) {
-          this.syncClassicalLiteratureClassicPoem(wrapper.next_page);
+          this.syncClassicalLiteratureClassicPoem(context, wrapper.next_page);
         }
         if (!wrapper.next_page) {
           PrefUtil.saveClassicalLiteratureClassicPoemVersion(this.classicalliteratureClassicpoemRemoteVersion)
@@ -347,15 +584,55 @@ export struct SyncDataList {
     })
   }
 
-  syncClassicalLiteratureSentence(page: number = 1) {
+  syncClassicalLiteraturePeople(context: Context, page: number = 1) {
+    this.classicalliteraturePeopleLoading = true;
+    DatasetViewModel.getClassicalLiteraturePeopleList(this.classicalliteraturePeopleRemoteVersion, page)
+      .then((wrapper: DataWrapper<People>) => {
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertPeople, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
+
+        if (wrapper.next_page) {
+          this.syncClassicalLiteraturePeople(context, wrapper.next_page);
+        }
+        if (!wrapper.next_page) {
+          PrefUtil.saveClassicalLiteraturePeopleVersion(this.classicalliteraturePeopleRemoteVersion)
+          this.classicalliteraturePeopleLoading = false;
+        }
+      }).catch((error: BusinessError) => {
+      this.classicalliteraturePeopleLoadingError = `code = ${error.code}, msg = ${error.message}`;
+      logger.error(`syncClassicalLiteraturePeople, code = ${error.code}, msg = ${error.message}`);
+      this.classicalliteraturePeopleLoading = false;
+    })
+  }
+
+  syncClassicalLiteratureSentence(context: Context, page: number = 1) {
     this.classicalliteratureSentenceLoading = true;
     DatasetViewModel.getClassicalLiteratureSentenceList(this.classicalliteratureSentenceRemoteVersion, page)
       .then((wrapper: DataWrapper<Sentence>) => {
-        wrapper.data.map((obj: Sentence) => {
-          DatasetViewModel.insertClassicalLiteratureSentenceToDb(obj);
-        })
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertSentence, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
         if (wrapper.next_page) {
-          this.syncClassicalLiteratureSentence(wrapper.next_page);
+          this.syncClassicalLiteratureSentence(context, wrapper.next_page);
         }
         if (!wrapper.next_page) {
           PrefUtil.saveClassicalLiteratureSentenceVersion(this.classicalliteratureSentenceRemoteVersion)
@@ -368,15 +645,71 @@ export struct SyncDataList {
     })
   }
 
-  syncChineseAntitheticalCouplet(page: number = 1) {
+  syncClassicalLiteratureWriting(context: Context, page: number = 1) {
+    this.classicalliteratureWritingLoading = true;
+    DatasetViewModel.getClassicalLiteratureWritingList(this.classicalliteratureWritingRemoteVersion, page)
+      .then((wrapper: DataWrapper<Writing>) => {
+        let objs = wrapper.data
+        let limit: number = 50;
+        if (page <= 1) {
+          limit = 50;
+        } else if (page <= 2) {
+          limit = 20;
+        } else if (page <= 5) {
+          limit = 100;
+        } else if (page <= 8) {
+          limit = 200;
+        } else {
+          limit = 180;
+        }
+
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > limit ? limit : objs.length)
+            taskpool.execute(batchInsertWriting, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+            taskpool.execute(batchInsertWritingFTS, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
+
+        if (wrapper.next_page) {
+          this.syncClassicalLiteratureWriting(context, wrapper.next_page);
+        }
+        if (!wrapper.next_page) {
+          PrefUtil.saveClassicalLiteratureWritingVersion(this.classicalliteratureWritingRemoteVersion)
+          this.classicalliteratureWritingLoading = false;
+        }
+      }).catch((error: BusinessError) => {
+      this.classicalliteratureWritingLoadingError = `code = ${error.code}, msg = ${error.message}`;
+      logger.error(`syncClassicalLiteratureWriting, code = ${error.code}, msg = ${error.message}`);
+      this.classicalliteratureWritingLoading = false;
+    })
+  }
+
+  syncChineseAntitheticalCouplet(context: Context, page: number = 1) {
     this.chineseAntitheticalCoupletLoading = true;
     DatasetViewModel.getChineseAntitheticalCoupletList(this.chineseAntitheticalCoupletRemoteVersion, page)
       .then((wrapper: DataWrapper<AntitheticalCouplet>) => {
-        wrapper.data.map((obj: AntitheticalCouplet) => {
-          DatasetViewModel.insertChineseAntitheticalCoupletToDb(obj)
-        })
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertAntitheticalCouplet, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
         if (wrapper.next_page) {
-          this.syncChineseAntitheticalCouplet(wrapper.next_page);
+          this.syncChineseAntitheticalCouplet(context, wrapper.next_page);
         }
         if (!wrapper.next_page) {
           PrefUtil.saveChineseAntitheticalCoupletVersion(this.chineseAntitheticalCoupletRemoteVersion)
@@ -389,15 +722,24 @@ export struct SyncDataList {
     })
   }
 
-  syncChineseCharacter(page: number = 1) {
+  syncChineseCharacter(context: Context, page: number = 1) {
     this.chineseCharacterLoading = true;
     DatasetViewModel.getChineseCharacterList(this.chineseCharacterRemoteVersion, page)
       .then((wrapper: DataWrapper<Character>) => {
-        wrapper.data.map((obj: Character) => {
-          DatasetViewModel.insertChineseCharacterToDb(obj)
-        })
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertCharacter, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
         if (wrapper.next_page) {
-          this.syncChineseCharacter(wrapper.next_page);
+          this.syncChineseCharacter(context, wrapper.next_page);
         }
         if (!wrapper.next_page) {
           PrefUtil.saveChineseCharacterVersion(this.chineseCharacterRemoteVersion)
@@ -414,10 +756,14 @@ export struct SyncDataList {
     this.chineseExpressionLoading = true;
     DatasetViewModel.getChineseExpressionList(this.chineseExpressionRemoteVersion, page)
       .then((wrapper: DataWrapper<Expression>) => {
+        let objs = wrapper.data
         try {
-          taskpool.execute(insertExpressionList, context, wrapper.data).catch((error: BusinessError) => {
-            logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
-          })
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertExpression, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
         } catch (error) {
           let err = error as BusinessError
           logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
@@ -437,16 +783,24 @@ export struct SyncDataList {
     })
   }
 
-  syncChineseIdiom(page: number = 1) {
+  syncChineseIdiom(context: Context, page: number = 1) {
     this.chineseIdiomLoading = true;
     DatasetViewModel.getChineseIdiomList(this.chineseIdiomRemoteVersion, page)
       .then((wrapper: DataWrapper<Idiom>) => {
-        wrapper.data.map((obj: Idiom) => {
-          DatasetViewModel.insertChineseIdiomToDb(obj)
-          this.chineseIdiomCount++;
-        })
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertIdiom, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
         if (wrapper.next_page) {
-          this.syncChineseIdiom(wrapper.next_page);
+          this.syncChineseIdiom(context, wrapper.next_page);
         }
         if (!wrapper.next_page) {
           PrefUtil.saveChineseIdiomVersion(this.chineseIdiomRemoteVersion)
@@ -459,16 +813,24 @@ export struct SyncDataList {
     })
   }
 
-  syncChineseKnowledge(page: number = 1) {
+  syncChineseKnowledge(context: Context, page: number = 1) {
     this.chineseKnowledgeLoading = true;
     DatasetViewModel.getChineseKnowledgeList(this.chineseKnowledgeRemoteVersion, page)
       .then((wrapper: DataWrapper<Knowledge>) => {
-        wrapper.data.map((obj: Knowledge) => {
-          DatasetViewModel.insertChineseKnowledgeToDb(obj)
-          this.chineseKnowledgeCount++;
-        })
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertKnowledge, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
         if (wrapper.next_page) {
-          this.syncChineseKnowledge(wrapper.next_page);
+          this.syncChineseKnowledge(context, wrapper.next_page);
         }
         if (!wrapper.next_page) {
           PrefUtil.saveChineseKnowledgeVersion(this.chineseKnowledgeRemoteVersion)
@@ -481,16 +843,123 @@ export struct SyncDataList {
     })
   }
 
-  syncChineseQuote(page: number = 1) {
+  syncChineseLyric(context: Context, page: number = 1) {
+    this.chineseLyricLoading = true;
+    DatasetViewModel.getChineseLyricList(this.chineseLyricRemoteVersion, page)
+      .then((wrapper: DataWrapper<Lyric>) => {
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertLyric, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+            taskpool.execute(batchInsertLyricFTS, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
+
+        if (wrapper.next_page) {
+          this.syncChineseLyric(context, wrapper.next_page);
+        }
+        if (!wrapper.next_page) {
+          PrefUtil.saveChineseLyricVersion(this.chineseLyricRemoteVersion)
+          this.chineseLyricLoading = false;
+        }
+      }).catch((error: BusinessError) => {
+      this.chineseLyricLoadingError = `code = ${error.code}, msg = ${error.message}`;
+      logger.error(`syncChineseLyric, code = ${error.code}, msg = ${error.message}`);
+      this.chineseLyricLoading = false;
+    })
+  }
+
+  syncChineseModernPoetry(context: Context, page: number = 1) {
+    this.chineseModernPoetryLoading = true;
+    DatasetViewModel.getChineseModernPoetryList(this.chineseModernPoetryRemoteVersion, page)
+      .then((wrapper: DataWrapper<ModernPoetry>) => {
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertModernPoetry, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+            taskpool.execute(batchInsertModernPoetryFTS, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
+
+        if (wrapper.next_page) {
+          this.syncChineseModernPoetry(context, wrapper.next_page);
+        }
+        if (!wrapper.next_page) {
+          PrefUtil.saveChineseModernPoetryVersion(this.chineseModernPoetryRemoteVersion)
+          this.chineseModernPoetryLoading = false;
+        }
+      }).catch((error: BusinessError) => {
+      this.chineseModernPoetryLoadingError = `code = ${error.code}, msg = ${error.message}`;
+      logger.error(`syncChineseModernPoetry, code = ${error.code}, msg = ${error.message}`);
+      this.chineseModernPoetryLoading = false;
+    })
+  }
+
+  syncChineseProverb(context: Context, page: number = 1) {
+    this.chineseProverbLoading = true;
+    DatasetViewModel.getChineseProverbList(this.chineseProverbRemoteVersion, page)
+      .then((wrapper: DataWrapper<Proverb>) => {
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertProverb, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
+
+        if (wrapper.next_page) {
+          this.syncChineseProverb(context, wrapper.next_page);
+        }
+        if (!wrapper.next_page) {
+          PrefUtil.saveChineseProverbVersion(this.chineseProverbRemoteVersion)
+          this.chineseProverbLoading = false;
+        }
+      }).catch((error: BusinessError) => {
+      this.chineseProverbLoadingError = `code = ${error.code}, msg = ${error.message}`;
+      logger.error(`syncChineseProverb, code = ${error.code}, msg = ${error.message}`);
+      this.chineseProverbLoading = false;
+    })
+  }
+
+  syncChineseQuote(context: Context, page: number = 1) {
     this.chineseQuoteLoading = true;
     DatasetViewModel.getChineseQuoteList(this.chineseQuoteRemoteVersion, page)
       .then((wrapper: DataWrapper<Quote>) => {
-        wrapper.data.map((obj: Quote) => {
-          DatasetViewModel.insertChineseQuoteToDb(obj)
-          this.chineseQuoteCount++;
-        })
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertQuote, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
         if (wrapper.next_page) {
-          this.syncChineseQuote(wrapper.next_page);
+          this.syncChineseQuote(context, wrapper.next_page);
         }
         if (!wrapper.next_page) {
           PrefUtil.saveChineseQuoteVersion(this.chineseQuoteRemoteVersion)
@@ -503,16 +972,117 @@ export struct SyncDataList {
     })
   }
 
-  syncChinaWorldCulturalHeritage(page: number = 1) {
+  syncChineseRiddle(context: Context, page: number = 1) {
+    this.chineseRiddleLoading = true;
+    DatasetViewModel.getChineseRiddleList(this.chineseRiddleRemoteVersion, page)
+      .then((wrapper: DataWrapper<Riddle>) => {
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertRiddle, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
+
+        if (wrapper.next_page) {
+          this.syncChineseRiddle(context, wrapper.next_page);
+        }
+        if (!wrapper.next_page) {
+          PrefUtil.saveChineseRiddleVersion(this.chineseRiddleRemoteVersion)
+          this.chineseRiddleLoading = false;
+        }
+      }).catch((error: BusinessError) => {
+      this.chineseRiddleLoadingError = `code = ${error.code}, msg = ${error.message}`;
+      logger.error(`syncChineseRiddle, code = ${error.code}, msg = ${error.message}`);
+      this.chineseRiddleLoading = false;
+    })
+  }
+
+  syncChineseTongueTwister(context: Context, page: number = 1) {
+    this.chineseTongueTwisterLoading = true;
+    DatasetViewModel.getChineseRTongueTwisterList(this.chineseTongueTwisterRemoteVersion, page)
+      .then((wrapper: DataWrapper<TongueTwister>) => {
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertTongueTwister, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
+
+        if (wrapper.next_page) {
+          this.syncChineseTongueTwister(context, wrapper.next_page);
+        }
+        if (!wrapper.next_page) {
+          PrefUtil.saveChineseTongueTwisterVersion(this.chineseTongueTwisterRemoteVersion)
+          this.chineseTongueTwisterLoading = false;
+        }
+      }).catch((error: BusinessError) => {
+      this.chineseTongueTwisterLoadingError = `code = ${error.code}, msg = ${error.message}`;
+      logger.error(`syncChineseTongueTwister, code = ${error.code}, msg = ${error.message}`);
+      this.chineseTongueTwisterLoading = false;
+    })
+  }
+
+  syncChineseWisecrack(context: Context, page: number = 1) {
+    this.chineseWisecrackLoading = true;
+    DatasetViewModel.getChineseWisecrackList(this.chineseWisecrackRemoteVersion, page)
+      .then((wrapper: DataWrapper<Wisecrack>) => {
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertWisecrack, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
+
+        if (wrapper.next_page) {
+          this.syncChineseWisecrack(context, wrapper.next_page);
+        }
+        if (!wrapper.next_page) {
+          PrefUtil.saveChineseWisecrackVersion(this.chineseWisecrackRemoteVersion)
+          this.chineseWisecrackLoading = false;
+        }
+      }).catch((error: BusinessError) => {
+      this.chineseWisecrackLoadingError = `code = ${error.code}, msg = ${error.message}`;
+      logger.error(`syncChineseWisecrack, code = ${error.code}, msg = ${error.message}`);
+      this.chineseWisecrackLoading = false;
+    })
+  }
+
+  syncChinaWorldCulturalHeritage(context: Context, page: number = 1) {
     this.chinaWorldCulturalHeritageLoading = true;
     DatasetViewModel.getChinaWorldCulturalHeritageList(this.chinaWorldCulturalHeritageRemoteVersion, page)
       .then((wrapper: DataWrapper<WorldCulturalHeritage>) => {
-        wrapper.data.map((obj: WorldCulturalHeritage) => {
-          DatasetViewModel.insertChinaWorldCulturalHeritageToDb(obj)
-          this.chinaWorldCulturalHeritageCount++;
-        })
+        let objs = wrapper.data
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
+            taskpool.execute(batchInsertWorldCulturalHeritage, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
         if (wrapper.next_page) {
-          this.syncChinaWorldCulturalHeritage(wrapper.next_page);
+          this.syncChinaWorldCulturalHeritage(context, wrapper.next_page);
         }
         if (!wrapper.next_page) {
           PrefUtil.saveChinaWorldCulturalHeritageVersion(this.chinaWorldCulturalHeritageRemoteVersion)
@@ -556,7 +1126,7 @@ struct Item {
           Progress({ value: this.progress, total: this.total, type: ProgressType.Ring })
             .width(24)
             .height(24)
-            .color(Color.Black)
+            .color($r('sys.color.ohos_id_color_text_primary'))
             .margin({ right: 16 })
         }
         if (this.remoteVersion > 0 && this.localVersion == this.remoteVersion) {
