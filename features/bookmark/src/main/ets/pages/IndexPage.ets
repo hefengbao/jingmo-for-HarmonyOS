@@ -85,6 +85,24 @@ export struct IndexPage {
                     this.pageStack.pushPathByName('KnowledgeShowPage',
                       new ParamNumberId(repeatItem.item.bookmarkable_id))
                   })
+              } else if (repeatItem.item.bookmarkable_model == PrefConst.CHINESE_LYRIC) {
+                Item({
+                  model: String.chinese_lyric,
+                  content: repeatItem.item.chinese_lyric
+                })
+                  .onClick(() => {
+                    this.pageStack.pushPathByName('LyricShowPage',
+                      new ParamNumberId(repeatItem.item.bookmarkable_id))
+                  })
+              } else if (repeatItem.item.bookmarkable_model == PrefConst.CHINESE_MODERNPOETRY) {
+                Item({
+                  model: String.chinese_modernpoetry,
+                  content: repeatItem.item.chinese_poetry
+                })
+                  .onClick(() => {
+                    this.pageStack.pushPathByName('ModernPoetryShowPage',
+                      new ParamNumberId(repeatItem.item.bookmarkable_id))
+                  })
               } else if (repeatItem.item.bookmarkable_model == PrefConst.CHINESE_QUOTE) {
                 Item({
                   model: String.chinese_quote,
@@ -93,10 +111,27 @@ export struct IndexPage {
                   .onClick(() => {
                     this.pageStack.pushPathByName('QuoteShowPage', new ParamNumberId(repeatItem.item.bookmarkable_id))
                   })
+              } else if (repeatItem.item.bookmarkable_model == PrefConst.CHINESE_RIDDLE) {
+                Item({
+                  model: String.chinese_riddle,
+                  content: repeatItem.item.chinese_riddle
+                })
+                  .onClick(() => {
+                    this.pageStack.pushPathByName('RiddleShowPage', new ParamNumberId(repeatItem.item.bookmarkable_id))
+                  })
+              } else if (repeatItem.item.bookmarkable_model == PrefConst.CHINESE_WISECRACK) {
+                Item({
+                  model: String.chinese_wisecrack,
+                  content: repeatItem.item.chinese_wisecrack
+                })
+                  .onClick(() => {
+                    this.pageStack.pushPathByName('WisecrackShowPage',
+                      new ParamNumberId(repeatItem.item.bookmarkable_id))
+                  })
               } else if (repeatItem.item.bookmarkable_model == PrefConst.CLASSICALLITERATURE_CLASSICPOEM) {
                 Item({
                   model: String.classicalliterature_classicpoem,
-                  content: repeatItem.item.classicalliterature_classicpoem
+                  content: `${repeatItem.item.classicalliterature_classicpoem_title}.${repeatItem.item.classicalliterature_classicpoem_author}`
                 })
                   .onClick(() => {
                     this.pageStack.pushPathByName('ClassicPoemShowPage',
@@ -109,6 +144,15 @@ export struct IndexPage {
                 })
                   .onClick(() => {
                     this.pageStack.pushPathByName('SentenceShowPage',
+                      new ParamNumberId(repeatItem.item.bookmarkable_id))
+                  })
+              } else if (repeatItem.item.bookmarkable_model == PrefConst.CLASSICALLITERATURE_WRITING) {
+                Item({
+                  model: String.classicalliterature_writing,
+                  content: `${repeatItem.item.classicalliterature_writing_title?.Content}/${repeatItem.item.classicalliterature_writing_author}`
+                })
+                  .onClick(() => {
+                    this.pageStack.pushPathByName('WritingShowPage',
                       new ParamNumberId(repeatItem.item.bookmarkable_id))
                   })
               }
