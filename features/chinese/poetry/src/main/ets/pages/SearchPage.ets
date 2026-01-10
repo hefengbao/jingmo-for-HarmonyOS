@@ -55,7 +55,7 @@ export struct SearchPage {
         bottom: 16
       })
     }
-    .title(String.chinese_modernpoetry)
+    .title(String.search)
     .onReady((ctx: NavDestinationContext) => {
       this.pageStack = ctx.pathStack
     })

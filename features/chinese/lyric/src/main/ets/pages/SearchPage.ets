@@ -48,7 +48,7 @@ export struct SearchPage {
       .divider(ThemeConst.ListDivider)
       .edgeEffect(EdgeEffect.Spring)
     }
-    .title(String.chinese_lyric)
+    .title(String.search)
     .onReady((ctx: NavDestinationContext) => {
       this.pageStack = ctx.pathStack
     })

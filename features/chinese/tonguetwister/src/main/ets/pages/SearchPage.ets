@@ -21,7 +21,7 @@ export struct SearchPage {
       .rowsGap(16)
       .columnsGap(16)
     }
-    .title(String.chinese_tonguetwister)
+    .title(String.search)
     .onReady((ctx: NavDestinationContext) => {
       this.pageStack = ctx.pathStack
     })
