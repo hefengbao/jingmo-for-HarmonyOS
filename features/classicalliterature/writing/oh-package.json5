@@ -10,5 +10,6 @@
     "utils": "file:../../../commons/utils",
     "uicomponents": "file:../../../commons/uicomponents",
     "bookmark": "file:../../bookmark",
+    "data": "file:../../../commons/data",
   }
 }

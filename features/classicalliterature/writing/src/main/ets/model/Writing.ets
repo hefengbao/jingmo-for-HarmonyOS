@@ -1,6 +1,7 @@
 import { DbConfigConst, DbCRUDConst, DbTableConst } from 'constants';
 import { relationalStore } from '@kit.ArkData';
 import { Logger } from 'utils';
+import { Clause } from 'data';
 import DbUtil from 'utils/src/main/ets/data/DbUtil';
 
 let logger: Logger = new Logger('Writing');
@@ -103,32 +104,6 @@ export class Explain {
   constructor(Type: string, Content: string) {
     this.Type = Type;
     this.Content = Content;
-  }
-}
-
-export class Clause {
-  Content: string;
-  Comments: Comment[] | null;
-  BreakAfter: number | null;
-
-  constructor(Content: string, Comments: Comment[] | null, BreakAfter: number | null) {
-    this.Content = Content;
-    this.Comments = Comments;
-    this.BreakAfter = BreakAfter;
-  }
-}
-
-export class Comment {
-  Category: string | null;
-  Content: string;
-  Type: string;
-  Index: number;
-
-  constructor(Category: string | null, Content: string, Type: string, Index: number) {
-    this.Category = Category;
-    this.Content = Content;
-    this.Type = Type;
-    this.Index = Index;
   }
 }
 

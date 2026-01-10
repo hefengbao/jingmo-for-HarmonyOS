@@ -1,6 +1,7 @@
 import { ThemeConst } from 'constants';
+import { Clause } from 'data';
 import { BoldTitle, ContentText } from 'uicomponents';
-import { Clause, Quote, Writing } from '../model/Writing';
+import { Quote, Writing } from '../model/Writing';
 
 @Extend(Text)
 function basicText() {

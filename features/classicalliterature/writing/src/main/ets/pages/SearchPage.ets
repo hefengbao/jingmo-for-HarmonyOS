@@ -1,9 +1,10 @@
 import { ParamNumberId, String, ThemeConst } from 'constants';
 import { ContentText } from 'uicomponents';
 import { Logger } from 'utils';
-import { Allusion, Clause, Quote, search, Tune, Writing } from '../model/Writing';
+import { Allusion, Quote, search, Tune, Writing } from '../model/Writing';
 import { JSON, taskpool } from '@kit.ArkTS';
 import { relationalStore } from '@kit.ArkData';
+import { Clause } from 'data';
 
 let logger: Logger = new Logger('WritingSearchPage');
 
