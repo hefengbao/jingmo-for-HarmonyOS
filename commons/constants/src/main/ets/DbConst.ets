@@ -35,6 +35,7 @@ export class DbTableConst {
   //static readonly CLASSICALLITERATURE_SENTENCE_FTS_TABLE: string = "classicalliterature_sentence_fts";
   static readonly CLASSICALLITERATURE_WRITING_TABLE: string = "classicalliterature_writing";
   static readonly CLASSICALLITERATURE_WRITING_FTS_TABLE: string = "classicalliterature_writing_fts";
+  static readonly FORM_INFO_TABLE: string = "form_info";
 }
 
 // 为了保证平稳升级，所有的修改、删除操作都通过 SQL 语句完成,即不更改以前版本的 SQL 语句
@@ -125,6 +126,10 @@ export class DbMigrationConst {
   static readonly CREATE_CLASSICALLITERATURE_WRITING_FTS_TABLE =
     'CREATE VIRTUAL TABLE IF NOT EXISTS ' + DbTableConst.CLASSICALLITERATURE_WRITING_FTS_TABLE +
       ' USING fts4(id, author, title, content, tokenize=icu zh_CN)';
+  // Version3
+  static readonly CREATE_FORM_INFO_TABLE =
+    'create table if not exists ' + DbTableConst.FORM_INFO_TABLE +
+      ' (id text primary key not null, name text not null, dimension text not null, ability text)';
 }
 
 export class DbCRUDConst {

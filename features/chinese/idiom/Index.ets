@@ -4,5 +4,7 @@ export {
   IdiomQuote,
   IdiomExample,
   insertIdiom,
-  batchInsertIdiom
+  batchInsertIdiom,
+  getRandomIdiom,
+  getRandomIdiomForWidget,
 } from './src/main/ets/model/Idiom';

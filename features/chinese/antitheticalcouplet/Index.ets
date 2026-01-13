@@ -1,5 +1,6 @@
 export {
   AntitheticalCouplet,
   insertAntitheticalCouplet,
-  batchInsertAntitheticalCouplet
+  batchInsertAntitheticalCouplet,
+  getRandomAntitheticalCouplet,
 } from './src/main/ets/model/AntitheticalCouplet';

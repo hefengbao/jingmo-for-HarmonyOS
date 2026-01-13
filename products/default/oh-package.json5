@@ -8,6 +8,12 @@
   "dependencies": {
     "home": "file:../../features/home",
     "constants": "file:../../commons/constants",
+    "data": "file:../../commons/data",
     "utils": "file:../../commons/utils",
+    "chinese_antitheticalcouplet": "file:../../features/chinese/antitheticalcouplet",
+    "chinese_idiom": "file:../../features/chinese/idiom",
+    "chinese_quote": "file:../../features/chinese/quote",
+    "classicalliterature_sentence": "file:../../features/classicalliterature/sentence",
+    "classicalliterature_writing": "file:../../features/classicalliterature/writing",
   }
 }

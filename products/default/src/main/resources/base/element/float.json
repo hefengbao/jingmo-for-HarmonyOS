@@ -3,6 +3,14 @@
     {
       "name": "page_text_font_size",
       "value": "50fp"
+    },
+    {
+      "name": "font_size",
+      "value": "14fp"
+    },
+    {
+      "name": "title_font_size",
+      "value": "12fp"
     }
   ]
 }

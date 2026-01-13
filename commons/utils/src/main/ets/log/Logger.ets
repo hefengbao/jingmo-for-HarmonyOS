@@ -2,7 +2,7 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 
 export class Logger {
   private readonly domain: number = 0xFF00;
-  private readonly format: string = '%{public}s, %{public}s';
+  private readonly format: string = '%{public}s';
   private prefix: string = 'JINGMO';
 
   constructor(tag: string) {

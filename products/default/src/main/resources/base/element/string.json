@@ -15,6 +15,54 @@
     {
       "name": "request_network_reason",
       "value": "允许应用使用网络"
+    },
+    {
+      "name": "EntryFormAbility_desc",
+      "value": "form_description"
+    },
+    {
+      "name": "EntryFormAbility_label",
+      "value": "form_label"
+    },
+    {
+      "name": "widget_chinese_antitheticalcouplet_desc",
+      "value": "随机显示对联"
+    },
+    {
+      "name": "widget_chinese_antitheticalcouplet_display_name",
+      "value": "对联"
+    },
+    {
+      "name": "widget_chinese_idiom_desc",
+      "value": "随机显示成语"
+    },
+    {
+      "name": "widget_chinese_idiom_display_name",
+      "value": "成语"
+    },
+    {
+      "name": "widget_chinese_quote_desc",
+      "value": "随机显示句子"
+    },
+    {
+      "name": "widget_chinese_quote_display_name",
+      "value": "句子"
+    },
+    {
+      "name": "widget_classicalliterature_sentence_desc",
+      "value": "随机显示诗文名句"
+    },
+    {
+      "name": "widget_classicalliterature_sentence_display_name",
+      "value": "诗文名句"
+    },
+    {
+      "name": "widget_classicalliterature_writing_desc",
+      "value": "随机显示诗文"
+    },
+    {
+      "name": "widget_classicalliterature_writing_display_name",
+      "value": "诗文"
     }
   ]
 }

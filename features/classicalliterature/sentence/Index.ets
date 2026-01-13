@@ -1,1 +1,1 @@
-export { Sentence, insertSentence, batchInsertSentence } from './src/main/ets/model/Sentence';
+export { Sentence, insertSentence, batchInsertSentence, getRandomSentence } from './src/main/ets/model/Sentence';

@@ -160,6 +160,27 @@ export async function getRandomIdiom(): Promise<Idiom | undefined> {
   return obj;
 }
 
+export async function getRandomIdiomForWidget(store: relationalStore.RdbStore): Promise<Idiom | undefined> {
+  let obj: Idiom | undefined;
+  await store.querySql(DbCRUDConst.READ_RANDOM_CHINESE_IDIOM)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        logger.info(`getRandomIdiomForWidget called = ${resultSet.rowCount}`)
+        while (resultSet.goToNextRow()) {
+          obj = parse(resultSet)
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return obj;
+}
+
 export async function getIdiom(id: number): Promise<Idiom | undefined> {
   let obj: Idiom | undefined;
 

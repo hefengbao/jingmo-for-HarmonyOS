@@ -1,0 +1,111 @@
+{
+  "forms": [
+    {
+      "name": "chinese_antitheticalcouple",
+      "displayName": "$string:widget_chinese_antitheticalcouplet_desc",
+      "description": "$string:widget_chinese_antitheticalcouplet_desc",
+      "src": "./ets/widget/pages/ChineseAntitheticalCoupletCard.ets",
+      "uiSyntax": "arkts",
+      "window": {
+        "designWidth": 720,
+        "autoDesignWidth": true
+      },
+      "colorMode": "auto",
+      "isDynamic": true,
+      "isDefault": true,
+      "updateEnabled": true,
+      "scheduledUpdateTime": "10:30",
+      "updateDuration": 1,
+      "defaultDimension": "2*2",
+      "supportDimensions": [
+        "2*2"
+      ],
+      "enableBlurBackground": true
+    },
+    {
+      "name": "chinese_idiom",
+      "displayName": "$string:widget_chinese_idiom_display_name",
+      "description": "$string:widget_chinese_idiom_desc",
+      "src": "./ets/widget/pages/ChineseIdiomCard.ets",
+      "uiSyntax": "arkts",
+      "window": {
+        "designWidth": 720,
+        "autoDesignWidth": true
+      },
+      "colorMode": "auto",
+      "isDynamic": true,
+      "isDefault": false,
+      "updateEnabled": true,
+      "scheduledUpdateTime": "10:30",
+      "updateDuration": 1,
+      "defaultDimension": "2*4",
+      "supportDimensions": [
+        "2*4"
+      ],
+      "enableBlurBackground": true
+    },
+    {
+      "name": "chinese_quote",
+      "displayName": "$string:widget_chinese_quote_display_name",
+      "description": "$string:widget_chinese_quote_desc",
+      "src": "./ets/widget/pages/ChineseQuoteCard.ets",
+      "uiSyntax": "arkts",
+      "window": {
+        "designWidth": 720,
+        "autoDesignWidth": true
+      },
+      "colorMode": "auto",
+      "isDynamic": true,
+      "isDefault": false,
+      "updateEnabled": true,
+      "scheduledUpdateTime": "10:30",
+      "updateDuration": 1,
+      "defaultDimension": "2*4",
+      "supportDimensions": [
+        "2*4"
+      ]
+    },
+    {
+      "name": "classicalliterature_sentence",
+      "displayName": "$string:widget_classicalliterature_sentence_display_name",
+      "description": "$string:widget_classicalliterature_sentence_desc",
+      "src": "./ets/widget/pages/ClassicalLiteratureSentenceCard.ets",
+      "uiSyntax": "arkts",
+      "window": {
+        "designWidth": 720,
+        "autoDesignWidth": true
+      },
+      "colorMode": "auto",
+      "isDynamic": true,
+      "isDefault": false,
+      "updateEnabled": true,
+      "scheduledUpdateTime": "10:30",
+      "updateDuration": 1,
+      "defaultDimension": "2*2",
+      "supportDimensions": [
+        "2*2"
+      ]
+    },
+    {
+      "name": "classicalliterature_writing",
+      "displayName": "$string:widget_classicalliterature_writing_display_name",
+      "description": "$string:widget_classicalliterature_writing_desc",
+      "src": "./ets/widget/pages/ClassicalLiteratureWritingCard.ets",
+      "uiSyntax": "arkts",
+      "window": {
+        "designWidth": 720,
+        "autoDesignWidth": true
+      },
+      "colorMode": "auto",
+      "isDynamic": true,
+      "isDefault": false,
+      "updateEnabled": true,
+      "scheduledUpdateTime": "10:30",
+      "updateDuration": 1,
+      "defaultDimension": "4*4",
+      "supportDimensions": [
+        "4*4"
+      ]
+    }
+  ]
+}

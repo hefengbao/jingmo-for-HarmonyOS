@@ -198,7 +198,7 @@ export async function batchInsertWriting(context: Context, objs: Writing[]): Pro
     await store.batchInsertWithConflictResolution(
       DbTableConst.CLASSICALLITERATURE_WRITING_TABLE,
       valueBuckets,
-      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+      relationalStore.ConflictResolution.ON_CONFLICT_IGNORE
     ).then((value: number) => {
       logger.info(`insert rows = ${value}`)
     }).catch((err: BusinessError) => {
@@ -234,7 +234,7 @@ export async function batchInsertWritingFTS(context: Context, objs: Writing[]): 
     await store.batchInsertWithConflictResolution(
       DbTableConst.CLASSICALLITERATURE_WRITING_FTS_TABLE,
       valueBuckets,
-      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+      relationalStore.ConflictResolution.ON_CONFLICT_IGNORE
     ).then((value: number) => {
       logger.info(`insert rows = ${value}`)
     }).catch((err: BusinessError) => {

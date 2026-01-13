@@ -6,16 +6,44 @@ import { AppConst, DbConfigConst, DbCRUDConst, DbMigrationConst } from 'constant
 /**
  * 官方文档：https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/data-persistence-by-rdb-store
  *
- * 在 products/default/src/main/ets/entryability/EntryAbility.ets 的 onWindowStageCreate() 初始化
  */
 export class DbUtil {
   objectiveRDB?: relationalStore.RdbStore;
   private logger: Logger = new Logger('RDBStoreUtil')
 
   init(context: Context) {
+    this.getObjectiveRDB(context).then((rdbStore: relationalStore.RdbStore) => {
+      let storeVersion: number = rdbStore.version;
+
+      this.logger.info(`dbStore.version = ${storeVersion}`)
+
+      // 数据表迁移(使用循环，确保可以跨版本升级)
+      while (storeVersion < AppConst.DB_VERSION) {
+        if (storeVersion == 0) {
+          this.migration_0_1(rdbStore)
+          storeVersion = 1
+        }
+        if (storeVersion == 1) {
+          this.migration_1_2(rdbStore)
+          storeVersion = 2
+        }
+        if (storeVersion == 2) {
+          this.migration_2_3(rdbStore)
+          storeVersion = 3
+        }
+      }
+
+      rdbStore.version = storeVersion
+    })
+  }
+
+  /*init(context: Context) {
     relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG,
-      async (error: BusinessError, rdbStore: relationalStore.RdbStore) => {
-        this.objectiveRDB = rdbStore
+      (error: BusinessError, rdbStore: relationalStore.RdbStore) => {
+        //this.objectiveRDB = rdbStore
+        if (!this.objectiveRDB) {
+          this.objectiveRDB = rdbStore;
+        }
         let storeVersion: number = rdbStore.version;
         if (error) {
           this.logger.error(`Get RdbStore failed, code is ${error.code},message is ${error.message}`)
@@ -35,14 +63,26 @@ export class DbUtil {
           }
         }
 
-        this.create_fts(rdbStore)
-
         rdbStore.version = storeVersion
       })
-  }
+  }*/
 
-  private async create_fts(rdbStore: relationalStore.RdbStore) {
+  async getObjectiveRDB(context: Context): Promise<relationalStore.RdbStore>{
+    let dmImpl: relationalStore.RdbStore | undefined = undefined
 
+    try {
+      dmImpl = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+      if (!this.objectiveRDB) {
+        this.objectiveRDB = dmImpl;
+      }
+      this.logger.info(`getObjectiveRDB success`);
+    } catch (e) {
+      // db 打开失败
+      const err = e as BusinessError;
+      this.logger.error(`Failed to getObjectiveRDB,code:${err.code}, message:${err.message}`);
+    }
+
+    return Promise.resolve(dmImpl!)
   }
 
   private async migration_0_1(rdbStore: relationalStore.RdbStore) {
@@ -197,6 +237,15 @@ export class DbUtil {
     } catch (e) {
       const err = e as BusinessError;
       this.logger.error(`Failed to CREATE_CLASSICALLITERATURE_WRITING_FTS_TABLE. Code:${err.code}, message:${err.message}`);
+    }
+  }
+
+  private async migration_2_3(rdbStore: relationalStore.RdbStore) {
+    try {
+      await rdbStore.execute(DbMigrationConst.CREATE_FORM_INFO_TABLE)
+    } catch (e) {
+      const err = e as BusinessError;
+      this.logger.error(`Failed to CREATE_FORM_INFO_TABLE. Code:${err.code}, message:${err.message}`);
     }
   }
 }

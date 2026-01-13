@@ -8,7 +8,6 @@ import { taskpool } from '@kit.ArkTS';
 import { relationalStore } from '@kit.ArkData';
 import { PromptAction, ShowDialogSuccessResponse } from '@kit.ArkUI';
 import DbUtil from 'utils/src/main/ets/data/DbUtil';
-import util from '@ohos.util';
 import { batchInsertWorldCulturalHeritage, WorldCulturalHeritage } from 'china_worldcultureheritage';
 import { AntitheticalCouplet, batchInsertAntitheticalCouplet } from 'chinese_antitheticalcouplet';
 import { batchInsertCharacter, Character } from 'chinese_character';
@@ -26,6 +25,8 @@ import { batchInsertClassicPoem, batchInsertClassicPoemFTS, ClassicPoem } from '
 import { batchInsertPeople, People } from 'classicalliterature_people';
 import { batchInsertSentence, Sentence } from 'classicalliterature_sentence';
 import { batchInsertWriting, batchInsertWritingFTS, Writing } from 'classicalliterature_writing';
+import { fileUri } from '@kit.CoreFileKit';
+import util from '@ohos.util';
 
 let logger: Logger = new Logger('ImportDataList')
 
@@ -196,10 +197,10 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                   taskpool.execute(batchInsertClassicPoem, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`classicalliterature_classicpoem taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                   taskpool.execute(batchInsertClassicPoemFTS, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`classicalliterature_classicpoem taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
@@ -237,7 +238,7 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                   taskpool.execute(batchInsertPeople, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`classicalliterature_people taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
@@ -274,7 +275,7 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                   taskpool.execute(batchInsertSentence, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`classicalliterature_sentence taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
@@ -302,8 +303,12 @@ export struct ImportDataList {
             this.classicalliteratureWritingError = error
           }
           uris.forEach(async (uri: string) => {
-            let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Writing>
+            taskpool.execute(readDataToDb, context, uri).catch((error: BusinessError) => {
+              logger.error(`readDataToDb taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+            /*let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Writing>
             if (wrapper) {
+              logger.info(`import classicalliterature_writing ${wrapper.data.length}`)
               this.classicalliteratureWritingTotal = wrapper.total;
 
               let objs = wrapper.data;
@@ -313,17 +318,17 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > limit ? limit : objs.length)
                   taskpool.execute(batchInsertWriting, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`classicalliterature_writing taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                   taskpool.execute(batchInsertWritingFTS, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`classicalliterature_writing taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
                 let err = error as BusinessError
                 logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
               }
-            }
+            }*/
           })
           this.classicalliteratureWritingLoading = false
         })
@@ -352,7 +357,7 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                   taskpool.execute(batchInsertAntitheticalCouplet, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`chinese_antitheticalcouplet taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
@@ -388,7 +393,7 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                   taskpool.execute(batchInsertCharacter, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`chinese_character taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
@@ -427,7 +432,7 @@ export struct ImportDataList {
                   while (objs.length) {
                     let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                     taskpool.execute(batchInsertExpression, context, spliced).catch((error: BusinessError) => {
-                      logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                      logger.error(`chinese_expression taskpool execute error, code = ${error.code} message = ${error.message}`)
                     })
                   }
                 } catch (error) {
@@ -464,7 +469,7 @@ export struct ImportDataList {
               while (objs.length) {
                 let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                 taskpool.execute(batchInsertIdiom, context, spliced).catch((error: BusinessError) => {
-                  logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                  logger.error(`chinese_idiom taskpool execute error, code = ${error.code} message = ${error.message}`)
                 })
               }
             } catch (error) {
@@ -499,7 +504,7 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                   taskpool.execute(batchInsertKnowledge, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`chinese_knowledge taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
@@ -535,10 +540,10 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                   taskpool.execute(batchInsertLyric, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`chinese_lyric taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                   taskpool.execute(batchInsertLyricFTS, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`chinese_lyric taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
@@ -574,10 +579,10 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                   taskpool.execute(batchInsertModernPoetry, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`chinese_modernpoetry taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                   taskpool.execute(batchInsertModernPoetryFTS, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`chinese_modernpoetry taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
@@ -613,7 +618,7 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                   taskpool.execute(batchInsertProverb, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`chinese_proverb taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
@@ -649,7 +654,7 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                   taskpool.execute(batchInsertQuote, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`chinese_quote taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
@@ -685,7 +690,7 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                   taskpool.execute(batchInsertRiddle, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`chinese_riddle taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
@@ -721,7 +726,7 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                   taskpool.execute(batchInsertTongueTwister, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`chinese_tonguetwister taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
@@ -757,7 +762,7 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                   taskpool.execute(batchInsertWisecrack, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`chinese_wisecrack taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
@@ -794,7 +799,7 @@ export struct ImportDataList {
                 while (objs.length) {
                   let spliced = objs.splice(0, objs.length > 500 ? 500 : objs.length)
                   taskpool.execute(batchInsertWorldCulturalHeritage, context, spliced).catch((error: BusinessError) => {
-                    logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+                    logger.error(`china_worldcultureheritage taskpool execute error, code = ${error.code} message = ${error.message}`)
                   })
                 }
               } catch (error) {
@@ -853,7 +858,7 @@ struct Item {
             .fontColor(Color.Gray)
             .margin({ right: 16 })
         }
-        if (this.loading) {
+        if (this.loading || this.count != this.total) {
           LoadingProgress()
             .width(36)
             .height(36)
@@ -919,7 +924,7 @@ async function readData(uri: string): Promise<string> {
     let arrayBuffer = new ArrayBuffer(stat.size);
     await fs.read(file.fd, arrayBuffer);
     text = util.TextDecoder.create('utf-8').decodeToString(new Uint8Array(arrayBuffer))
-    logger.info(`readData = ${text}`)
+    //logger.info(`readData = ${text}`)
     //读取完成后关闭fd。
     await fs.close(file);
   } catch (error) {
@@ -928,4 +933,54 @@ async function readData(uri: string): Promise<string> {
   }
 
   return text
+}
+
+
+@Concurrent
+async function readDataToDb(context: Context, uri: string): Promise<void> {
+  let logger: Logger = new Logger('readDataToDb')
+  let text = '';
+  try {
+    let file = await fs.open(uri, fs.OpenMode.READ_ONLY);
+    let stat = await fs.stat(file.path)
+    let arrayBuffer = new ArrayBuffer(stat.size);
+    await fs.read(file.fd, arrayBuffer);
+    //读取完成后关闭fd。
+    await fs.close(file);
+    text = util.TextDecoder.create('utf-8').decodeToString(new Uint8Array(arrayBuffer))
+    //logger.info(`readData = ${text}`)
+    let wrapper = JSON.parse(text) as DataWrapper<Writing>
+    if (wrapper) {
+      logger.info(`import classicalliterature_writing ${wrapper.data.length}`)
+      //this.classicalliteratureWritingTotal = wrapper.total;
+
+      let objs = wrapper.data;
+      let limit: number = 50;
+
+      /*batchInsertWriting(context, objs)
+      batchInsertWritingFTS(context, objs)*/
+
+      try {
+        while (objs.length) {
+          let spliced = objs.splice(0, objs.length > limit ? limit : objs.length)
+          batchInsertWriting(context, spliced)
+          batchInsertWritingFTS(context, spliced)
+          /*taskpool.execute(batchInsertWriting, context, spliced).catch((error: BusinessError) => {
+            logger.error(`classicalliterature_writing taskpool execute error, code = ${error.code} message = ${error.message}`)
+          })
+          taskpool.execute(batchInsertWritingFTS, context, spliced).catch((error: BusinessError) => {
+            logger.error(`classicalliterature_writing taskpool execute error, code = ${error.code} message = ${error.message}`)
+          })*/
+        }
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+      }
+    }
+  } catch (error) {
+    let err = error as BusinessError
+    logger.error(`read data failed, code = ${err.code}, message = ${err.message}`)
+  }
+
+  //return text
 }
