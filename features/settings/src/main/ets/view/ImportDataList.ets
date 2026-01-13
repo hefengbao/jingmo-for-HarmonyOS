@@ -25,7 +25,6 @@ import { batchInsertClassicPoem, batchInsertClassicPoemFTS, ClassicPoem } from '
 import { batchInsertPeople, People } from 'classicalliterature_people';
 import { batchInsertSentence, Sentence } from 'classicalliterature_sentence';
 import { batchInsertWriting, batchInsertWritingFTS, Writing } from 'classicalliterature_writing';
-import { fileUri } from '@kit.CoreFileKit';
 import util from '@ohos.util';
 
 let logger: Logger = new Logger('ImportDataList')
@@ -306,6 +305,7 @@ export struct ImportDataList {
             taskpool.execute(readDataToDb, context, uri).catch((error: BusinessError) => {
               logger.error(`readDataToDb taskpool execute error, code = ${error.code} message = ${error.message}`)
             })
+
             /*let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Writing>
             if (wrapper) {
               logger.info(`import classicalliterature_writing ${wrapper.data.length}`)
@@ -817,7 +817,7 @@ export struct ImportDataList {
     .onAppear(() => {
       this.promptAction.showDialog({
         'title': '温馨提示',
-        'message': '为了避免占用内存过多导致应用奔溃，请一项一项导入。',
+        'message': '为了避免占用内存过多导致应用奔溃，请一项一项导入。（【诗文】数据太多，有点搞不定！！！没法一次导入，有闲时间了，把数据整理到多个文件夹，然后一个一个导入。😓）',
         'buttons': [
           {
             text: '知道了',
@@ -858,7 +858,7 @@ struct Item {
             .fontColor(Color.Gray)
             .margin({ right: 16 })
         }
-        if (this.loading || this.count != this.total) {
+        if (this.loading) {
           LoadingProgress()
             .width(36)
             .height(36)
@@ -939,6 +939,7 @@ async function readData(uri: string): Promise<string> {
 @Concurrent
 async function readDataToDb(context: Context, uri: string): Promise<void> {
   let logger: Logger = new Logger('readDataToDb')
+
   let text = '';
   try {
     let file = await fs.open(uri, fs.OpenMode.READ_ONLY);
@@ -963,14 +964,16 @@ async function readDataToDb(context: Context, uri: string): Promise<void> {
       try {
         while (objs.length) {
           let spliced = objs.splice(0, objs.length > limit ? limit : objs.length)
+
           batchInsertWriting(context, spliced)
           batchInsertWritingFTS(context, spliced)
-          /*taskpool.execute(batchInsertWriting, context, spliced).catch((error: BusinessError) => {
-            logger.error(`classicalliterature_writing taskpool execute error, code = ${error.code} message = ${error.message}`)
-          })
-          taskpool.execute(batchInsertWritingFTS, context, spliced).catch((error: BusinessError) => {
-            logger.error(`classicalliterature_writing taskpool execute error, code = ${error.code} message = ${error.message}`)
-          })*/
+
+          // taskpool.execute(batchInsertWriting, context, spliced).catch((error: BusinessError) => {
+          //   logger.error(`classicalliterature_writing taskpool execute error, code = ${error.code} message = ${error.message}`)
+          // })
+          // taskpool.execute(batchInsertWritingFTS, context, spliced).catch((error: BusinessError) => {
+          //   logger.error(`classicalliterature_writing taskpool execute error, code = ${error.code} message = ${error.message}`)
+          // })
         }
       } catch (error) {
         let err = error as BusinessError

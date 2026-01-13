@@ -159,9 +159,9 @@ export class WordDict {
 
 @Concurrent
 export async function batchInsertWriting(context: Context, objs: Writing[]): Promise<void> {
-  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
   let logger: Logger = new Logger('Writing#batchInsertWriting');
-
+  //let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+  let store: relationalStore.RdbStore = await DbUtil.getObjectiveRDB(context);
   let valueBuckets: relationalStore.ValuesBucket[] = []
 
   objs.forEach((obj: Writing) => {
@@ -198,7 +198,7 @@ export async function batchInsertWriting(context: Context, objs: Writing[]): Pro
     await store.batchInsertWithConflictResolution(
       DbTableConst.CLASSICALLITERATURE_WRITING_TABLE,
       valueBuckets,
-      relationalStore.ConflictResolution.ON_CONFLICT_IGNORE
+      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
     ).then((value: number) => {
       logger.info(`insert rows = ${value}`)
     }).catch((err: BusinessError) => {
@@ -206,13 +206,14 @@ export async function batchInsertWriting(context: Context, objs: Writing[]): Pro
     })
   } catch (error) {
     const err = error as BusinessError;
-    logger.error(`batchInsertCharacter failed, code is ${err.code}, message is ${err.message}`);
+    logger.error(`batchInsertWriting failed, code is ${err.code}, message is ${err.message}`);
   }
 }
 
 @Concurrent
 export async function batchInsertWritingFTS(context: Context, objs: Writing[]): Promise<void> {
-  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+  //let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+  let store: relationalStore.RdbStore = await DbUtil.getObjectiveRDB(context);
   let logger: Logger = new Logger('Writing#batchInsertWritingFTS');
 
   let valueBuckets: relationalStore.ValuesBucket[] = []
@@ -234,7 +235,7 @@ export async function batchInsertWritingFTS(context: Context, objs: Writing[]): 
     await store.batchInsertWithConflictResolution(
       DbTableConst.CLASSICALLITERATURE_WRITING_FTS_TABLE,
       valueBuckets,
-      relationalStore.ConflictResolution.ON_CONFLICT_IGNORE
+      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
     ).then((value: number) => {
       logger.info(`insert rows = ${value}`)
     }).catch((err: BusinessError) => {
@@ -242,7 +243,7 @@ export async function batchInsertWritingFTS(context: Context, objs: Writing[]): 
     })
   } catch (error) {
     const err = error as BusinessError;
-    logger.error(`batchInsertCharacter failed, code is ${err.code}, message is ${err.message}`);
+    logger.error(`batchInsertWritingFTS failed, code is ${err.code}, message is ${err.message}`);
   }
 }
 
