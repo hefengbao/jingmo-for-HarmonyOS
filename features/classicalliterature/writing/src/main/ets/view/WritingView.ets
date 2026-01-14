@@ -51,7 +51,7 @@ export struct WritingView {
         BoldTitle({ text: '赏析（评价）' })
         ForEach(this.writing.Comments, (comment: Quote) => {
           if (comment.Book) {
-            ContentText({ text: `📖 ${comment.Book}}` })
+            ContentText({ text: `📖 ${comment.Book}` })
           }
           if (comment.Section) {
             ContentText({ text: comment.Section })

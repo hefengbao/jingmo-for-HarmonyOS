@@ -1,7 +1,7 @@
 import { BusinessError } from '@kit.BasicServicesKit';
 import { PromptAction, ShowDialogSuccessResponse } from '@kit.ArkUI';
-import { DataWrapper, Logger } from 'utils';
-import { DbTableConst, Icon, PrefConst, String, ThemeConst } from 'constants';
+import { DataWrapper, httpRequestGet, Logger, ResponseResult } from 'utils';
+import { DbTableConst, Icon, NetworkConst, PrefConst, String, ThemeConst } from 'constants';
 import { BlockTitle } from 'uicomponents';
 import { relationalStore } from '@kit.ArkData';
 import { taskpool } from '@kit.ArkTS';
@@ -647,7 +647,55 @@ export struct SyncDataList {
 
   syncClassicalLiteratureWriting(context: Context, page: number = 1) {
     this.classicalliteratureWritingLoading = true;
-    DatasetViewModel.getClassicalLiteratureWritingList(this.classicalliteratureWritingRemoteVersion, page)
+    taskpool.execute(getWritings,this.classicalliteratureWritingRemoteVersion, page)
+      .then((obj: object) => {
+        let wrapper = obj as  DataWrapper<Writing>;
+
+        logger.info(`datawrapper total = ${wrapper.total}`)
+
+        let objs = wrapper.data
+
+        let limit: number = 50;
+        if (page <= 1) {
+          limit = 50;
+        } else if (page <= 2) {
+          limit = 20;
+        } else if (page <= 5) {
+          limit = 100;
+        } else if (page <= 8) {
+          limit = 200;
+        } else {
+          limit = 180;
+        }
+
+        try {
+          while (objs.length) {
+            let spliced = objs.splice(0, objs.length > limit ? limit : objs.length)
+            taskpool.execute(batchInsertWriting, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+            taskpool.execute(batchInsertWritingFTS, context, spliced).catch((error: BusinessError) => {
+              logger.error(`expression taskpool execute error, code = ${error.code} message = ${error.message}`)
+            })
+          }
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
+        }
+
+        if (wrapper.next_page) {
+          this.syncClassicalLiteratureWriting(context, wrapper.next_page);
+        }
+        if (!wrapper.next_page) {
+          PrefUtil.saveClassicalLiteratureWritingVersion(this.classicalliteratureWritingRemoteVersion)
+          this.classicalliteratureWritingLoading = false;
+        }
+      })
+      .catch((err: BusinessError) => {
+        logger.error(` taskpool.execute(getWritings), code = ${err.code}, msg = ${err.message}`);
+        this.classicalliteratureWritingLoading = false;
+      })
+    /*DatasetViewModel.getClassicalLiteratureWritingList(this.classicalliteratureWritingRemoteVersion, page)
       .then((wrapper: DataWrapper<Writing>) => {
         let objs = wrapper.data
         let limit: number = 50;
@@ -689,7 +737,7 @@ export struct SyncDataList {
       this.classicalliteratureWritingLoadingError = `code = ${error.code}, msg = ${error.message}`;
       logger.error(`syncClassicalLiteratureWriting, code = ${error.code}, msg = ${error.message}`);
       this.classicalliteratureWritingLoading = false;
-    })
+    })*/
   }
 
   syncChineseAntitheticalCouplet(context: Context, page: number = 1) {
@@ -1177,4 +1225,9 @@ struct Item {
       }
     }
   }
+}
+
+@Concurrent
+async function getWritings(version: number, page: number = 1): Promise<DataWrapper<Writing>>{
+  return await DatasetViewModel.getClassicalLiteratureWritingList(version, page)
 }

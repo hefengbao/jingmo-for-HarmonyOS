@@ -103,13 +103,29 @@ class DatasetViewModel {
     })
   }
 
-  getClassicalLiteratureWritingList(version: number, page: number): Promise<DataWrapper<Writing>> {
+  async getClassicalLiteratureWritingList(version: number, page: number): Promise<DataWrapper<Writing>> {
     return new Promise((resolve: Function, reject: Function) => {
       let url = `${NetworkConst.BASE_URL3}${NetworkConst.CLASSICALLITERATURE_WRITING}_v${version}_${page}.json`;
       httpRequestGet(url).then((result: ResponseResult) => {
         if (result.msg == null) {
           let wrapper: DataWrapper<Writing> = JSON.parse(result.data as string)
           resolve(wrapper)
+        } else {
+          reject(result.msg)
+        }
+      }).catch((error: string) => {
+        this.logger.error(`getClassicalLiteraturePeopleList failed, error = ${error}`)
+        reject(error)
+      })
+    })
+  }
+
+  async getClassicalLiteratureWritingList2(version: number, page: number): Promise<string> {
+    return await new Promise((resolve: Function, reject: Function) => {
+      let url = `${NetworkConst.BASE_URL3}${NetworkConst.CLASSICALLITERATURE_WRITING}_v${version}_${page}.json`;
+      httpRequestGet(url).then((result: ResponseResult) => {
+        if (result.msg == null) {
+          resolve(result.data as string)
         } else {
           reject(result.msg)
         }
