@@ -36,7 +36,7 @@ export struct PeopleView {
             ContentText({
               text: detail.Content.replace("<br />", "\n")
                 .replace("</p>", "\n")
-                .replace(new RegExp("<[^>]+>"), "")
+                .replace(/<[^>]*>/g, "")
             })
           }
         })

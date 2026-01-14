@@ -61,7 +61,7 @@ export struct WritingView {
               text: comment.Content.replace("<br />", "\n")
                 .replace("</p>", "\n")
                 .replace("</div>", "\n")
-                .replace(new RegExp("<[^>]+>"), "")
+                .replace(/<[^>]*>/g, "")
             })
           }
         })
