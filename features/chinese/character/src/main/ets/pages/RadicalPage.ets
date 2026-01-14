@@ -78,7 +78,7 @@ export struct RadicalPage {
                             }
                           })
                           .onClick(() => {
-                            this.pageStack.pushPathByName('SearchListPage', new SearchParam('radical', radical))
+                            this.pageStack.pushPathByName('CharacterSearchListPage', new SearchParam('radical', radical))
                           })
                       }
                     }, (radical: string) => radical)

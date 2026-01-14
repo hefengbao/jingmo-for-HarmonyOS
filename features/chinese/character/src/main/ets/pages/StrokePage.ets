@@ -31,7 +31,7 @@ export struct StrokePage {
                   }
                 })
                 .onClick(() => {
-                  this.pageStack.pushPathByName('SearchListPage', new SearchParam('stroke', item.stroke.toString()))
+                  this.pageStack.pushPathByName('CharacterSearchListPage', new SearchParam('stroke', item.stroke.toString()))
                 })
             }
           }, (item: Stroke) => item.label)

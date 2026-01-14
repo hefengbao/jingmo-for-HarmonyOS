@@ -111,7 +111,7 @@ export struct SyllablePage {
                               }
                             })
                             .onClick(() => {
-                              this.pageStack.pushPathByName('SearchListPage', new SearchParam('tone', tone))
+                              this.pageStack.pushPathByName('CharacterSearchListPage', new SearchParam('tone', tone))
                             })
                         }
                       })
