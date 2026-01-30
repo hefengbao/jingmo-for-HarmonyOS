@@ -23,13 +23,13 @@ export struct MenuList {
         })
       }
 
-      GridItem() {
+      /*GridItem() {
         Item({
           title: String.classicalliterature_writing
         }).onClick(() => {
           this.pageStack.pushPathByName('WritingIndexPage', null)
         })
-      }
+      }*/
 
       GridItem() {
         Item({

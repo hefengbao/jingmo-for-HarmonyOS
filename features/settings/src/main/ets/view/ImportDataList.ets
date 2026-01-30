@@ -286,7 +286,7 @@ export struct ImportDataList {
           this.classicalliteratureSentenceLoading = false
         })
       })
-      Item({
+      /*Item({
         title: String.classicalliterature_writing,
         total: this.classicalliteratureWritingTotal,
         count: this.classicalliteratureWritingCount,
@@ -306,7 +306,7 @@ export struct ImportDataList {
               logger.error(`readDataToDb taskpool execute error, code = ${error.code} message = ${error.message}`)
             })
 
-            /*let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Writing>
+            *//*let wrapper = JSON.parse(await readData(uri)) as DataWrapper<Writing>
             if (wrapper) {
               logger.info(`import classicalliterature_writing ${wrapper.data.length}`)
               this.classicalliteratureWritingTotal = wrapper.total;
@@ -328,11 +328,11 @@ export struct ImportDataList {
                 let err = error as BusinessError
                 logger.error(`taskpool.execute error code = ${err.code} message = ${err.message}`)
               }
-            }*/
+            }*//*
           })
           this.classicalliteratureWritingLoading = false
         })
-      })
+      })*/
       BlockTitle({ title: String.chinese })
       Item({
         title: String.chinese_antitheticalcouplet,

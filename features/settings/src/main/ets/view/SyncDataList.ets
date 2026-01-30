@@ -323,7 +323,7 @@ export struct SyncDataList {
           this.syncClassicalLiteratureClassicPoem(context)
         }
       })
-      Item({
+      /*Item({
         title: String.classicalliterature_writing,
         remoteVersion: this.classicalliteratureWritingRemoteVersion,
         localVersion: this.classicalliteratureWritingLocalVersion,
@@ -335,7 +335,7 @@ export struct SyncDataList {
           let context: Context = this.getUIContext().getHostContext() as Context;
           this.syncClassicalLiteratureWriting(context)
         }
-      })
+      })*/
       Item({
         title: String.classicalliterature_sentence,
         remoteVersion: this.classicalliteratureSentenceRemoteVersion,

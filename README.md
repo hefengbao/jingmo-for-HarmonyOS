@@ -50,3 +50,27 @@ Gitee:[https://gitee.com/hefengbao/jingmo-for-HarmonyOS](https://gitee.com/hefen
 ## Github Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=hefengbao/jingmo-for-HarmonyOS&type=Date)](https://star-history.com/#hefengbao/jingmo-for-HarmonyOS&Date)
+
+
+
+{
+"name": "classicalliterature_writing",
+"displayName": "$string:widget_classicalliterature_writing_display_name",
+"description": "$string:widget_classicalliterature_writing_desc",
+"src": "./ets/widget/pages/ClassicalLiteratureWritingCard.ets",
+"uiSyntax": "arkts",
+"window": {
+"designWidth": 720,
+"autoDesignWidth": true
+},
+"colorMode": "auto",
+"isDynamic": true,
+"isDefault": false,
+"updateEnabled": true,
+"scheduledUpdateTime": "10:30",
+"updateDuration": 1,
+"defaultDimension": "4*4",
+"supportDimensions": [
+"4*4"
+]
+}
